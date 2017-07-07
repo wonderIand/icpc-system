@@ -140,7 +140,7 @@
 
 ### **接口 · 注册**
 
-- **接口网址：http://icpc-system.and-who.cn/index.php/User/post**
+- **接口网址：http://icpc-system.and-who.cn/User/post**
 
 - **表单要求**
 
@@ -165,7 +165,7 @@
 
 ### **接口 · 登陆**
 
-- **接口网址：http://icpc-system.and-who.cn/index.php/User/login**
+- **接口网址：http://icpc-system.and-who.cn/User/login**
 
 - **表单要求**
 
@@ -190,7 +190,7 @@
 
 ### **接口 · 获取单用户信息**
 
-- **接口网址：http://icpc-system.and-who.cn/index.php/User/get/xxx**
+- **接口网址：http://icpc-system.and-who.cn/User/get/xxx**
 
 | 属性名        | 必要性 | 最小长度 | 最大长度 | 特殊要求
 | ------------- | ------ | -------- | -------- | --------
@@ -216,7 +216,7 @@
 
 ### **接口 · 获取用户信息**
 
-- **接口网址：http://icpc-system.and-who.cn/index.php/User/get**
+- **接口网址：http://icpc-system.and-who.cn/User/get**
 
 | 属性名        | 必要性 | 最小长度 | 最大长度 | 特殊要求
 | ------------- | ------ | -------- | -------- | --------
@@ -298,7 +298,7 @@
 
 ### **接口 · 注册**
 
-- **接口网址：http://icpc-system.and-who.cn/index.php/Team/post**
+- **接口网址：http://icpc-system.and-who.cn/Team/post**
 
 - **表单要求**
 
@@ -323,7 +323,7 @@
 
 ### **接口 · 获取单队伍信息**
 
-- **接口网址：http://icpc-system.and-who.cn/index.php/Team/get/xxx**
+- **接口网址：http://icpc-system.and-who.cn/Team/get/xxx**
 
 - **表单要求**
 
@@ -354,7 +354,7 @@
 
 ### **接口 · 获取队伍信息**
 
-- **接口网址：http://icpc-system.and-who.cn/index.php/Team/get**
+- **接口网址：http://icpc-system.and-who.cn/Team/get**
 
 | 属性名        | 必要性 | 最小长度 | 最大长度 | 特殊要求
 | ------------- | ------ | -------- | -------- | --------
@@ -450,7 +450,7 @@
 
 ### **接口 · 增加记录**
 
-- **接口网址：http://icpc-system.and-who.cn/index.php/User_training/post**
+- **接口网址：http://icpc-system.and-who.cn/User_training/post**
 
 - **表单要求**
 
