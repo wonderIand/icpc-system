@@ -41,6 +41,10 @@ class User_training extends CI_Controller {
 			//get post
 			$post = get_post();
 			$post['Utoken'] = get_token();
+			if (isset($post['UTproblemset']))
+			{
+				$post['UTproblemset'] = implode('#', $post['UTproblemset']);
+			}
 
 			//check form
 			$this->load->library('form_validation');
@@ -64,7 +68,7 @@ class User_training extends CI_Controller {
 		}
 		catch(Exception $e)
 		{
-			output_data(0, $e->getMessage(), array());
+			output_data($e->getCode(), $e->getMessage(), array());
 			return;
 		}
 

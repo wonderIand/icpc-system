@@ -57,7 +57,7 @@ class Team extends CI_Controller {
 		}
 		catch(Exception $e)
 		{
-			output_data(0, $e->getMessage(), array());
+			output_data($e->getCode(), $e->getMessage(), array());
 			return;
 		}
 
@@ -110,7 +110,7 @@ class Team extends CI_Controller {
 		}
 		catch (Exception $e)
 		{
-			output_data(0, $e->getMessage(), array());
+			output_data($e->getCode(), $e->getMessage(), array());
 			return;
 		}
 
@@ -166,7 +166,7 @@ class Team extends CI_Controller {
 		}
 		catch(Exception $e)
 		{
-			output_data(0, $e->getMessage(), array());
+			output_data($e->getCode(), $e->getMessage(), array());
 			return;
 		}
 

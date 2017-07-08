@@ -58,14 +58,14 @@ class User_model extends CI_Model {
 			->get('user')
 			->result_array())
 		{
-			throw new Exception('不存在的凭据');
+			throw new Exception('不存在的凭据', 401);
 		}
 
 		//超时
 		$user = $result[0];
 		if ($this->is_timeout($user['Ulast_visit']))
 		{
-			throw new Exception('凭据超时');
+			throw new Exception('凭据超时', 401);
 		}
 
 		//刷新时间
@@ -101,14 +101,8 @@ class User_model extends CI_Model {
 		
 		//DO post
 		$form['Utoken'] = $this->create_token();
-		if ( ! $this->db->insert('user', filter($form, $members_user))) 
-		{
-			throw new Exception('数据库错误');
-		}
-		if ( ! $this->db->insert('user_info', filter($form, $members_info)))
-		{
-			throw new Exception('数据库错误');
-		}
+		$this->db->insert('user', filter($form, $members_user));
+		$this->db->insert('user_info', filter($form, $members_info));
 
 	}
 
@@ -222,7 +216,7 @@ class User_model extends CI_Model {
         {
         	$this->db->like($form['search_key'], $form['search_value']);
         }
-       	$users = $this->db->limit($form['page_size'], ($form['now_page']-1)*$form['page_size'])
+       	$users = $this->db->limit($form['page_size'], ($form['now_page'] - 1) * $form['page_size'])
         	->get('user')
         	->result_array();
 

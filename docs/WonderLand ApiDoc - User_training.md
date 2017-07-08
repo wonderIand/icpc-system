@@ -49,3 +49,41 @@
 | **UTplace**     | O      | -        | -        | -    
 | **UTaddress**   | O      | 1        | 150      | -
 | **UTproblemset**| O      | -        | -        | **用#分隔的字符数组，如O#O#.#O#.**
+
+
+- **请求示例**
+```
+{
+	"UTtitle" : "a title",
+	"UTplace" : 1,
+	"UTaddress" : "www.baidu.com",
+	"UTproblemset" : [
+			"O",
+			"O",
+			"X"
+		]
+}
+```
+
+- **成功返回**
+```
+{
+	"type": 1,
+	"message": "注册成功",
+	"data": []
+}
+```
+
+---
+
+## **接口 · 查询某条记录**
+
+- **接口网址：http://icpc-system.and-who.cn/User_training/get**
+
+| 属性名        | 必要性 | 最小长度 | 最大长度 | 特殊要求
+| ------------- | ------ | -------- | -------- | --------
+| **Utoken**    | O      | -        | -        | -
+| **UTid**      | O      | -        | -        | 记录编号
+
+
+- **成功返回**

@@ -53,7 +53,7 @@ CREATE TABLE IF NOT EXISTS `team_training_article` (
 
 
 CREATE TABLE IF NOT EXISTS `user_training` (
-	`UTid` int,
+	`UTid` int AUTO_INCREMENT,
 	`Uusername` char(20) NOT NULL,
 	`UTtitle` char(50) NOT NULL,
 	`UTdate` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,

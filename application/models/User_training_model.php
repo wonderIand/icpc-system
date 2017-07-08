@@ -22,9 +22,9 @@ class User_training_model extends CI_Model {
 	public function post($form) 
 	{	
 		//config
-		$members_team = array('Uusername', 'UTtitle', 'UTdate', 'UTplace');
-		$members_contest = array('UTaddress', 'UTproblemset');
-		$members_article = array('UTarticle');
+		$members = array('Uusername', 'UTtitle', 'UTdate', 'UTplace');
+		$members_contest = array('UTid', 'UTaddress', 'UTproblemset');
+		$members_article = array('UTid', 'UTarticle');
 
 		//check token
 		$this->load->model('User_model', 'user');
@@ -34,9 +34,21 @@ class User_training_model extends CI_Model {
 		$form['Uusername'] = $this->db->select('Uusername')
 			->where(array('Utoken' => $form['Utoken']))
 			->get('user')
-			->result_array()[0];
+			->result_array()[0]['Uusername'];
+
+		//post
+		$this->db->insert('user_training', filter($form, $members));
+		$form['UTid'] = $this->db->insert_id();
+		$this->db->insert('user_training_contest', filter($form, $members_contest));
+		$this->db->insert('user_training_article', filter($form, $members_article));
 
 	}
+
+
+	/**
+	 * 查询记录 by UT_id
+	 */
+//	public function get
 
 
 }

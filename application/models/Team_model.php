@@ -62,11 +62,7 @@ class Team_model extends CI_Model {
 		}
 		
 		//DO register
-		if ( ! $this->db->insert('team', $form)) 
-		{
-			throw new Exception('数据库错误');
-		}
-
+		$this->db->insert('team', $form); 
 	}
 
 

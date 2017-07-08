@@ -919,7 +919,7 @@ if ( ! function_exists('get_token'))
 
 		if ( ! isset($headers['Utoken']))
 		{
-			throw new Exception("没有登陆凭据，请登录");	
+			throw new Exception("没有登陆凭据，请登录", 401);	
 		}
 		return $headers['Utoken'];
 	}

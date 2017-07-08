@@ -61,7 +61,7 @@ class User extends CI_Controller {
 		}
 		catch(Exception $e)
 		{
-			output_data(0, $e->getMessage(), array());
+			output_data($e->getCode(), $e->getMessage(), array());
 			return;
 		}
 
@@ -113,7 +113,7 @@ class User extends CI_Controller {
 		}
 		catch (Exception $e)
 		{
-			output_data(0, $e->getMessage(), array());
+			output_data($e->getCode(), $e->getMessage(), array());
 			return;
 		}
 
@@ -161,7 +161,7 @@ class User extends CI_Controller {
 		}
 		catch(Exception $e)
 		{
-			output_data(0, $e->getMessage(), array());
+			output_data($e->getCode(), $e->getMessage(), array());
 			return;
 		}
 
@@ -216,7 +216,7 @@ class User extends CI_Controller {
 		}
 		catch(Exception $e)
 		{
-			output_data(0, $e->getMessage(), array());
+			output_data($e->getCode(), $e->getMessage(), array());
 			return;
 		}
 
