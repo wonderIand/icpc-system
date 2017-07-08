@@ -72,8 +72,33 @@ $config = array(
 	//个人训练记录添加表单
 	'user_training_register' => array(
 		array(
-			'field' => 'Utoken',
-			'label' => '登陆凭据',
+			'field' => 'UTtitle',
+			'label' => '训练标题',
+			'rules' => 'required|min_length[1]|max_length[50]'
+			),
+		array(
+			'field' => 'UTplace',
+			'label' => '排名',
+			'rules' => 'required|min_length[1]|max_length[3]|numeric'
+			),
+		array(
+			'field' => 'UTaddress',
+			'label' => '训练地址',
+			'rules' => 'required|min_length[1]|max_length[150]'
+			),
+		array(
+			'field' => 'UTproblemset',
+			'label' => '题集',
+			'rules' => 'required'
+			)
+		),
+
+
+	//个人训练记录添加表单
+	'user_training_update' => array(
+		array(
+			'field' => 'UTid',
+			'label' => '记录标号',
 			'rules' => 'required'
 			),
 		array(
@@ -84,7 +109,7 @@ $config = array(
 		array(
 			'field' => 'UTplace',
 			'label' => '排名',
-			'rules' => 'required|numeric'
+			'rules' => 'required|min_length[1]|max_length[3]|numeric'
 			),
 		array(
 			'field' => 'UTaddress',
@@ -94,6 +119,21 @@ $config = array(
 		array(
 			'field' => 'UTproblemset',
 			'label' => '题集',
+			'rules' => 'required'
+			),
+		array(
+			'field' => 'UTarticle',
+			'label' => '文章内容',
+			'rules' => 'required|min_length[1]|max_length[2000]'
+			)
+		),
+
+
+	//个人训练记录删除表单
+	'user_training_delete' => array(
+		array(
+			'field' => 'UTid',
+			'label' => '记录标号',
 			'rules' => 'required'
 			)
 		)

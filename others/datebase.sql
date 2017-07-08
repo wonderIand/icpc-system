@@ -47,7 +47,7 @@ CREATE TABLE IF NOT EXISTS `team_training_contest` (
 
 CREATE TABLE IF NOT EXISTS `team_training_article` (
 	`TTid` int,
-	`TTarticle` varchar(2000) DEFAULT ' ',
+	`TTarticle` varchar(2000) DEFAULT '# 不补题怎么变强',
 	PRIMARY KEY(`TTid`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 

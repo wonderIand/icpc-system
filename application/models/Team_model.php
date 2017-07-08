@@ -98,7 +98,7 @@ class Team_model extends CI_Model {
 	/**
 	 * 获取队伍列表
 	 */
-	public function get_list($form)
+	public function get_all($form)
 	{
 
 		//config
@@ -122,6 +122,93 @@ class Team_model extends CI_Model {
 
 		//return
 		$ret['data'] = $teams;
+		return filter($ret, $members);
+
+	}
+
+
+	/**
+	 * 获取用户队伍列表
+	 */
+	public function get_list($form)
+	{
+
+		//config
+		$ret = array();
+		$members = array('page_size', 'page', 'page_max', 'data');
+		$members_team = array('Tteamname', 'Uusername_1', 'Uusername_2', 'Uusername_3');
+
+		//check token
+		$this->load->model('User_model','my_user');
+		$this->my_user->check_token($form['Utoken']);
+
+		//check Uusername
+		if ( ! isset($form['Uusername']))
+		{
+			$form['Uusername'] = $this->db->select('Uusername')
+				->where('Utoken', $form['Utoken'])
+				->get('user')
+				->result_array()[0]['Uusername'];
+		}
+
+		//select team
+        if (isset($form['page_size']))
+        {
+			$ret['page_size'] = $form['page_size'];
+	        $ret['page_max'] = (int)(($this->db->count_all_results('team') - 1) / $form['page_size']) + 1;
+			$ret['page'] = $form['page'];
+        	$this->db->limit($form['page_size'], ($form['page'] - 1) * $form['page_size']);
+        }
+       	$teams = $this->db->select($members_team)
+       		->where('Uusername_1', $form['Uusername'])
+       		->get('team')
+       		->result_array();
+       	$teams_part_2 = $this->db->select($members_team)
+       		->where('Uusername_2', $form['Uusername'])
+       		->get('team')
+       		->result_array();
+       	$teams_part_3 = $this->db->select($members_team)
+       	    ->where('Uusername_3', $form['Uusername'])
+       	    ->get('team')
+       	    ->result_array();
+
+       	//combine
+       	foreach ($teams as $key => $team) 
+       	{
+       		$exist[$team['Tteamname']] = TRUE; 
+       	}
+       	foreach ($teams_part_2 as $team) 
+       	{
+       		if ( ! isset($exist[$team['Tteamname']]))
+       		{
+       			$exist[$team['Tteamname']] = TRUE;
+       			$teams[] = $team;
+       		}
+       	}
+       	foreach ($teams_part_3 as $team) 
+       	{
+       		if ( ! isset($exist[$team['Tteamname']]))
+       		{
+       			$exist[$team['Tteamname']] = TRUE;
+       			$teams[] = $team;
+       		}
+       	}
+
+       	//get this page
+        if (isset($form['page_size']))
+        {
+        	$offset = $form['page_size'] * ($form['page'] - 1);
+        	for ($i = 0; $i < $form['page_size'] && isset($teams[$offset + $i]); $i += 1)
+        	{
+        		$ret['data'][]=$teams[$i];
+        	}
+        }
+        else 
+        {
+        	$ret['data'] = $teams;
+        }
+
+		//return
 		return filter($ret, $members);
 
 	}

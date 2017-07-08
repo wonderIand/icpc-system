@@ -119,7 +119,7 @@ class Team extends CI_Controller {
 	/**
 	 * 获取队伍列表
 	 */
-	public function get_list()
+	public function get_all()
 	{
 
 		//config
@@ -156,7 +156,7 @@ class Team extends CI_Controller {
 
 			//DO get_list
 			$this->load->model('Team_model','my_team');
-			$data = $this->my_team->get_list(filter($post, $members));
+			$data = $this->my_team->get_all(filter($post, $members));
 
 		}
 		catch(Exception $e)
@@ -171,4 +171,44 @@ class Team extends CI_Controller {
 	}
 	
 
+	/**
+	 * 获取用户队伍列表
+	 */
+	public function get_list()
+	{
+
+		//config
+		$members = array('Utoken', 'Uusername', 'page_size', 'page');
+
+		//get
+		try
+		{
+
+			//get post
+			$post['Utoken'] = get_token();
+			if ($this->input->get('Uusername'))
+			{
+				$post['Uusername'] = $this->input->get('Uusername');
+			}
+			if ($this->input->get('page_size') && $this->input->get('page'))
+			{
+				$post['page_size'] = $this->input->get('page_size');
+				$post['page'] = $this->input->get('page');
+			}
+
+			//DO get_list
+			$this->load->model('Team_model','my_team');
+			$data = $this->my_team->get_list(filter($post, $members));
+
+		}
+		catch(Exception $e)
+		{
+			output_data($e->getCode(), $e->getMessage(), array());
+			return;
+		}
+
+		//return
+		output_data(1, "获取成功", $data);
+
+	}
 }
