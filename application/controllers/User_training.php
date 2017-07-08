@@ -2,6 +2,7 @@
 
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept");
+header('Access-Control-Allow-Methods: GET, POST, PUT,DELETE');
 
 defined('BASEPATH') OR exit('No direct script access allowed');
 
@@ -27,9 +28,9 @@ class User_training extends CI_Controller {
 	 *****************************************************************************************************/
 
 	/**
-	 * post
+	 * 添加训练记录
 	 */
-	public function post()
+	public function register()
 	{
 		//config
 		$members = array('Utoken', 'UTtitle', 'UTplace', 'UTaddress', 'UTproblemset');
@@ -49,7 +50,7 @@ class User_training extends CI_Controller {
 			//check form
 			$this->load->library('form_validation');
 			$this->form_validation->set_data($post);
-			if ( ! $this->form_validation->run('user_training_post'))
+			if ( ! $this->form_validation->run('user_training_register'))
 			{
 				$this->load->helper('form');
 				foreach ($members as $member) 
@@ -61,9 +62,9 @@ class User_training extends CI_Controller {
 				}
 			}
 
-			//post
+			//DO register
 			$this->load->model('User_training_model','user_training');
-			$this->user_training->post(filter($post, $members));
+			$this->user_training->register(filter($post, $members));
 
 		}
 		catch(Exception $e)

@@ -38,6 +38,7 @@
 
 ## **接口 · 增加记录**
 
+- **请求方法：POST**
 - **接口网址：http://icpc-system.and-who.cn/User_training/post**
 
 - **表单要求**
@@ -78,12 +79,6 @@
 
 ## **接口 · 查询某条记录**
 
-- **接口网址：http://icpc-system.and-who.cn/User_training/get**
-
-| 属性名        | 必要性 | 最小长度 | 最大长度 | 特殊要求
-| ------------- | ------ | -------- | -------- | --------
-| **Utoken**    | O      | -        | -        | -
-| **UTid**      | O      | -        | -        | 记录编号
-
-
+- **请求方法：GET**
+- **接口网址：http://icpc-system.and-who.cn/User_training/get?:UTid**
 - **成功返回**

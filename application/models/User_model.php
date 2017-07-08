@@ -83,7 +83,7 @@ class User_model extends CI_Model {
 	/**
 	 * 注册
 	 */
-	public function post($form) 
+	public function register($form) 
 	{
 		//config
 		$members_user = array('Uusername', 'Utoken', 'Upassword');
@@ -99,7 +99,7 @@ class User_model extends CI_Model {
 			throw new Exception('用户名已存在');
 		}
 		
-		//DO post
+		//DO register
 		$form['Utoken'] = $this->create_token();
 		$this->db->insert('user', filter($form, $members_user));
 		$this->db->insert('user_info', filter($form, $members_info));
@@ -143,9 +143,9 @@ class User_model extends CI_Model {
 
 
 	/**
-	 * 获取单条信息
+	 * 获取用户信息
 	 */
-	public function get_one($form)
+	public function get($form)
 	{
 
 		//config
@@ -156,9 +156,12 @@ class User_model extends CI_Model {
 		$this->check_token($form['Utoken']);
 
 		//get user
+		$where = isset($form['Uusername'])
+			? array('Uusername' => $form['Uusername'])
+			: array('Utoken' => $form['Utoken']);
 		$result = $this->db->select($members_user)
-				->where(array('Uusername' => $form['Uusername']))
-				->get('user')->result_array();
+			->where($where)
+			->get('user')->result_array();
 		if ( ! $result)
 		{
 			throw new Exception('用户名不存在');	
@@ -167,7 +170,7 @@ class User_model extends CI_Model {
 
 		//get user info
 		$user_info = $this->db->select($members_info)
-						->where(array('Uusername' => $form['Uusername']))
+						->where(array('Uusername' => $user['Uusername']))
 						->get('user_info')->result_array()[0];
 		foreach ($user_info as $key => $info) {
 			$user[$key] = $info;
@@ -180,45 +183,29 @@ class User_model extends CI_Model {
 
 
 	/**
-	 * 获取信息
+	 * 获取用户列表
 	 */
-	public function get($form)
+	public function get_list($form)
 	{
 
 		//config
-		$members = array('page_size', 'now_page', 'max_page', 'data');
+		$members = array('page_size', 'page', 'page_max', 'data');
 		$members_user = array('Uusername', 'Ulast_visit');
 		$members_info = array('Urealname', 'Unickname');
-		$valid_search_user = array('Uusername', 'Ulast_visit');
 
 		//check token
 		$this->check_token($form['Utoken']);
 
-		//check search_key
-		if ($form['search_key'] !== 'null')
-		{
-			if ( ! filter(array($form['search_key'] => $form['search_value']), $valid_search_user))
-			{
-				throw new Exception('[检索键]'.$form['search_key'].'不被允许');
-			}
-		}
-
-		//get max_page
-       	if ($form['search_key'] !== 'null')
-        {
-        	$this->db->like($form['search_key'], $form['search_value']);
-        }
-        $ret['max_page'] = (int)(($this->db->count_all_results('user') - 1) / $form['page_size']) + 1;
-
 		//select user
         $this->db->select($members_user);
-       	if ( $form['search_key'] !== 'null')
+        if (isset($form['page_size']))
         {
-        	$this->db->like($form['search_key'], $form['search_value']);
+			$ret['page_size'] = $form['page_size'];
+	        $ret['page_max'] = (int)(($this->db->count_all_results('user') - 1) / $form['page_size']) + 1;
+			$ret['page'] = $form['page'];
+        	$this->db->limit($form['page_size'], ($form['page'] - 1) * $form['page_size']);
         }
-       	$users = $this->db->limit($form['page_size'], ($form['now_page'] - 1) * $form['page_size'])
-        	->get('user')
-        	->result_array();
+       	$users = $this->db->get('user')->result_array();
 
         //select user_info
         if ($users)
@@ -237,12 +224,76 @@ class User_model extends CI_Model {
 		}
 
 		//return
-		$ret['page_size'] = $form['page_size'];
-		$ret['now_page'] = $form['now_page'];
 		$ret['data'] = $users;
-		return $ret;
+		return filter($ret, $members);
 
 	}
+
+
+	/**
+	 * 获取信息
+	 */
+	// public function get($form)
+	// {
+
+	// 	//config
+	// 	$members = array('page_size', 'now_page', 'max_page', 'data');
+	// 	$members_user = array('Uusername', 'Ulast_visit');
+	// 	$members_info = array('Urealname', 'Unickname');
+	// 	$valid_search_user = array('Uusername', 'Ulast_visit');
+
+	// 	//check token
+	// 	$this->check_token($form['Utoken']);
+
+	// 	//check search_key
+	// 	if ($form['search_key'] !== 'null')
+	// 	{
+	// 		if ( ! filter(array($form['search_key'] => $form['search_value']), $valid_search_user))
+	// 		{
+	// 			throw new Exception('[检索键]'.$form['search_key'].'不被允许');
+	// 		}
+	// 	}
+
+	// 	//get max_page
+ //       	if ($form['search_key'] !== 'null')
+ //        {
+ //        	$this->db->like($form['search_key'], $form['search_value']);
+ //        }
+ //        $ret['max_page'] = (int)(($this->db->count_all_results('user') - 1) / $form['page_size']) + 1;
+
+	// 	//select user
+ //        $this->db->select($members_user);
+ //       	if ( $form['search_key'] !== 'null')
+ //        {
+ //        	$this->db->like($form['search_key'], $form['search_value']);
+ //        }
+ //       	$users = $this->db->limit($form['page_size'], ($form['now_page'] - 1) * $form['page_size'])
+ //        	->get('user')
+ //        	->result_array();
+
+ //        //select user_info
+ //        if ($users)
+	// 	{
+	// 		foreach ($users as $key_user => $user) 
+	// 		{
+	// 			$user_info = $this->db->select($members_info)
+	// 				->where(array('Uusername' => $user['Uusername']))
+	// 				->get('user_info')
+	// 				->result_array()[0];
+	// 			foreach ($user_info as $key_info => $info) 
+	// 			{
+	// 				$users[$key_user][$key_info] = $info;
+	// 			}
+	// 		}
+	// 	}
+
+	// 	//return
+	// 	$ret['page_size'] = $form['page_size'];
+	// 	$ret['now_page'] = $form['now_page'];
+	// 	$ret['data'] = $users;
+	// 	return $ret;
+
+	// }
 
 
 }

@@ -19,7 +19,7 @@ class User_training_model extends CI_Model {
 	/**
 	 * 添加记录
 	 */
-	public function post($form) 
+	public function register($form) 
 	{	
 		//config
 		$members = array('Uusername', 'UTtitle', 'UTdate', 'UTplace');
@@ -44,11 +44,6 @@ class User_training_model extends CI_Model {
 
 	}
 
-
-	/**
-	 * 查询记录 by UT_id
-	 */
-//	public function get
 
 
 }

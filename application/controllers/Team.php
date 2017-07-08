@@ -2,6 +2,7 @@
 
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept");
+header('Access-Control-Allow-Methods: GET, POST, PUT,DELETE');
 
 defined('BASEPATH') OR exit('No direct script access allowed');
 
@@ -24,63 +25,19 @@ class Team extends CI_Controller {
 
 
 	/*****************************************************************************************************
-	 * 重载接口
-	 *****************************************************************************************************/
-	private function get_one($post)
-	{
-
-		//config
-		$members = array('Utoken', 'Tteamname');
-
-		//get info
-		try
-		{
-			//check form
-			$this->load->library('form_validation');
-			$this->form_validation->set_data($post);
-			if ( ! $this->form_validation->run('team_get_one')) 
-			{
-				foreach ($members as $member) 
-				{
-					if (form_error($member))
-					{
-						throw new Exception(strip_tags(form_error($member)));
-					}
-				}
-				
-			}
-
-			//过滤 && get_info
-			$this->load->model('Team_model','my_team');
-			$data = $this->my_team->get_one(filter($post, $members));
-
-		}
-		catch(Exception $e)
-		{
-			output_data($e->getCode(), $e->getMessage(), array());
-			return;
-		}
-
-		//return
-		output_data(1, '获取成功', $data);
-
-	}	
-
-
-	/*****************************************************************************************************
 	 * 主接口
 	 *****************************************************************************************************/
 
 	/**
 	 * 注册
 	 */
-	public function post() 
+	public function register() 
 	{
 
 		//config
 		$members = array('Tteamname', 'Utoken', 'Uusername_2', 'Uusername_3');
 
-		//post
+		//register
 		try
 		{
 
@@ -91,7 +48,7 @@ class Team extends CI_Controller {
 			//check form
 			$this->load->library('form_validation');
 			$this->form_validation->set_data($post);
-			if ( ! $this->form_validation->run('team_post')) 
+			if ( ! $this->form_validation->run('team_register')) 
 			{
 				$this->load->helper('form');
 				foreach ($members as $member) 
@@ -105,7 +62,7 @@ class Team extends CI_Controller {
 
 			//过滤 && register
 			$this->load->model('Team_model','my_team');
-			$this->my_team->post(filter($post, $members));
+			$this->my_team->register(filter($post, $members));
 			
 		}
 		catch (Exception $e)
@@ -121,47 +78,85 @@ class Team extends CI_Controller {
 
 
 	/**
-	 * 队伍信息
+	 * 获取队伍信息
 	 */
 	public function get()
 	{
 
 		//config
-		$members = array('Utoken', 'search_key', 'search_value', 'page_size', 'now_page');
+		$members = array('Utoken', 'Tteamname');
 
 		//get
 		try
 		{
 
 			//get post
-			$post = get_post();
 			$post['Utoken'] = get_token();
-
-			//check route
-			if ($this->uri->segment(3))
+			if ( ! $this->input->get('Tteamname'))
 			{
-				$post['Tteamname'] = $this->uri->segment(3);
-				return $this->get_one($post);				
+				throw new Exception('必须指定Tteamname');
 			}
+			$post['Tteamname'] = $this->input->get('Tteamname');
+				
 
-			//check form
-			$this->load->library('form_validation');
-			$this->form_validation->set_data($post);
-			if ( ! $this->form_validation->run('team_get'))
-			{
-				$this->load->helper('form');
-				foreach ($members as $member) 
-				{
-					if (form_error($member))
-					{
-						throw new Exception(strip_tags(form_error($member)));
-					}
-				}
-			}
-
-			//get
+			//过滤 && get_info
 			$this->load->model('Team_model','my_team');
 			$data = $this->my_team->get(filter($post, $members));
+
+		}
+		catch(Exception $e)
+		{
+			output_data($e->getCode(), $e->getMessage(), array());
+			return;
+		}
+
+		//return
+		output_data(1, '获取成功', $data);
+
+	}		
+
+
+	/**
+	 * 获取队伍列表
+	 */
+	public function get_list()
+	{
+
+		//config
+		$members = array('Utoken', 'page_size', 'page');
+
+		//get
+		try
+		{
+
+			//get post
+			$post['Utoken'] = get_token();
+
+			//check page
+			if ($this->input->get('page_size'))
+			{
+				if ($this->input->get('page'))
+				{
+					$post['page_size'] = $this->input->get('page_size');
+					$post['page'] = $this->input->get('page');
+				}
+				else
+				{
+					throw new Exception("请设置页码");
+				}
+			}
+			else
+			{
+				if ($this->input->get('page'))
+				{
+					throw new Exception("请设置每页大小", 1);
+					
+				}
+			}			
+
+			//DO get_list
+			$this->load->model('Team_model','my_team');
+			$data = $this->my_team->get_list(filter($post, $members));
 
 		}
 		catch(Exception $e)

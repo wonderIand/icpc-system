@@ -29,7 +29,8 @@
 
 ## **接口 · 注册**
 
-- **接口网址：http://icpc-system.and-who.cn/User/post**
+- **请求方法：POST**
+- **接口网址：http://icpc-system.and-who.cn/User/register**
 
 - **表单要求**
 
@@ -55,6 +56,7 @@
 
 ## **接口 · 登陆**
 
+- **请求方法：POST**
 - **接口网址：http://icpc-system.and-who.cn/User/login**
 
 - **表单要求**
@@ -81,13 +83,9 @@
 
 ## **接口 · 获取单用户信息**
 
-- **接口网址：http://icpc-system.and-who.cn/User/get/xxx**
-
-| 属性名        | 必要性 | 最小长度 | 最大长度 | 特殊要求
-| ------------- | ------ | -------- | -------- | --------
-| **Uusername** | O      | -        | -        | 该字段取代接口url中的xxx
-| **Utoken**    | O      | -        | -        | -
-
+- **请求方法：GET**
+- **接口网址：http://icpc-system.and-who.cn/User/get?:Uusername**
+- **接口网址：http://icpc-system.and-who.cn/User/get 获取持有token的用户用户信息**
 
 - **成功返回**
 
@@ -106,59 +104,35 @@
 
 ---
 
-## **接口 · 获取用户信息**
+## **接口 · 获取用户列表**
 
-- **接口网址：http://icpc-system.and-who.cn/User/get**
-
-| 属性名        | 必要性 | 最小长度 | 最大长度 | 特殊要求
-| ------------- | ------ | -------- | -------- | --------
-| **Utoken**    | O      | -        | -        | -
-| **search_key** | O      | -        | -        | 检索项，所有就设成字符串"null"
-| **search_value** | O      | -        | -      | 检索值，模糊搜索
-| **page_size** | O      | 1        | 3        | 每页大小
-| **now_page**  | O      | -        | -        | 查询页码
-
-
-| 允许检索键      | 备注
+- **请求方法：GET**
+- **接口网址：http://icpc-system.and-who.cn/User/get_list**
+| **`GET` 字段可选项** | 备注
 | --------------- | --------
-| **Uusername**   | 模糊搜索
-| **Ulast_visit** | 模糊搜索
+| **page_size**   | 设置分页大小，和 **page** 成对存在
+| **page**        | 设置查询页，和 **page_size** 成对存在
 
 
-- **查询示例**
-```
-{
-	"page_size" : 3,
-	"now_page" : 1,
-	"search_key" : "Uusername",
-	"search_value" : "au"
-}
-```
-- **返回结果**
+- **查询示例：http://icpc-system.and-who.cn/User/get_list?page_size=2&page=2**
 ```
 {
 	"type": 1,
 	"message": "获取成功",
 	"data": {
-		"max_page": 2,
-		"page_size": 3,
-		"now_page": 1,
+		"page_size": "2",
+		"page": "2",
+		"page_max": 3,
 		"data": [
-			{
-				"Uusername": "aaaau2",
-				"Ulast_visit": "2017-07-06 23:58:09",
-				"Urealname": "a 真实姓名真实姓名",
-				"Unickname": "a"
-			},
-			{
-				"Uusername": "aaaau1",
-				"Ulast_visit": "2017-07-07 13:58:54",
-				"Urealname": "a 真实姓名真实姓名",
-				"Unickname": "a"
-			},
 			{
 				"Uusername": "aaaau3",
 				"Ulast_visit": "2017-07-07 08:59:21",
+				"Urealname": "a 真实姓名真实姓名",
+				"Unickname": "a"
+			},
+			{
+				"Uusername": "aaaau4",
+				"Ulast_visit": "2017-07-07 08:59:23",
 				"Urealname": "a 真实姓名真实姓名",
 				"Unickname": "a"
 			}
@@ -166,3 +140,4 @@
 	}
 }
 ```
+

@@ -19,7 +19,7 @@ class Team_model extends CI_Model {
 	/**
 	 * 注册
 	 */
-	public function post($form) 
+	public function register($form) 
 	{
 
 		//check token
@@ -67,9 +67,9 @@ class Team_model extends CI_Model {
 
 
 	/**
-	 * 获取信息
+	 * 获取队伍信息
 	 */
-	public function get_one($form)
+	public function get($form)
 	{
 		//config
 		$members = array('Tteamname', 'Uusername_1', 'Uusername_2', 'Uusername_3', 'Tplan_1', 'Tplan_2', 'Tplan_3');
@@ -96,49 +96,81 @@ class Team_model extends CI_Model {
 
 
 	/**
-	 * 获取信息
+	 * 获取队伍列表
 	 */
-	public function get($form)
+	public function get_list($form)
 	{
+
 		//config
-		$members = array('page_size', 'now_page', 'max_page', 'data');
-		$valid_search_team = array('Tteamname', 'Uusername_1', 'Uusername_2', 'Uusername_3');
+		$members = array('page_size', 'page', 'page_max', 'data');
+		$members_team = array('Tteamname', 'Uusername_1', 'Uusername_2', 'Uusername_3');
 
 		//check token
-		$this->load->model('User_model', 'my_user');
+		$this->load->model('User_model','my_user');
 		$this->my_user->check_token($form['Utoken']);
 
-		//check search_key
-		if ($form['search_key'] !== 'null')
-		{
-			if ( ! filter(array($form['search_key'] => $form['search_value']), $valid_search_team))
-			{
-				throw new Exception('[检索键]'.$form['search_key'].'不被允许');
-			}
-		}
-
-		//get max_page
-       	if ($form['search_key'] !== 'null')
-        {
-        	$this->db->like($form['search_key'], $form['search_value']);
-        }
-        $ret['max_page'] = (int)(($this->db->count_all_results('team') - 1) / $form['page_size']) + 1;
-
 		//select team
-       	if ( $form['search_key'] !== 'null')
+        $this->db->select($members_team);
+        if (isset($form['page_size']))
         {
-        	$this->db->like($form['search_key'], $form['search_value']);
+			$ret['page_size'] = $form['page_size'];
+	        $ret['page_max'] = (int)(($this->db->count_all_results('team') - 1) / $form['page_size']) + 1;
+			$ret['page'] = $form['page'];
+        	$this->db->limit($form['page_size'], ($form['page'] - 1) * $form['page_size']);
         }
-       	$teams = $this->db->limit($form['page_size'], ($form['now_page']-1)*$form['page_size'])
-        	->get('team')
-        	->result_array();
+       	$teams = $this->db->get('team')->result_array();
 
 		//return
-		$ret['page_size'] = $form['page_size'];
-		$ret['now_page'] = $form['now_page'];
 		$ret['data'] = $teams;
-		return $ret;
+		return filter($ret, $members);
 
 	}
+
+
+	/**
+	 * 获取队伍列表
+	 */
+	// public function get($form)
+	// {
+	// 	//config
+	// 	$members = array('page_size', 'now_page', 'max_page', 'data');
+	// 	$valid_search_team = array('Tteamname', 'Uusername_1', 'Uusername_2', 'Uusername_3');
+
+	// 	//check token
+	// 	$this->load->model('User_model', 'my_user');
+	// 	$this->my_user->check_token($form['Utoken']);
+
+	// 	//check search_key
+	// 	if ($form['search_key'] !== 'null')
+	// 	{
+	// 		if ( ! filter(array($form['search_key'] => $form['search_value']), $valid_search_team))
+	// 		{
+	// 			throw new Exception('[检索键]'.$form['search_key'].'不被允许');
+	// 		}
+	// 	}
+
+	// 	//get max_page
+ //       	if ($form['search_key'] !== 'null')
+ //        {
+ //        	$this->db->like($form['search_key'], $form['search_value']);
+ //        }
+ //        $ret['max_page'] = (int)(($this->db->count_all_results('team') - 1) / $form['page_size']) + 1;
+
+	// 	//select team
+ //       	if ( $form['search_key'] !== 'null')
+ //        {
+ //        	$this->db->like($form['search_key'], $form['search_value']);
+ //        }
+ //       	$teams = $this->db->limit($form['page_size'], ($form['now_page']-1)*$form['page_size'])
+ //        	->get('team')
+ //        	->result_array();
+
+	// 	//return
+	// 	$ret['page_size'] = $form['page_size'];
+	// 	$ret['now_page'] = $form['now_page'];
+	// 	$ret['data'] = $teams;
+	// 	return $ret;
+
+	// }
 
 }

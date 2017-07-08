@@ -23,9 +23,8 @@
 
 ## **接口 · 注册**
 
-- **接口网址：http://icpc-system.and-who.cn/Team/post**
-
-- **表单要求**
+- **请求方法：POST**
+- **接口网址：http://icpc-system.and-who.cn/Team/register**
 
 | 属性名          | 必要性 | 最小长度 | 最大长度 | 特殊要求
 | --------------- | ------ | -------- | -------- | --------
@@ -47,18 +46,10 @@
 
 ---
 
-## **接口 · 获取单队伍信息**
+## **接口 · 获取队伍信息**
 
-- **接口网址：http://icpc-system.and-who.cn/Team/get/xxx**
-
-- **表单要求**
-
-| 属性名          | 必要性 | 最小长度 | 最大长度 | 特殊要求
-| --------------- | ------ | -------- | -------- | --------
-| **Tteamname**   | O      | -        | -        | 该字段取代接口url中的xxx
-| **Utoken**      | O      | -        | -        | 
-
-
+- **请求方法：GET**
+- **接口网址：http://icpc-system.and-who.cn/Team/get?:Tteamname**
 - **成功返回**
 
 ```
@@ -79,61 +70,38 @@
 
 ---
 
-## **接口 · 获取队伍信息**
+## **接口 · 获取队伍列表**
 
-- **接口网址：http://icpc-system.and-who.cn/Team/get**
-
-| 属性名        | 必要性 | 最小长度 | 最大长度 | 特殊要求
-| ------------- | ------ | -------- | -------- | --------
-| **Utoken**    | O      | -        | -        | -
-| **search_key** | O      | -        | -        | 检索项，所有就设成字符串"null"
-| **search_value** | O      | -        | -      | 检索值，模糊搜索
-| **page_size** | O      | 1        | 3        | 每页大小
-| **now_page**  | O      | -        | -        | 查询页码
-
-
-| 允许检索键      | 备注
+- **请求方法：GET**
+- **接口网址：http://icpc-system.and-who.cn/Team/get_list?:page_size&:page**
+- **成功返回**
+| **`GET` 字段可选项** | 备注
 | --------------- | --------
-| **Tteamname**   | 模糊搜索
-| **Uusername_1** | 成员1
-| **Uusername_2** | 成员2
-| **Uusername_3** | 成员3
+| **page_size**   | 设置分页大小，和 **page** 成对存在
+| **page**        | 设置查询页，和 **page_size** 成对存在
 
-
-- **查询示例**
-
-```
-{
-	"search_key" : "Tteamname",
-	"search_value" : "a",
-	"page_size" : 2,
-	"now_page" : 1
-}
-```
-
-- **返回结果**
 
 ```
 {
 	"type": 1,
 	"message": "获取成功",
 	"data": {
-		"max_page": 2,
-		"page_size": 2,
-		"now_page": 1,
+		"page_size": "4",
+		"page": "2",
+		"page_max": 2,
 		"data": [
 			{
-				"Tteamname": "ateamname",
-				"Uusername_1": "aaaau1",
+				"Tteamname": "au2",
+				"Uusername_1": "aaaau2",
 				"Uusername_2": "aaaau2",
-				"Uusername_3": "aaaau2",
+				"Uusername_3": "aaaau3",
 				"Tplan_1": "",
 				"Tplan_2": "",
 				"Tplan_3": ""
 			},
 			{
-				"Tteamname": "ateamname1",
-				"Uusername_1": "aaaau1",
+				"Tteamname": "au",
+				"Uusername_1": "aaaau41",
 				"Uusername_2": "aaaau2",
 				"Uusername_3": "aaaau3",
 				"Tplan_1": "",
@@ -145,4 +113,4 @@
 }
 ```
 
-
+---

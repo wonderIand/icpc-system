@@ -20,7 +20,7 @@ $config = array(
 
 
 	//用户注册表单
-	'user_post' => array(
+	'user_register' => array(
 		array(
 			'field' => 'Uusername',
 			'label' => '用户名',
@@ -44,52 +44,8 @@ $config = array(
 		),
 
 
-	//获取用户信息表单
-	'user_get_one' => array(
-		array(
-			'field' => 'Utoken',
-			'label' => '登陆凭据',
-			'rules' => 'required'
-			),
-		array(
-			'field' => 'Uusername',
-			'label' => '用户名',
-			'rules' => 'required'
-			)
-		),
-
-
-	//获取用户信息表单
-	'user_get' => array(
-		array(
-			'field' => 'Utoken',
-			'label' => '登陆凭据',
-			'rules' => 'required'
-			),
-		array(
-			'field' => 'search_key',
-			'label' => '检索项',
-			'rules' => 'required'
-			),
-		array(
-			'field' => 'search_value',
-			'label' => '检索值',
-			'rules' => 'required'
-			),
-		array(
-			'field' => 'page_size',
-			'label' => '每页大小',
-			'rules' => 'required|numeric'
-			),
-		array(
-			'field' => 'now_page',
-			'label' => '查询页码',
-			'rules' => 'required|numeric'
-			)
-		),
-
 	//队伍注册表单
-	'team_post' => array(
+	'team_register' => array(
 		array(
 			'field' => 'Tteamname',
 			'label' => '队伍名',
@@ -113,51 +69,8 @@ $config = array(
 		),
 
 
-	//获取队伍信息表单
-	'team_get_one' => array(
-		array(
-			'field' => 'Utoken',
-			'label' => '登陆凭据',
-			'rules' => 'required'
-			),
-		array(
-			'field' => 'Tteamname',
-			'label' => '队伍名',
-			'rules' => 'required'
-			)
-		),
-
-	//获取用户信息表单
-	'team_get' => array(
-		array(
-			'field' => 'Utoken',
-			'label' => '登陆凭据',
-			'rules' => 'required'
-			),
-		array(
-			'field' => 'search_key',
-			'label' => '检索项',
-			'rules' => 'required'
-			),
-		array(
-			'field' => 'search_value',
-			'label' => '检索值',
-			'rules' => 'required'
-			),
-		array(
-			'field' => 'page_size',
-			'label' => '每页大小',
-			'rules' => 'required|numeric'
-			),
-		array(
-			'field' => 'now_page',
-			'label' => '查询页码',
-			'rules' => 'required|numeric'
-			)
-		),
-
 	//个人训练记录添加表单
-	'user_training_post' => array(
+	'user_training_register' => array(
 		array(
 			'field' => 'Utoken',
 			'label' => '登陆凭据',
