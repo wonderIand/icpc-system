@@ -5,12 +5,14 @@
 ---
 
 ## **日志**
+
 | 日期         | 备注  
 | ------------ | ------
 | **17/07/--** | 添加接口 · **【注册队伍 · register】**
 | **17/07/--** | 添加接口 · **【获取队伍信息 · get】**
 | **17/07/--** | 添加接口 · **【获取所有队伍列表 · get_all】**
 | **17/07/09** | 添加接口 · **【获取用户队伍列表 · get_list】**
+| **17/07/09** | **【WonderLand Beta 1.0 Compeleted】**
 
 
 
@@ -62,6 +64,7 @@
 
 - **请求方法：GET**
 - **接口网址：http://icpc-system.and-who.cn/Team/get?:Tteamname**
+
 | **返回的队伍信息包含** | 备注
 | ---------------------- | ----
 | **Tteamname**          | 队伍名
@@ -96,6 +99,7 @@
 
 - **请求方法：GET**
 - **接口网址：http://icpc-system.and-who.cn/Team/get_all?:page_size&:page**
+
 | **`GET` 字段可选项** | 备注
 | --------------- | --------
 | **page_size**   | 设置分页大小，和 **page** 成对存在
@@ -153,6 +157,7 @@
 
 - **请求方法：GET**
 - **接口网址：http://icpc-system.and-who.cn/Team/get_list?:Uusername:page_size&:page**
+
 | **`GET` 字段可选项** | 备注
 | --------------- | --------
 | **page_size**   | 设置分页大小，和 **page** 成对存在
