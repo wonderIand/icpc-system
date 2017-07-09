@@ -203,6 +203,7 @@ class User_model extends CI_Model {
 			$ret['page_size'] = $form['page_size'];
 	        $ret['page_max'] = (int)(($this->db->count_all_results('user') - 1) / $form['page_size']) + 1;
 			$ret['page'] = $form['page'];
+	        $this->db->select($members_user);
         	$this->db->limit($form['page_size'], ($form['page'] - 1) * $form['page_size']);
         }
        	$users = $this->db->get('user')->result_array();
@@ -216,7 +217,7 @@ class User_model extends CI_Model {
 					->where(array('Uusername' => $user['Uusername']))
 					->get('user_info')
 					->result_array()[0];
-				foreach ($user_info as $key_info => $info) 
+				foreach ($user_info as $key_info => $info)
 				{
 					$users[$key_user][$key_info] = $info;
 				}

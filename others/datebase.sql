@@ -29,7 +29,7 @@ CREATE TABLE IF NOT EXISTS `team` (
 
 
 CREATE TABLE IF NOT EXISTS `team_training` (
-	`TTid` int,
+	`TTid` int AUTO_INCREMENT,
 	`Tteamname` char(20) NOT NULL,
 	`TTtitle` char(50) NOT NULL,
 	`TTdate` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
