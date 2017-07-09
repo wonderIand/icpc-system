@@ -150,6 +150,7 @@ class User_training extends CI_Controller {
 						throw new Exception(strip_tags(form_error($member)));
 					}	
 				}
+				return;
 			}
 
 			//DO register
@@ -197,6 +198,7 @@ class User_training extends CI_Controller {
 						throw new Exception(strip_tags(form_error($member)));
 					}	
 				}
+				return;
 			}
 
 			//DO delete
