@@ -58,14 +58,14 @@ class User_model extends CI_Model {
 			->get('user')
 			->result_array())
 		{
-			throw new Exception('不存在的凭据', 401);
+			throw new Exception('请登陆', 401);
 		}
 
 		//超时
 		$user = $result[0];
 		if ($this->is_timeout($user['Ulast_visit']))
 		{
-			throw new Exception('凭据超时', 401);
+			throw new Exception('请重新登录', 401);
 		}
 
 		//刷新时间
@@ -153,7 +153,10 @@ class User_model extends CI_Model {
 		$members_info = array('Unickname', 'Urealname');
 
 		//check token
-		$this->check_token($form['Utoken']);
+		if (isset($form['Utoken'])) 
+		{
+			$this->check_token($form['Utoken']);
+		}
 
 		//get user
 		$where = isset($form['Uusername'])
@@ -194,7 +197,10 @@ class User_model extends CI_Model {
 		$members_info = array('Urealname', 'Unickname');
 
 		//check token
-		$this->check_token($form['Utoken']);
+		if (isset($form['Utoken']))
+		{
+			$this->check_token($form['Utoken']);
+		}
 
 		//select user
         $this->db->select($members_user);
@@ -229,72 +235,6 @@ class User_model extends CI_Model {
 		return filter($ret, $members);
 
 	}
-
-
-	/**
-	 * 获取信息
-	 */
-	// public function get($form)
-	// {
-
-	// 	//config
-	// 	$members = array('page_size', 'now_page', 'max_page', 'data');
-	// 	$members_user = array('Uusername', 'Ulast_visit');
-	// 	$members_info = array('Urealname', 'Unickname');
-	// 	$valid_search_user = array('Uusername', 'Ulast_visit');
-
-	// 	//check token
-	// 	$this->check_token($form['Utoken']);
-
-	// 	//check search_key
-	// 	if ($form['search_key'] !== 'null')
-	// 	{
-	// 		if ( ! filter(array($form['search_key'] => $form['search_value']), $valid_search_user))
-	// 		{
-	// 			throw new Exception('[检索键]'.$form['search_key'].'不被允许');
-	// 		}
-	// 	}
-
-	// 	//get max_page
- //       	if ($form['search_key'] !== 'null')
- //        {
- //        	$this->db->like($form['search_key'], $form['search_value']);
- //        }
- //        $ret['max_page'] = (int)(($this->db->count_all_results('user') - 1) / $form['page_size']) + 1;
-
-	// 	//select user
- //        $this->db->select($members_user);
- //       	if ( $form['search_key'] !== 'null')
- //        {
- //        	$this->db->like($form['search_key'], $form['search_value']);
- //        }
- //       	$users = $this->db->limit($form['page_size'], ($form['now_page'] - 1) * $form['page_size'])
- //        	->get('user')
- //        	->result_array();
-
- //        //select user_info
- //        if ($users)
-	// 	{
-	// 		foreach ($users as $key_user => $user) 
-	// 		{
-	// 			$user_info = $this->db->select($members_info)
-	// 				->where(array('Uusername' => $user['Uusername']))
-	// 				->get('user_info')
-	// 				->result_array()[0];
-	// 			foreach ($user_info as $key_info => $info) 
-	// 			{
-	// 				$users[$key_user][$key_info] = $info;
-	// 			}
-	// 		}
-	// 	}
-
-	// 	//return
-	// 	$ret['page_size'] = $form['page_size'];
-	// 	$ret['now_page'] = $form['now_page'];
-	// 	$ret['data'] = $users;
-	// 	return $ret;
-
-	// }
 
 
 }

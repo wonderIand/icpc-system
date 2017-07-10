@@ -15,7 +15,9 @@ class User extends CI_Controller {
 	 *****************************************************************************************************/
 	public function test() 
 	{
-		echo "test";
+		$post = get_token(FALSE);
+		print_r($post);
+		var_dump($post);
 	}
 
 
@@ -52,7 +54,7 @@ class User extends CI_Controller {
 				$this->load->helper('form');
 				foreach ($members as $member) 
 				{
-					if (form_error($member)) 
+					if (form_error($member))
 					{
 						throw new Exception(strip_tags(form_error($member)));
 					}
@@ -140,7 +142,7 @@ class User extends CI_Controller {
 		{
 
 			//get post
-			$post['Utoken'] = get_token();
+			$post['Utoken'] = get_token(FALSE);
 			if ($this->input->get('Uusername'))
 			{
 				$post['Uusername'] = $this->input->get('Uusername');
@@ -176,28 +178,11 @@ class User extends CI_Controller {
 		{
 
 			//get post
-			$post['Utoken'] = get_token();
-
-			//check page
-			if ($this->input->get('page_size'))
+			$post['Utoken'] = get_token(FALSE);
+			if ($this->input->get('page_size') && $this->input->get('page'))
 			{
-				if ($this->input->get('page'))
-				{
-					$post['page_size'] = $this->input->get('page_size');
-					$post['page'] = $this->input->get('page');
-				}
-				else
-				{
-					throw new Exception("请设置页码");
-				}
-			}
-			else
-			{
-				if ($this->input->get('page'))
-				{
-					throw new Exception("请设置每页大小", 1);
-					
-				}
+				$post['page_size'] = $this->input->get('page_size');
+				$post['page'] = $this->input->get('page');
 			}
 
 			//过滤 && get_list
@@ -216,60 +201,5 @@ class User extends CI_Controller {
 
 	}
 
-
-	/**
-	 * 用户信息
-	 */
-	// public function get()
-	// {
-	// 	//config
-	// 	$members = array('Utoken', 'search_key', 'search_value', 'page_size', 'now_page');
-
-	// 	//get
-	// 	try
-	// 	{
-			
-	// 		//get post
-	// 		$post = get_post();
-	// 		$post['Utoken'] = get_token();
-				
-	// 		//check route
-	// 		if ($this->uri->segment(3))
-	// 		{
-	// 			$post['Uusername'] = $this->uri->segment(3);
-	// 			return $this->get_one($post);
-	// 		}
-
-	// 		//check form
-	// 		$this->load->library('form_validation');
-	// 		$this->form_validation->set_data($post);
-	// 		if ( ! $this->form_validation->run('user_get'))
-	// 		{
-	// 			$this->load->helper('form');
-	// 			foreach ($members as $member) 
-	// 			{
-	// 				if (form_error($member))
-	// 				{
-	// 					throw new Exception(strip_tags(form_error($member)));
-	// 				}
-	// 			}
-	// 		}
-
-	// 		//get
-	// 		$this->load->model('User_model','my_user');
-	// 		$data = $this->my_user->get(filter($post, $members));
-
-	// 	}
-	// 	catch(Exception $e)
-	// 	{
-	// 		output_data($e->getCode(), $e->getMessage(), array());
-	// 		return;
-	// 	}
-
-	// 	//return
-	// 	output_data(1, "获取成功", $data);
-
-	// }
-	
 
 }

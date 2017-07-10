@@ -93,7 +93,7 @@ class User_training extends CI_Controller {
 		try
 		{
 			//get post
-			$post['Utoken'] = get_token();
+			$post['Utoken'] = get_token(FALSE);
 			if ( ! $this->input->get('UTid'))
 			{
 				throw new Exception('必须指定UTid');				
@@ -123,7 +123,7 @@ class User_training extends CI_Controller {
 	public function update()
 	{
 		//config
-		$members = array('Utoken', 'UTid', 'UTtitle', 'UTplace', 'UTaddress', 'UTproblemset', 'UTarticle');
+		$members = array('Utoken', 'UTid', 'UTtitle', 'UTplace', 'UTaddress', 'UTproblemset');
 
 		//post
 		try
@@ -156,6 +156,55 @@ class User_training extends CI_Controller {
 			//DO register
 			$this->load->model('User_training_model','user_training');
 			$this->user_training->update(filter($post, $members));
+
+		}
+		catch(Exception $e)
+		{
+			output_data($e->getCode(), $e->getMessage(), array());
+			return;
+		}
+
+		//return
+		output_data(1, "修改成功", array());
+
+	}
+
+
+	/**
+	 * 修改训练记录-文章
+	 */
+	public function update_article()
+	{
+		//config
+		$members = array('Utoken', 'UTid', 'UTarticle');
+
+		//post
+		try
+		{
+
+			//get post
+			$post = get_post();
+			$post['Utoken'] = get_token();
+
+			//check form
+			$this->load->library('form_validation');
+			$this->form_validation->set_data($post);
+			if ( ! $this->form_validation->run('user_training_update_article'))
+			{
+				$this->load->helper('form');
+				foreach ($members as $member) 
+				{
+					if (form_error($member))
+					{
+						throw new Exception(strip_tags(form_error($member)));
+					}	
+				}
+				return;
+			}
+
+			//DO register
+			$this->load->model('User_training_model','user_training');
+			$this->user_training->update_article(filter($post, $members));
 
 		}
 		catch(Exception $e)
@@ -232,34 +281,17 @@ class User_training extends CI_Controller {
 
 			//get post
 			$post = get_post();
-			$post['Utoken'] = get_token();
+			$post['Utoken'] = get_token(FALSE);
 			if ( ! $this->input->get('Uusername'))
 			{
 				throw new Exception('必须制定用户名Uusername');
 			}
 			$post['Uusername'] = $this->input->get('Uusername');
-
-			//check page
-			if ($this->input->get('page_size'))
+			if ($this->input->get('page_size') && $this->input->get('page'))
 			{
-				if ($this->input->get('page'))
-				{
-					$post['page_size'] = $this->input->get('page_size');
-					$post['page'] = $this->input->get('page');
-				}
-				else
-				{
-					throw new Exception("请设置页码");
-				}
+				$post['page_size'] = $this->input->get('page_size');
+				$post['page'] = $this->input->get('page');
 			}
-			else
-			{
-				if ($this->input->get('page'))
-				{
-					throw new Exception("请设置每页大小", 1);
-					
-				}
-			}	
 
 			//DO get_list
 			$this->load->model('User_training_model', 'user_training');

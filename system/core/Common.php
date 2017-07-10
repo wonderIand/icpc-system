@@ -907,7 +907,7 @@ if ( ! function_exists('get_post'))
 
 if ( ! function_exists('get_token'))
 {
-	function get_token()
+	function get_token($hard_mode = TRUE)	//$hard_model 决定了是否要求获取到token，关闭后没获取到只会返回NULL不会报错
 	{
 		foreach ($_SERVER as $name => $value)   
        	{  
@@ -919,7 +919,14 @@ if ( ! function_exists('get_token'))
 
 		if ( ! isset($headers['Utoken']))
 		{
-			throw new Exception("没有登陆凭据，请登录", 401);	
+			if ($hard_mode)
+			{
+				throw new Exception("没有登陆凭据，请登录", 401);	
+			}
+			else 
+			{
+				return NULL;
+			}
 		}
 		return $headers['Utoken'];
 	}

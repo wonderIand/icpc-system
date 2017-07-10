@@ -22,7 +22,7 @@ class Team_model extends CI_Model {
 	public function register($form) 
 	{
 
-		//check token
+		//check token|Uusername_1
 		$this->load->model('User_model','my_user');
 		$this->my_user->check_token($form['Utoken']);
 		$user = $this->db->select('Uusername') 
@@ -76,7 +76,10 @@ class Team_model extends CI_Model {
 
 		//check token
 		$this->load->model('User_model','my_user');
-		$this->my_user->check_token($form['Utoken']);
+		if (isset($form['Utoken']))
+		{
+			$this->my_user->check_token($form['Utoken']);
+		}
 
 		//select members
 		$result = $this->db->select($members)
@@ -107,7 +110,10 @@ class Team_model extends CI_Model {
 
 		//check token
 		$this->load->model('User_model','my_user');
-		$this->my_user->check_token($form['Utoken']);
+		if (isset($form['Utoken']))
+		{
+			$this->my_user->check_token($form['Utoken']);			
+		}
 
 		//select team
         $this->db->select($members_team);
@@ -140,7 +146,10 @@ class Team_model extends CI_Model {
 
 		//check token
 		$this->load->model('User_model','my_user');
-		$this->my_user->check_token($form['Utoken']);
+		if (isset($form['Utoken']))
+		{
+			$this->my_user->check_token($form['Utoken']);
+		}
 
 		//check Uusername
 		if ( ! isset($form['Uusername']))
@@ -213,51 +222,5 @@ class Team_model extends CI_Model {
 
 	}
 
-
-	/**
-	 * 获取队伍列表
-	 */
-	// public function get($form)
-	// {
-	// 	//config
-	// 	$members = array('page_size', 'now_page', 'max_page', 'data');
-	// 	$valid_search_team = array('Tteamname', 'Uusername_1', 'Uusername_2', 'Uusername_3');
-
-	// 	//check token
-	// 	$this->load->model('User_model', 'my_user');
-	// 	$this->my_user->check_token($form['Utoken']);
-
-	// 	//check search_key
-	// 	if ($form['search_key'] !== 'null')
-	// 	{
-	// 		if ( ! filter(array($form['search_key'] => $form['search_value']), $valid_search_team))
-	// 		{
-	// 			throw new Exception('[检索键]'.$form['search_key'].'不被允许');
-	// 		}
-	// 	}
-
-	// 	//get max_page
- //       	if ($form['search_key'] !== 'null')
- //        {
- //        	$this->db->like($form['search_key'], $form['search_value']);
- //        }
- //        $ret['max_page'] = (int)(($this->db->count_all_results('team') - 1) / $form['page_size']) + 1;
-
-	// 	//select team
- //       	if ( $form['search_key'] !== 'null')
- //        {
- //        	$this->db->like($form['search_key'], $form['search_value']);
- //        }
- //       	$teams = $this->db->limit($form['page_size'], ($form['now_page']-1)*$form['page_size'])
- //        	->get('team')
- //        	->result_array();
-
-	// 	//return
-	// 	$ret['page_size'] = $form['page_size'];
-	// 	$ret['now_page'] = $form['now_page'];
-	// 	$ret['data'] = $teams;
-	// 	return $ret;
-
-	// }
 
 }
