@@ -133,7 +133,7 @@ class User_training_model extends CI_Model {
 		//check editable
 		if ($author != $user)
 		{
-			throw new Exception('只有作者可以修改训练记录');
+			throw new Exception('只有作者可以修改训练记录', 402);
 		}
 
 		//update
@@ -168,14 +168,14 @@ class User_training_model extends CI_Model {
 			->result_array();
 		if ( ! $result)
 		{
-			throw new Exception('不存在的文章id', 0);
+			throw new Exception('不存在的文章id');
 		}
 		$author = $result ? $result[0]['Uusername'] : NULL;
 		
 		//check editable
 		if ($author != $user)
 		{
-			throw new Exception('只有作者可以修改文章');
+			throw new Exception('只有作者可以修改文章', 402);
 		}
 
 		//update
@@ -206,7 +206,7 @@ class User_training_model extends CI_Model {
 			->result_array()[0]['Uusername'];
 		if ($author != $user)
 		{
-			throw new Exception('只有作者可以删除文章');
+			throw new Exception('只有作者可以删除文章', 402);
 		}	
 
 		//delete
@@ -225,13 +225,14 @@ class User_training_model extends CI_Model {
 	{
 
 		//config
-		$members = array('page_size', 'page', 'page_max', 'data');
+		$members = array('page_size', 'page', 'page_max', 'editable', 'data');
 
 		//check token
 		$this->load->model('User_model', 'user');
 		if (isset($form['Utoken']))
 		{
 			$this->user->check_token($form['Utoken']);
+			$user = $this->db->where('Utoken', $form['Utoken'])->get('user')->result_array()[0]['Uusername'];
 		}
 
 		//select training
@@ -264,6 +265,7 @@ class User_training_model extends CI_Model {
 		}
 
 		//return
+		$ret['editable'] = isset($user) && $user == $form['Uusername'];
 		$ret['data'] = $trainings;
 		return filter($ret, $members);
 

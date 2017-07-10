@@ -15,6 +15,7 @@
 | **17/07/09** | 新增接口 · **【获取某用户所有训练列表 · get_list】**
 | **17/07/09** | **【WonderLand Beta 1.0 Compeleted】**
 | **17/07/10** | 新增接口 · **【修改一条个人训练记录文章 · update_article】**
+| **17/07/10** | 修改接口 · **【get_list · 增加返回信息editable】**
 
 
 ---
@@ -192,8 +193,16 @@
 | **page_size**   | 设置分页大小，和 **page** 成对存在
 | **page**        | 设置查询页，和 **page_size** 成对存在
 
+| 返回的json数组包括  | 备注
+| --------------- | --------
+| **editable**    | 当前用户是否有编辑权限
+| **page_size**   | 分页大小
+| **page**        | 当前页
+| **page_max**    | 最大页数
 
-| 返回的记录信息  | 备注
+
+
+| 返回的data包括  | 备注
 | --------------- | --------
 | **UTid**        | 记录编号
 | **Uusername**   | 作者
@@ -210,30 +219,18 @@
 	"type": 1,
 	"message": "获取成功",
 	"data": {
-		"page_size": "3",
+		"page_size": "30",
 		"page": "1",
 		"page_max": 1,
+		"editable": true,
 		"data": [
 			{
-				"UTid": "22",
-				"Uusername": "aaaau41",
-				"UTtitle": "a title",
-				"UTdate": "2017-07-08 23:54:32",
+				"UTid": "24",
+				"Uusername": "aaaau3",
+				"UTtitle": "a title6",
+				"UTdate": "2017-07-10 13:39:41",
 				"UTplace": "1",
-				"UTaddress": "www.baidu.com1111",
-				"UTproblemset": [
-					"O",
-					"O",
-					"X"
-				]
-			},
-			{
-				"UTid": "23",
-				"Uusername": "aaaau41",
-				"UTtitle": "a title",
-				"UTdate": "2017-07-08 23:54:50",
-				"UTplace": "1",
-				"UTaddress": "www.baidu.com1111",
+				"UTaddress": "https:\/\/www.baidu.com",
 				"UTproblemset": [
 					"O",
 					"O",

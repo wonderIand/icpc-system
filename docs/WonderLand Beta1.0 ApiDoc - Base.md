@@ -22,7 +22,15 @@
 | **浏览类改成不强求token**          | **get_token()加入新参数hard_mode = TRUE，区分hard模式**
 | **扩容UTarticle**                  | **2000 -> 21500**
 | **将修改UTarticle从update接口中删除**       | **Done**
-| **添加修改UTarticle的接口**                 | **TODO**
+| **添加修改UTarticle的接口**                 | **User_training/update_article**
+
+
+### **Beta 1.1.5 修正**
+| 描述                               | 日志  
+| ---------------------------------- | ------
+| **修改UT · get_list接口**          | **增加返回当前用户是否可编辑editable**
+
+
 
 
 ---
