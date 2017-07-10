@@ -120,11 +120,21 @@ $config = array(
 			'field' => 'UTproblemset',
 			'label' => '题集',
 			'rules' => 'required'
+			)
+		),
+
+
+	//个人训练记录添加表单
+	'user_training_update_article' => array(
+		array(
+			'field' => 'UTid',
+			'label' => '记录标号',
+			'rules' => 'required'
 			),
 		array(
 			'field' => 'UTarticle',
-			'label' => '文章内容',
-			'rules' => 'required|min_length[1]|max_length[2000]'
+			'label' => '文章',
+			'rules' => 'required|min_length[1]|max_length[21500]'
 			)
 		),
 

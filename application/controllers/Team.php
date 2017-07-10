@@ -2,7 +2,7 @@
 
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept, Utoken");
-header('Access-Control-Allow-Methods: GET, POST, PUT,DELETE');
+header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS');
 
 defined('BASEPATH') OR exit('No direct script access allowed');
 
@@ -58,6 +58,7 @@ class Team extends CI_Controller {
 						throw new Exception(strip_tags(form_error($member)));
 					}
 				}
+				return;
 			}
 
 			//过滤 && register
@@ -91,7 +92,7 @@ class Team extends CI_Controller {
 		{
 
 			//get post
-			$post['Utoken'] = get_token();
+			$post['Utoken'] = get_token(FALSE);
 			if ( ! $this->input->get('Tteamname'))
 			{
 				throw new Exception('必须指定Tteamname');
@@ -130,29 +131,12 @@ class Team extends CI_Controller {
 		{
 
 			//get post
-			$post['Utoken'] = get_token();
-
-			//check page
-			if ($this->input->get('page_size'))
+			$post['Utoken'] = get_token(FALSE);
+			if ($this->input->get('page_size') && $this->input->get('page'))
 			{
-				if ($this->input->get('page'))
-				{
-					$post['page_size'] = $this->input->get('page_size');
-					$post['page'] = $this->input->get('page');
-				}
-				else
-				{
-					throw new Exception("请设置页码");
-				}
+				$post['page_size'] = $this->input->get('page_size');
+				$post['page'] = $this->input->get('page');
 			}
-			else
-			{
-				if ($this->input->get('page'))
-				{
-					throw new Exception("请设置每页大小", 1);
-					
-				}
-			}			
 
 			//DO get_list
 			$this->load->model('Team_model','my_team');
@@ -185,7 +169,7 @@ class Team extends CI_Controller {
 		{
 
 			//get post
-			$post['Utoken'] = get_token();
+			$post['Utoken'] = get_token(FALSE);
 			if ($this->input->get('Uusername'))
 			{
 				$post['Uusername'] = $this->input->get('Uusername');
