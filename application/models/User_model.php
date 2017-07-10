@@ -58,19 +58,23 @@ class User_model extends CI_Model {
 			->get('user')
 			->result_array())
 		{
-			throw new Exception('请登陆', 401);
+			throw new Exception('会话已过期，请重新登陆', 401);
 		}
-
-		//超时
-		$user = $result[0];
-		if ($this->is_timeout($user['Ulast_visit']))
+		else
 		{
-			throw new Exception('请重新登录', 401);
+			$user = $result[0];
+			if ($this->is_timeout($user['Ulast_visit']))
+			{
+				throw new Exception('会话已过期，请重新登陆', 401);
+			}
+			else 
+			{
+				//刷新访问时间
+				$new_data = array('Ulast_visit' => date('Y-m-d H:i:s',time()));
+				$this->db->update('user', $new_data, $where);
+			}
 		}
 
-		//刷新时间
-		$new_data = array('Ulast_visit' => date('Y-m-d H:i:s',time()));
-		$this->db->update('user', $new_data, $where);
 	
 	}
 
