@@ -36,7 +36,7 @@ class User_model extends CI_Model {
 		$this->load->helper('date');
 		$pre_unix = human_to_unix($last_visit);
 		$now_unix = time();
-		return $now_unix - $pre_unix > 600;
+		return $now_unix - $pre_unix > 10000;
 	}
 
 
@@ -216,7 +216,7 @@ class User_model extends CI_Model {
 	        $this->db->select($members_user);
         	$this->db->limit($form['page_size'], ($form['page'] - 1) * $form['page_size']);
         }
-       	$users = $this->db->get('user')->result_array();
+       	$users = $this->db->order_by('Ulast_visit','DESC')->get('user')->result_array();
 
         //select user_info
         if ($users)
