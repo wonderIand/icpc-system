@@ -31,7 +31,7 @@ CREATE TABLE IF NOT EXISTS `team` (
 CREATE TABLE IF NOT EXISTS `user_training` (
 	`UTid` int AUTO_INCREMENT,
 	`Uusername` char(20) NOT NULL,
-	`UTdate`  TIMESTAMP DEFAULT,
+	`UTdate`  TIMESTAMP,
 	`UTtitle` char(50) NOT NULL,
 	`UTplace` int NOT NULL DEFAULT '0',
 	PRIMARY KEY(`UTid`)
