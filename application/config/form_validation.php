@@ -82,6 +82,11 @@ $config = array(
 			'rules' => 'required|min_length[1]|max_length[3]|numeric'
 			),
 		array(
+			'field' => 'UTdate',
+			'label' => '日期',
+			'rules' => 'required'
+			),
+		array(
 			'field' => 'UTaddress',
 			'label' => '训练地址',
 			'rules' => 'required|min_length[1]|max_length[150]'
@@ -110,6 +115,11 @@ $config = array(
 			'field' => 'UTplace',
 			'label' => '排名',
 			'rules' => 'required|min_length[1]|max_length[3]|numeric'
+			),
+		array(
+			'field' => 'UTdate',
+			'label' => '日期',
+			'rules' => 'required'
 			),
 		array(
 			'field' => 'UTaddress',

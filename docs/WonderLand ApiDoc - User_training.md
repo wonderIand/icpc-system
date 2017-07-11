@@ -16,6 +16,11 @@
 | **17/07/09** | **【WonderLand Beta 1.0 Compeleted】**
 | **17/07/10** | 新增接口 · **【修改一条个人训练记录文章 · update_article】**
 | **17/07/10** | 修改接口 · **【get_list · 增加返回信息editable】**
+| **17/07/10** | **【WonderLand Beta 1.1.5 Compeleted】**
+| **17/07/11** | 修改接口 · **【get · 不再返回文章】**
+| **17/07/11** | 新增接口 · **【查询一条个人训练记录文章 · get_article】**
+| **17/07/11** | **【接口register、update】表单项均加上UTdate**
+| **17/07/11** | **【WonderLand Beta 1.1.8 Compeleted】**
 
 
 ---
@@ -29,8 +34,8 @@
 | **UTid**        | 记录id | -        | -        | int       | - 
 | **Uusername**   | 拥有者 | -        | -        | char(20)  | -                       
 | **UTtitle**     | 标题   | 1        | 50       | char(50)  | - 
-| **UTdate**      | 日期   | -        | -        | TIMESTAMP | -          
 | **UTplace**     | 排名   | -        | -        | int       | -           
+| **UTdate**      | 训练日期   | -        | -        | TIMESTAMP | -
 
 
 - **`【user_training_contest 表】`**
@@ -62,6 +67,7 @@
 | --------------- | ------ | -------- | -------- | --------
 | **Utoken**      | O      | -        | -        | -
 | **UTtitle**     | O      | 1        | 50       | -    
+| **UTdate**      | O      | -        | -        | -
 | **UTplace**     | O      | 1        | 3        | -    
 | **UTaddress**   | O      | 1        | 150      | -
 | **UTproblemset**| O      | -        | -        | **字符数组**
@@ -70,9 +76,10 @@
 - **请求示例**
 ```
 {
-	"UTtitle" : "a title",
+	"UTtitle" : "a title6",
 	"UTplace" : 1,
-	"UTaddress" : "www.baidu.com",
+	"UTaddress" : "https://www.baidu.com",
+	"UTdate" : "2017/07/11",
 	"UTproblemset" : [
 			"O",
 			"O",
@@ -102,7 +109,6 @@
 | **UTid**        | 记录编号
 | **Uusername**   | 作者
 | **UTtitle**     | 标题 
-| **UTdate**      | 记录添加日期
 | **UTplace**     | 排名
 | **UTaddress**   | 训练地址
 | **UTproblemset**| 题集
@@ -115,19 +121,18 @@
 	"type": 1,
 	"message": "获取成功",
 	"data": {
-		"UTid": "20",
-		"Uusername": "aaaau2",
-		"UTtitle": "a title",
-		"UTdate": "2017-07-08 17:06:31",
+		"UTid": "26",
+		"Uusername": "aaaau1",
+		"UTtitle": "a title6",
 		"UTplace": "1",
-		"UTaddress": "www.baidu.com",
+		"UTdate": "2017-07-11 00:00:00",
+		"UTaddress": "https:\/\/www.baidu.com",
 		"UTproblemset": [
 			"O",
 			"O",
 			"X"
 		],
-		"UTarticle": " ",
-		"editable": true
+		"editable": false
 	}
 }
 ```
@@ -145,9 +150,26 @@
 | **UTid**        | O      | -        | -        | -
 | **UTtitle**     | O      | 1        | 50       | -    
 | **UTplace**     | O      | 1        | 3        | -    
+| **UTdate**      | O      | -        | -        | 训练日期
 | **UTaddress**   | O      | 1        | 150      | -
 | **UTproblemset**| O      | -        | -        | **字符数组**
 
+
+- **示例**
+```
+{
+	"UTtitle" : "a title",
+	"UTplace" : -1,
+	"UTid" : 26,
+    "UTdate" : "2010/07/12",
+	"UTaddress" : "wwwww",
+	"UTproblemset" : [
+			"A",
+			"A",
+			"A"
+		]
+}
+```
 
 - **成功返回**
 ```
@@ -207,7 +229,7 @@
 | **UTid**        | 记录编号
 | **Uusername**   | 作者
 | **UTtitle**     | 标题 
-| **UTdate**      | 记录添加日期
+| **UTdate**      | 训练时间
 | **UTplace**     | 排名
 | **UTaddress**   | 训练地址
 | **UTproblemset**| 题集
