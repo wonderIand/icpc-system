@@ -294,7 +294,7 @@ class User_training_model extends CI_Model {
 			$ret['page'] = $form['page'];
         	$this->db->limit($form['page_size'], ($form['page'] - 1) * $form['page_size']);
         }
-       	$trainings = $this->db->where($where)->order_by('UTdate')->get('user_training')->result_array();
+       	$trainings = $this->db->where($where)->order_by('UTdate','DESC')->get('user_training')->result_array();
 
         if ($trainings)
 		{
