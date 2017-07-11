@@ -129,7 +129,7 @@ class User_training_model extends CI_Model {
 			->result_array()[0];
 
 		//check editable
-		$training['editable'] = FALSE;
+		$article['editable'] = FALSE;
 		if (isset($form['Utoken']))
 		{		
 			$result = $this->db->select('Uusername')
