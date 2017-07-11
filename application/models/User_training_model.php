@@ -23,7 +23,7 @@ class User_training_model extends CI_Model {
 	{	
 
 		//config
-		$members = array('Uusername', 'UTtitle', 'UTdate', 'UTplace');
+		$members = array('Uusername', 'UTdate', 'UTtitle', 'UTregister', 'UTplace');
 		$members_contest = array('UTid', 'UTaddress', 'UTproblemset');
 		$members_article = array('UTid', 'UTarticle');
 
@@ -61,21 +61,20 @@ class User_training_model extends CI_Model {
 
 		//get training
 		$where = array('UTid' => $form['UTid']);
-		$training = $this->db->where($where)
+		$result = $this->db->where($where)
 			->get('user_training')
-			->result_array()[0];
+			->result_array();
+		if ( ! $result) 
+		{
+			throw new Exception('记录不存在');
+		}
+		$training = $result[0];
 		$contest = $this->db->where($where)
 			->get('user_training_contest')
-			->result_array()[0];
-		$article = $this->db->where($where)
-			->get('user_training_article')
 			->result_array()[0];
 
 		//combine
 		foreach ($contest as $key => $value) {
-			$training[$key] = $value;
-		}
-		foreach ($article as $key => $value) {
 			$training[$key] = $value;
 		}
 		$training['UTproblemset'] = explode('#', $training['UTproblemset']);
@@ -102,13 +101,58 @@ class User_training_model extends CI_Model {
 
 
 	/**
+	 * 获取个人训练记录-文章
+	 */
+	public function get_article($form)
+	{
+
+		//check token
+		$this->load->model('User_model', 'user');
+		if (isset($form['Utoken']))
+		{
+			$this->user->check_token($form['Utoken']);			
+		}
+
+		//get training
+		$where = array('UTid' => $form['UTid']);
+		$result = $this->db->select('Uusername')
+			->where($where)
+			->get('user_training')
+			->result_array();
+		if ( ! $result)
+		{
+			throw new Exception('文章不存在');
+		}
+		$author = $result[0]['Uusername'];
+		$article = $this->db->where($where)
+			->get('user_training_article')
+			->result_array()[0];
+
+		//check editable
+		$training['editable'] = FALSE;
+		if (isset($form['Utoken']))
+		{		
+			$result = $this->db->select('Uusername')
+				->where('Utoken', $form['Utoken'])
+				->get('user')
+				->result_array()[0];
+			$article['editable'] = $result['Uusername'] == $author;
+		}
+
+		//return article
+		return $article;
+
+	}
+
+
+	/**
 	 * 修改记录
 	 */
 	public function update($form) 
 	{	
 
 		//config
-		$members = array('UTtitle', 'UTdate');
+		$members = array('UTdate', 'UTtitle');
 		$members_contest = array('UTaddress', 'UTproblemset');
 
 		//check token & get user
@@ -126,7 +170,7 @@ class User_training_model extends CI_Model {
 			->result_array();
 		if ( ! $result)
 		{
-			throw new Exception('不存在的文章id', 0);
+			throw new Exception('不存在的训练id', 0);
 		}
 		$author = $result ? $result[0]['Uusername'] : NULL;
 
@@ -196,17 +240,22 @@ class User_training_model extends CI_Model {
 		$this->user->check_token($form['Utoken']);
 
 		//check editable
-		$author = $this->db->select('Uusername')
+		$result = $this->db->select('Uusername')
 			->where('UTid', $form['UTid'])
 			->get('user_training')
-			->result_array()[0]['Uusername'];
+			->result_array();
+		if ( ! $result) 
+		{
+			throw new Exception('记录不存在');
+		}
+		$author = $result[0]['Uusername'];
 		$user = $this->db->select('Uusername')
 			->where('Utoken', $form['Utoken'])
 			->get('user')
 			->result_array()[0]['Uusername'];
 		if ($author != $user)
 		{
-			throw new Exception('只有作者可以删除文章', 402);
+			throw new Exception('只有作者可以删除记录', 402);
 		}	
 
 		//delete

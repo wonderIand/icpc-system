@@ -28,35 +28,11 @@ CREATE TABLE IF NOT EXISTS `team` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 
-CREATE TABLE IF NOT EXISTS `team_training` (
-	`TTid` int AUTO_INCREMENT,
-	`Tteamname` char(20) NOT NULL,
-	`TTtitle` char(50) NOT NULL,
-	`TTdate` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-	`TTplace` int NOT NULL DEFAULT '0',
-	PRIMARY KEY(`TTid`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-
-CREATE TABLE IF NOT EXISTS `team_training_contest` (
-	`TTid` int,
-	`TTaddress` char(150) NOT NULL,
-	`TTproblemset` char(50) NOT NULL DEFAULT '.',
-	PRIMARY KEY(`TTid`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-
-
-CREATE TABLE IF NOT EXISTS `team_training_article` (
-	`TTid` int,
-	`TTarticle` varchar(21500) DEFAULT '# 不补题怎么变强',
-	PRIMARY KEY(`TTid`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-
-
 CREATE TABLE IF NOT EXISTS `user_training` (
 	`UTid` int AUTO_INCREMENT,
 	`Uusername` char(20) NOT NULL,
+	`UTdate`  TIMESTAMP DEFAULT,
 	`UTtitle` char(50) NOT NULL,
-	`UTdate` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 	`UTplace` int NOT NULL DEFAULT '0',
 	PRIMARY KEY(`UTid`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;

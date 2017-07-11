@@ -33,7 +33,7 @@ class User_training extends CI_Controller {
 	public function register()
 	{
 		//config
-		$members = array('Utoken', 'UTtitle', 'UTplace', 'UTaddress', 'UTproblemset');
+		$members = array('Utoken', 'UTtitle', 'UTplace', 'UTdate', 'UTaddress', 'UTproblemset');
 
 		//post
 		try
@@ -58,7 +58,7 @@ class User_training extends CI_Controller {
 					if (form_error($member))
 					{
 						throw new Exception(strip_tags(form_error($member)));
-					}	
+					}
 				}
 				return;
 			}
@@ -118,12 +118,49 @@ class User_training extends CI_Controller {
 
 
 	/**
+	 * 获取个人训练记录
+	 */
+	public function get_article()
+	{
+
+		//config
+		$members = array('Utoken', 'UTid');
+
+		//get
+		try
+		{
+			//get post
+			$post['Utoken'] = get_token(FALSE);
+			if ( ! $this->input->get('UTid'))
+			{
+				throw new Exception('必须指定UTid');				
+			}
+			$post['UTid'] = $this->input->get('UTid');
+
+			//DO get_article
+			$this->load->model('User_training_model', 'user_training');
+			$data = $this->user_training->get_article($post);
+
+		}
+		catch(Exception $e)
+		{
+			output_data($e->getCode(), $e->getMessage(), array());
+			return;
+		}
+
+		//return
+		output_data(1, '获取成功', $data);
+
+	}
+
+
+	/**
 	 * 修改训练记录
 	 */
 	public function update()
 	{
 		//config
-		$members = array('Utoken', 'UTid', 'UTtitle', 'UTplace', 'UTaddress', 'UTproblemset');
+		$members = array('Utoken', 'UTid', 'UTtitle', 'UTplace', 'UTdate', 'UTaddress', 'UTproblemset');
 
 		//post
 		try
@@ -240,12 +277,12 @@ class User_training extends CI_Controller {
 			if ( ! $this->form_validation->run('user_training_delete'))
 			{
 				$this->load->helper('form');
-				foreach ($members as $member) 
+				foreach ($members as $member)
 				{
 					if (form_error($member))
 					{
 						throw new Exception(strip_tags(form_error($member)));
-					}	
+					}
 				}
 				return;
 			}
