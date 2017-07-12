@@ -112,7 +112,6 @@
 | **UTplace**     | 排名
 | **UTaddress**   | 训练地址
 | **UTproblemset**| 题集
-| **UTarticle**   | 文章
 
 
 - **成功返回**
@@ -132,6 +131,32 @@
 			"O",
 			"X"
 		],
+		"editable": false
+	}
+}
+```
+
+---
+
+## **接口 · 查询某篇文章**
+- **请求方法：GET**
+- **接口网址：http://icpc-system.and-who.cn/User_training/get_article?:UTid**
+
+| 返回的记录信息  | 备注
+| --------------- | --------
+| **editable**    | 当前用户是否有可编辑权限
+| **UTid**        | 记录编号
+| **UTarticle**   | 文章
+
+
+- **成功返回**
+```
+{
+	"type": 1,
+	"message": "获取成功",
+	"data": {
+		"UTid": "25",
+		"UTarticle": " # 不补题怎么变强",
 		"editable": false
 	}
 }
