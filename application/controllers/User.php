@@ -15,9 +15,6 @@ class User extends CI_Controller {
 	 *****************************************************************************************************/
 	public function test() 
 	{
-		$post = get_token(FALSE);
-		print_r($post);
-		var_dump($post);
 	}
 
 
