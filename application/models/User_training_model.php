@@ -28,7 +28,7 @@ class User_training_model extends CI_Model {
 		$members_article = array('UTid', 'UTarticle');
 
 		//add 8:00
-		$form['UTdate'] = date('Y-m-d H:i:s', strtotime($form['UTdate']) + 8*3600);
+		$form['UTdate'] = date('Y-m-d H:i:s', strtotime($form['UTdate']));
 
 		//check token
 		$this->load->model('User_model', 'user');
@@ -159,7 +159,7 @@ class User_training_model extends CI_Model {
 		$members_contest = array('UTaddress', 'UTproblemset');
 
 		//add 8:00
-		$form['UTdate'] = date('Y-m-d H:i:s', strtotime($form['UTdate']) + 8*3600);
+		$form['UTdate'] = date('Y-m-d H:i:s', strtotime($form['UTdate']));
 
 		//check token & get user
 		$this->load->model('User_model', 'user');
