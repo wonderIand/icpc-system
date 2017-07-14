@@ -6,14 +6,65 @@
  */
 class User_training_model extends CI_Model {
 
-	/*****************************************************************************************************
-	 * 工具集
-	 *****************************************************************************************************/
+	/**********************************************************************************************
+	 * 私有工具集
+	 **********************************************************************************************/
+
+
+	/**
+	 * 增加访问量
+	 */
+	private function add_view($where) 
+	{
+		$view = $this->db->select('UTview')
+			->where($where)
+			->get('user_training')
+			->result_array()[0]['UTview'];
+		$this->db->update('user_training', array('UTview' => $view+1), $where);
+	}
 
 
 	/**********************************************************************************************
 	 * 主接口
 	 **********************************************************************************************/
+
+
+	/**
+	 * 点赞
+	 */
+	public function upvote($form)
+	{
+		//check token
+		$this->load->model('User_model','user');
+		$this->user->check_token($form['Utoken']);
+		$username = $this->db->select('Uusername')
+			->where(array('Utoken' => $form['Utoken']))
+			->get('user')
+			->result_array()[0]['Uusername'];
+
+		//check UTid
+		$result = $this->db->select('UTup')
+			->where(array('UTid' => $form['UTid']))
+			->get('user_training')
+			->result_array();
+		if ( ! $result)
+		{
+			throw new Exception('文章不存在');
+		}
+		$up = $result[0]['UTup'];
+
+		//check user_training_up
+		$where = array('Uusername' => $username, 'UTid' => $form['UTid']);
+		if ($this->db->where($where)->get('user_training_up')->result_array())
+		{
+			throw new Exception('不能重复点赞', 402);
+		}
+
+		//DO upvote
+		$this->db->insert('user_training_up', $where);
+		$this->db->update('user_training', array('UTup' => $up + 1), array('UTid' => $form['UTid']));
+
+	} 
 
 
 	/**
@@ -83,17 +134,28 @@ class User_training_model extends CI_Model {
 		$training['UTproblemset'] = explode('#', $training['UTproblemset']);
 
 		//check editable
+		$training['editable'] = FALSE;
 		if (isset($form['Utoken']))
 		{		
 			$result = $this->db->select('Uusername')
 				->where('Utoken', $form['Utoken'])
 				->get('user')
 				->result_array()[0];
-			$training['editable'] = $result['Uusername'] == $training['Uusername'];
+			$username = $result['Uusername'];
+			$training['editable'] = $username == $training['Uusername'];
 		}
-		else 
+
+		//check upvoteEnable
+		$training['upvoteEnable'] = FALSE;
+		if (isset($form['Utoken']))
 		{
-			$training['editable'] = FALSE;
+			$result = $this->db->where(array('Uusername' => $username, 'UTid' => $form['UTid']))
+				->get('user_training_up')
+				->result_array();
+			if ( ! $result) 
+			{				
+				$training['upvoteEnable'] = TRUE;
+			}
 		}
 
 
@@ -108,6 +170,9 @@ class User_training_model extends CI_Model {
 	 */
 	public function get_article($form)
 	{
+
+		//config
+		$members_more = array('UTup', 'UTview');
 
 		//check token
 		$this->load->model('User_model', 'user');
@@ -130,6 +195,15 @@ class User_training_model extends CI_Model {
 		$article = $this->db->where($where)
 			->get('user_training_article')
 			->result_array()[0];
+		$more_info = $this->db->select($members_more)
+			->where($where)
+			->get('user_training')
+			->result_array()[0];
+
+		//combine
+		foreach ($members_more as $member) {
+			$article[$member] = $more_info[$member];
+		}
 
 		//check editable
 		$article['editable'] = FALSE;
@@ -139,10 +213,26 @@ class User_training_model extends CI_Model {
 				->where('Utoken', $form['Utoken'])
 				->get('user')
 				->result_array()[0];
-			$article['editable'] = $result['Uusername'] == $author;
+			$username = $result['Uusername'];
+			$article['editable'] = $username == $author;
+		}
+
+		//check upvoteEnable
+		$article['upvoteEnable'] = FALSE;
+		if (isset($form['Utoken']))
+		{
+			$result = $this->db->where(array('Uusername' => $username, 'UTid' => $form['UTid']))
+				->get('user_training_up')
+				->result_array();
+			if ( ! $result) 
+			{				
+				$article['upvoteEnable'] = TRUE;
+			}
 		}
 
 		//return article
+		$where = array('UTid' => $form['UTid']);
+		$this->add_view($where);
 		return $article;
 
 	}
@@ -316,6 +406,21 @@ class User_training_model extends CI_Model {
 				}
 				//explode problemset
 				$trainings[$key_trainings]['UTproblemset'] = explode('#', $trainings[$key_trainings]['UTproblemset']);
+			}
+		}
+
+		//check upvoteEnable
+		foreach ($trainings as $key => $training) {
+			$trainings[$key]['upvoteEnable'] = FALSE;
+			if (isset($form['Utoken']))
+			{
+				$result = $this->db->where(array('Uusername' => $user, 'UTid' => $training['UTid']))
+					->get('user_training_up')
+					->result_array();
+				if ( ! $result)
+				{
+					$trainings[$key]['upvoteEnable'] = TRUE;
+				}
 			}
 		}
 
