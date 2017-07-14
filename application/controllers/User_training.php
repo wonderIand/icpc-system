@@ -345,6 +345,55 @@ class User_training extends CI_Controller {
 		output_data(1, '获取成功', $data);
 
 	}
+
+
+	/**
+	 * 点赞
+	 */
+	public function upvote() 
+	{
+
+		//config
+		$members = array('Utoken', 'UTid');
+
+		//delete
+		try
+		{
+			//get post
+			$post = get_post();
+			$post['Utoken'] = get_token();
+
+			//check form
+			$this->load->library('form_validation');
+			$this->form_validation->set_data($post);
+			if ( ! $this->form_validation->run('user_training_upvote'))
+			{
+				$this->load->helper('form');
+				foreach ($members as $member)
+				{
+					if (form_error($member))
+					{
+						throw new Exception(strip_tags(form_error($member)));
+					}
+				}
+				return;
+			}
+
+			//DO upvote
+			$this->load->model('User_training_model', 'user_training');
+			$this->user_training->upvote(filter($post, $members));
+
+		}
+		catch(Exception $e)
+		{
+			output_data($e->getCode(), $e->getMessage(), array());
+			return;
+		}
+
+		//return
+		output_data(1, '点赞成功', array());
+
+	}
 	
 
 }
