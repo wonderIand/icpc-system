@@ -13,14 +13,17 @@
 | **17/07/09** | 新增接口 · **【修改一条个人训练记录 · update】**
 | **17/07/09** | 新增接口 · **【删除一条个人训练记录 · delete】**
 | **17/07/09** | 新增接口 · **【获取某用户所有训练列表 · get_list】**
-| **17/07/09** | **【WonderLand Beta 1.0 Compeleted】**
+| **17/07/09** | **-----------------【WonderLand Beta 1.0 Compeleted】**
 | **17/07/10** | 新增接口 · **【修改一条个人训练记录文章 · update_article】**
 | **17/07/10** | 修改接口 · **【get_list · 增加返回信息editable】**
-| **17/07/10** | **【WonderLand Beta 1.1.5 Compeleted】**
+| **17/07/10** | **-----------------【WonderLand Beta 1.1.5 Compeleted】**
 | **17/07/11** | 修改接口 · **【get · 不再返回文章】**
 | **17/07/11** | 新增接口 · **【查询一条个人训练记录文章 · get_article】**
 | **17/07/11** | **【接口register、update】表单项均加上UTdate**
-| **17/07/11** | **【WonderLand Beta 1.1.8 Compeleted】**
+| **17/07/11** | **-----------------【WonderLand Beta 1.1.8 Compeleted】**
+| **17/07/14** | **【新增UTview，UTup】**
+| **17/07/14** | **【新增点赞接口 · upvote】**
+| **17/07/14** | **-----------------【WonderLand Beta 1.1.10 Compeleted】**
 
 
 ---
@@ -36,6 +39,8 @@
 | **UTtitle**     | 标题   | 1        | 50       | char(50)  | - 
 | **UTplace**     | 排名   | -        | -        | int       | -           
 | **UTdate**      | 训练日期   | -        | -        | TIMESTAMP | -
+| **UTup**        | 点赞数 | -        | -        | int       | -
+| **UTview**      | 阅读量 | -        | -        | int       | -
 
 
 - **`【user_training_contest 表】`**
@@ -112,6 +117,9 @@
 | **UTplace**     | 排名
 | **UTaddress**   | 训练地址
 | **UTproblemset**| 题集
+| **UTview**      | 阅读量
+| **UTup**        | 点赞数
+| **upvoteEnable**| 当前用户可否点赞
 
 
 - **成功返回**
@@ -120,18 +128,21 @@
 	"type": 1,
 	"message": "获取成功",
 	"data": {
-		"UTid": "26",
+		"UTid": "3",
 		"Uusername": "aaaau1",
+		"UTdate": "2017-07-11 10:55:00",
 		"UTtitle": "a title6",
 		"UTplace": "1",
-		"UTdate": "2017-07-11 00:00:00",
+		"UTup": "3",
+		"UTview": "44",
 		"UTaddress": "https:\/\/www.baidu.com",
 		"UTproblemset": [
-			"O",
-			"O",
-			"X"
+			"D",
+			"D",
+			"D"
 		],
-		"editable": false
+		"editable": true,
+		"upvoteEnable": false
 	}
 }
 ```
@@ -147,6 +158,9 @@
 | **editable**    | 当前用户是否有可编辑权限
 | **UTid**        | 记录编号
 | **UTarticle**   | 文章
+| **UTview**      | 访问量
+| **UTup**        | 点赞数量
+| **upvoteEnable** | 当前可否点赞
 
 
 - **成功返回**
@@ -155,9 +169,12 @@
 	"type": 1,
 	"message": "获取成功",
 	"data": {
-		"UTid": "25",
-		"UTarticle": " # 不补题怎么变强",
-		"editable": false
+		"UTid": "3",
+		"UTarticle": "# 不补题怎么变强",
+		"UTup": "4",
+		"UTview": "58",
+		"editable": true,
+		"upvoteEnable": false
 	}
 }
 ```
@@ -258,31 +275,66 @@
 | **UTplace**     | 排名
 | **UTaddress**   | 训练地址
 | **UTproblemset**| 题集
+| **UTview**      | 访问量
+| **UTup**        | 点赞数
+| **UTupvoteEnable** | 可否点赞 
 
 
-- **查询示例：http://icpc-system.and-who.cn/User_training/get_list?Uusername=aaaau41&page_size=3&page=1**
+- **查询示例：http://icpc-system.and-who.cn/User_training/get_list?Uusername=aaaau1**
 ```
 {
 	"type": 1,
 	"message": "获取成功",
 	"data": {
-		"page_size": "30",
-		"page": "1",
-		"page_max": 1,
 		"editable": true,
 		"data": [
 			{
-				"UTid": "24",
-				"Uusername": "aaaau3",
+				"UTid": "1",
+				"Uusername": "aaaau1",
+				"UTdate": "2017-07-11 10:55:00",
 				"UTtitle": "a title6",
-				"UTdate": "2017-07-10 13:39:41",
 				"UTplace": "1",
+				"UTup": "1",
+				"UTview": "0",
 				"UTaddress": "https:\/\/www.baidu.com",
 				"UTproblemset": [
-					"O",
-					"O",
-					"X"
-				]
+					"D",
+					"D",
+					"D"
+				],
+				"upvoteEnable": true
+			},
+			{
+				"UTid": "2",
+				"Uusername": "aaaau1",
+				"UTdate": "2017-07-11 10:55:00",
+				"UTtitle": "a title6",
+				"UTplace": "1",
+				"UTup": "1",
+				"UTview": "0",
+				"UTaddress": "https:\/\/www.baidu.com",
+				"UTproblemset": [
+					"D",
+					"D",
+					"D"
+				],
+				"upvoteEnable": false
+			},
+			{
+				"UTid": "3",
+				"Uusername": "aaaau1",
+				"UTdate": "2017-07-11 10:55:00",
+				"UTtitle": "a title6",
+				"UTplace": "1",
+				"UTup": "4",
+				"UTview": "59",
+				"UTaddress": "https:\/\/www.baidu.com",
+				"UTproblemset": [
+					"D",
+					"D",
+					"D"
+				],
+				"upvoteEnable": false
 			}
 		]
 	}
@@ -308,6 +360,28 @@
 {
 	"type": 1,
 	"message": "修改成功",
+	"data": []
+}
+```
+
+---
+
+## **接口 · 点赞**
+- **请求方法：POST**
+- **接口网址：http://icpc-system.and-who.cn/User_training/upvote**
+- **表单要求**
+
+| 属性名          | 必要性 | 最小长度 | 最大长度 | 特殊要求
+| --------------- | ------ | -------- | -------- | --------
+| **Utoken**      | O      | -        | -        | -
+| **UTid**        | O      | -        | -        | -
+
+
+- **成功返回**
+```
+{
+	"type": 1,
+	"message": "点赞成功",
 	"data": []
 }
 ```

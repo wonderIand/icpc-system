@@ -149,6 +149,16 @@ $config = array(
 		),
 
 
+	//个人wiki文章点赞表单
+	'user_training_upvote' => array(
+		array(
+			'field' => 'UTid',
+			'label' => '记录标号',
+			'rules' => 'required'
+			)
+		),
+
+
 	//个人训练记录删除表单
 	'user_training_delete' => array(
 		array(

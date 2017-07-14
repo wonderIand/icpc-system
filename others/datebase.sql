@@ -34,6 +34,8 @@ CREATE TABLE IF NOT EXISTS `user_training` (
 	`UTdate`  TIMESTAMP,
 	`UTtitle` char(50) NOT NULL,
 	`UTplace` int NOT NULL DEFAULT '0',
+	`UTup` int NOT NULL DEFAULT 0,
+	`UTview` int NOT NULL DEFAULT 0,
 	PRIMARY KEY(`UTid`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
@@ -47,9 +49,24 @@ CREATE TABLE IF NOT EXISTS `user_training_contest` (
 
 CREATE TABLE IF NOT EXISTS `user_training_article` (
 	`UTid` int,
-	`UTarticle` varchar(21500) DEFAULT ' ',
+	`UTarticle` varchar(21500) DEFAULT '# 不补题怎么变强',
 	PRIMARY KEY(`UTid`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+
+CREATE TABLE IF NOT EXISTS `user_training_up` (
+	`UTUid` int AUTO_INCREMENT,
+	`UTid` int,
+	`Uusername` char(20),
+	PRIMARY KEY(`UTUid`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+
+-- CREATE TABLE IF NOT EXISTS `user_training_tag` (
+-- 	`UTid` int,
+-- 	`UTarticle` varchar(21500) DEFAULT ' ',
+-- 	PRIMARY KEY(`UTid`)
+-- ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 
 
