@@ -1,4 +1,4 @@
-﻿# **规范文档 · Github 基本使用**
+﻿# Github Standard
 
 标签：WonderLand
 
@@ -12,12 +12,17 @@
 
 - **Part 3 · 多 人 协 作**
 
+- **Part 4 · Pull Request**
+
+- **Part 5 · Commit Message 规范**
+
 ## **Part 0 · 文 档 相 关**
 
 ### **日 志**：
 
 | Date       | Tags |
 | ---------- | ---- |
+| 2017/10/17 | 增加 **`Commit Message 规范`**
 | 2017/10/17 | 增加 **`pull request`**
 | 2017/10/16 | 初稿
 
@@ -51,7 +56,7 @@
 
 **上 传 说 明：** 备注信息，一律使用 **`英文`**。
 
-**上 传 说 明：** 备注信息，如 **`git commit -m "add Class(TagSystem) > Function(addTag)"`**
+**上 传 说 明：** 备注信息，如 **`git commit -m ":sparkles: Class(TagSystem) > Function(addTag)"`**
 
 **文 件 冲 突：** 不要强制合并！不要强制合并！**汉犇犇**：谁敢强制合并砍谁！
 
@@ -140,9 +145,62 @@
 
 ## **Part 4 · Pull Request**
 
+**教 程 零**：可以看西瓜学长的教程；
+
 **教 程 一**：**[《GitHub——Pull Request》][8]**
 
 **教 程 二**：**[《GitHub 之 pull request 流程简介》][9]**
+
+## **Part 5 · Commit Message 规范**
+
+**规 定 一 · 不会用 emoji 的后台不是好前端**
+
+- **备 注 一**：commit信息首部必须为一个代表commi类型的 **emoji**，**之后隔一个空格！！！**
+
+- **资 料 一**：**[程序员 git commit 时 emoji 使用指南][10]**
+
+- **本 项 目 实 用 表**：
+
+| emoji 代码 | commit 说明 |
+| - | - | - |
+| 施工 **`:construction:`** | 工作进行中
+| 火花 **`:sparkles:`** | 引入新功能/接口
+| 备忘录 **`:memo:`** | 撰写文档
+| 赛马 **`:racehorse:`** | 提升性能
+| 调色板 **`:art:`** | 改进代码结构/代码格式
+| 扳手 **`:wrench:`** | 修改配置文件
+| 火箭 **`:rocket:`** | 部署功能
+| 书签 **`:bookmark:`** | 发行/版本标签 
+| 复选框 **`:white_check_mark:`** | 增加测试
+| 火焰 **`:fire:`** | 移除代码或文件
+| BUG **`:bug:`**   | 修复bug
+| 锁 **`:lock:`** | 修复安全问题
+| 急救车 **`:ambulance:`** | 重要补丁
+| 锤子 **`:hammer:`** | 重大重构
+| 鲸鱼 **`:whale: ()`** | Docker 相关工作
+
+
+**规 定 二 · commit信息描述清晰**
+
+**示 例 一 · 给 User.php 新增了一个修改密码的接口 edit_passwd**
+
+```c++
+git commit -m ":sparkles: Controller(User) add Api(edit_passwd)."
+```
+
+**示 例 二 · 为 User.php 的新接口 edit_passwd 增加/完善接口文档**
+
+```c++
+git commit -m ":memo:  add/update ApiDoc(User)."
+```
+
+**示 例 三 · 修复了修改密码接口，旧密码错误也能通过的bug**
+
+```C++
+git commit -m ":bug:  Controller(User) Fix Bug(unexpected old passwd)."
+```
+
+**end.**
 
 
   [1]: https://www.liaoxuefeng.com/wiki/0013739516305929606dd18361248578c67b8067c8c017b000
@@ -154,3 +212,4 @@
   [7]: http://blog.jobbole.com/76854/
   [8]: http://blog.csdn.net/u012325167/article/details/50635522
   [9]: http://blog.csdn.net/lw_power/article/details/46583419
+  [10]: http://blog.csdn.net/simple_the_best/article/details/53320275
