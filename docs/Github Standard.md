@@ -1,5 +1,7 @@
 ﻿# **规范文档 · Github 基本使用**
 
+标签：WonderLand
+
 ## **主要部分目录**
 
 - **Part 0 · 文 档 相 关**
@@ -16,6 +18,7 @@
 
 | Date       | Tags |
 | ---------- | ---- |
+| 2017/10/17 | 增加 **`pull request`**
 | 2017/10/16 | 初稿
 
 
@@ -64,13 +67,13 @@
 
 ### **备 查 链 接**
 
-**链 接 一**：**[《廖雪峰 · Git教程》][2]**
+**链 接 一**：**[《廖雪峰 · Git教程》][1]**
 
 **备 注 一**：配合视频看。
 
 ### **准 备 相 关**
 
-**安 装**：**[《廖雪峰 · Git教程》 · 安装Git][3]**
+**安 装**：**[《廖雪峰 · Git教程》 · 安装Git][2]**
 
 **克 隆**：**`git clone git@github.com:xxxxxx.git`**
 
@@ -78,7 +81,7 @@
 
 - **背 景**：如果 **本地 Git 仓库** 和 **GitHub 仓库**之间是第一次传输，需要添加许可；
 
-- **链 接**：**[《远程仓库与本地仓库设置 SSH Key》][4]**
+- **链 接**：**[《远程仓库与本地仓库设置 SSH Key》][3]**
 
 
 ### **分 支 相 关 `Branch`**
@@ -87,7 +90,7 @@
 
 **备 注 · 2**：链接以下的内容只是列出了我们开发场景中常用的指令以备查阅。
 
-**教 程 链 接**：**[《廖雪峰 · Git教程》 · 创建与合并][5]**
+**教 程 链 接**：**[《廖雪峰 · Git教程》 · 创建与合并][4]**
 
 **切 换 分 支**：**`git checkout 分支名`**
 
@@ -101,7 +104,7 @@
 
 - **指 令**：切换到 **`master`**，执行 **`git merge --no-ff dev`** 。
 
-**分 支 冲 突**：**[《廖雪峰 · Git教程》 · 解决冲突][1]**
+**分 支 冲 突**：**[《廖雪峰 · Git教程》 · 解决冲突][5]**
 
 ## **Part 3 · 多 人 协 作**
 
@@ -135,18 +138,19 @@
 
 **原 则 二**：符合代码规范且通过测试。
 
+## **Part 4 · Pull Request**
+
+**教 程 一**：**[《GitHub——Pull Request》][8]**
+
+**教 程 二**：**[《GitHub 之 pull request 流程简介》][9]**
 
 
-
-[1]: https://www.liaoxuefeng.com/wiki/0013739516305929606dd18361248578c67b8067c8c017b000/001375840202368c74be33fbd884e71b570f2cc3c0d1dcf000
-[2]: https://www.liaoxuefeng.com/wiki/0013739516305929606dd18361248578c67b8067c8c017b000
-[3]: https://www.liaoxuefeng.com/wiki/0013739516305929606dd18361248578c67b8067c8c017b000/00137396287703354d8c6c01c904c7d9ff056ae23da865a000
-[4]: http://blog.csdn.net/oliver__lau/article/details/51242267
-[5]: https://www.liaoxuefeng.com/wiki/0013739516305929606dd18361248578c67b8067c8c017b000/001375840038939c291467cc7c747b1810aab2fb8863508000
-[6]: http://blog.csdn.net/napoay/article/details/50453480
-[7]: http://blog.jobbole.com/76854/
-
-
-
-
-
+  [1]: https://www.liaoxuefeng.com/wiki/0013739516305929606dd18361248578c67b8067c8c017b000
+  [2]: https://www.liaoxuefeng.com/wiki/0013739516305929606dd18361248578c67b8067c8c017b000/00137396287703354d8c6c01c904c7d9ff056ae23da865a000
+  [3]: http://blog.csdn.net/oliver__lau/article/details/51242267
+  [4]: https://www.liaoxuefeng.com/wiki/0013739516305929606dd18361248578c67b8067c8c017b000/001375840038939c291467cc7c747b1810aab2fb8863508000
+  [5]: https://www.liaoxuefeng.com/wiki/0013739516305929606dd18361248578c67b8067c8c017b000/001375840202368c74be33fbd884e71b570f2cc3c0d1dcf000
+  [6]: http://blog.csdn.net/napoay/article/details/50453480
+  [7]: http://blog.jobbole.com/76854/
+  [8]: http://blog.csdn.net/u012325167/article/details/50635522
+  [9]: http://blog.csdn.net/lw_power/article/details/46583419
