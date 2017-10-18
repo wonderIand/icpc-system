@@ -170,7 +170,7 @@ $config = array(
 		
 		
 	//个人博客记录添加表单
-	'user_blog_update' => array(
+	'user_blog_register' => array(
 		array(
 			'field' => 'Btitle',
 			'label' => '标题',
@@ -181,5 +181,17 @@ $config = array(
 			'label' => '正文',
 			'rules' => 'required|min_length[1]|max_length[21500]'
 			)
+		),
+
+
+	//个人博客记录删除表单
+	'user_blog_delete' => array(
+		array(
+			'field' => 'Bid',
+			'label' => '记录标号',
+			'rules' => 'required'
+			)
 		)
+
+
 	);
