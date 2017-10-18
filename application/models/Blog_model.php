@@ -37,4 +37,43 @@ class Blog_model extends CI_Model {
 		$form['Bid'] = $this->db->insert_id();
 		$this->db->insert('blog_article', filter($form, $members_article));
 	}
+	
+
+	/**
+	 * 删除记录
+	 */
+	public function delete($form)
+	{
+
+		//check token
+		$this->load->model('User_model', 'user');
+		$this->user->check_token($form['Utoken']);
+
+		//check editable
+		$result = $this->db->select('Bauthor')
+			->where('Bid', $form['Bid'])
+			->get('blog')
+			->result_array();
+		if ( ! $result) 
+		{
+			throw new Exception('记录不存在');
+		}
+		$author = $result[0]['Bauthor'];
+		$user = $this->db->select('Uusername')
+			->where('Utoken', $form['Utoken'])
+			->get('user')
+			->result_array()[0]['Uusername'];
+
+		if ($author != $user)
+		{
+			throw new Exception('只有作者可以删除记录', 402);
+		}	
+
+		//delete
+		$where = array('Bid' => $form['Bid']);
+		$this->db->delete('blog', $where);
+		$this->db->delete('blog_article', $where);
+	}
+	
+	
 }
