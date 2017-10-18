@@ -181,7 +181,7 @@ $config = array(
 			'label' => '正文',
 			'rules' => 'required|min_length[1]|max_length[21500]'
 			)
-		)
+		),
 
 
 	//个人博客记录删除表单
