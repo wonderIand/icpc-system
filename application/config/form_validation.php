@@ -170,7 +170,7 @@ $config = array(
 		
 		
 	//个人博客记录添加表单
-	'user_blog_update' => array(
+	'user_blog_register' => array(
 		array(
 			'field' => 'Btitle',
 			'label' => '标题',
