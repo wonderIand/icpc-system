@@ -65,10 +65,16 @@ CREATE TABLE IF NOT EXISTS `user_training_up` (
 CREATE TABLE IF NOT EXISTS `blog` (
 	`Bid` int AUTO_INCREMENT,
 	`Btitle` char(50) NOT NULL,
-	`Barticle` varchar(21500) NOT NULL,
 	`Bauthor` char(20) NOT NULL,
 	`Btime` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 	`Blikes` int DEFAULT 0,
+	PRIMARY KEY(`Bid`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+
+CREATE TABLE IF NOT EXISTS `blog_article` (
+	`Bid` int,
+	`BAarticle` varchar(21500) NOT NULL,
 	PRIMARY KEY(`Bid`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
