@@ -45,7 +45,7 @@ class Blog extends CI_Controller {
 			//check form
 			$this->load->library('form_validation');
 			$this->form_validation->set_data($post);
-			if ( ! $this->form_validation->run('user_blog_update'))
+			if ( ! $this->form_validation->run('user_blog_register'))
 			{
 				$this->load->helper('form');
 				foreach ($members as $member)
