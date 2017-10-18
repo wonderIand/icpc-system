@@ -166,6 +166,20 @@ $config = array(
 			'label' => '记录标号',
 			'rules' => 'required'
 			)
+		),
+		
+		
+	//个人博客记录添加表单
+	'user_blog_update' => array(
+		array(
+			'field' => 'Btitle',
+			'label' => '标题',
+			'rules' => 'required|min_length[1]|max_length[50]'
+			),
+		array(
+			'field' => 'BAarticle',
+			'label' => '正文',
+			'rules' => 'required|min_length[1]|max_length[21500]'
+			)
 		)
-
 	);
