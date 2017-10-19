@@ -75,5 +75,48 @@ class Blog_model extends CI_Model {
 		$this->db->delete('blog_article', $where);
 	}
 	
-	
+
+	/**
+	 * 修改记录
+	 */
+	public function update($form)
+	{
+		
+		//config
+		$members = array('Btitle');
+		$members_article = array('BAarticle');
+
+		//check token & get user
+		$this->load->model('User_model', 'user');
+		$this->user->check_token($form['Utoken']);
+		$user = $this->db->select('Uusername')
+			->where('Utoken', $form['Utoken'])
+			->get('user')
+			->result_array()[0]['Uusername'];
+
+		//check Bid & get author
+		$result = $this->db->select('Bauthor')
+			->where('Bid', $form['Bid'])
+			->get('blog')
+			->result_array();
+		if ( ! $result)
+		{
+			throw new Exception('不存在的博客id', 0);
+		}
+		$author = $result ? $result[0]['Bauthor'] : NULL;
+
+		//check editable
+		if ($author != $user)
+		{
+			throw new Exception('只有作者可以修改博客记录', 402);
+		}
+
+		//update
+		$where = array('Bid' => $form['Bid']);
+		$this->db->update('blog', filter($form, $members), $where);
+		$this->db->update('blog_article', filter($form, $members_article), $where);
+
+	}
+
+
 }
