@@ -12,6 +12,7 @@
 | **17/10/18** | 新增接口 · **【添加一条个人博客删除文章 · delete】**
 | **17/10/19** | 新增接口 · **【添加一条个人博客修改文章 · update】**
 | **17/10/20** | 新增接口 · **【添加一条个人博客查询文章 · get】**
+| **17/10/20** | 新增接口 · **【获取某用户的个人博客文章列表 · get_list】**
 
 
 ---
@@ -154,6 +155,75 @@
 		"BAarticle": "aaaaaaaaaa",
 		"editable": true,
 		"upvoteEnable": false
+	}
+}
+```
+
+---
+
+## **接口 · 获取某用户的个人博客文章列表**
+- **【！备注！】：此接口返回的记录信息中不包含文章，获取文章使用上面的查询单条记录接口 · GET**
+- **请求方法：GET**
+- **按记录添加时间排序**
+- **接口网址：http://icpc-system.and-who.cn/Blog/get_list?:Uusername**
+
+| **`GET` 字段可选项** | 备注
+| --------------- | --------
+| **page_size**   | 设置分页大小，和 **page** 成对存在
+| **page**        | 设置查询页，和 **page_size** 成对存在
+
+| 返回的json数组包括  | 备注
+| --------------- | --------
+| **editable**    | 当前用户是否有编辑权限
+| **page_size**   | 分页大小
+| **page**        | 当前页
+| **page_max**    | 最大页数
+
+
+
+| 返回的data包括   | 备注
+| ---------------- | --------
+| **Bid**          | 记录id
+| **Btitle**       | 标题 
+| **Bauthor**      | 作者
+| **Btime**        | 发表日期
+| **Blikes**       | 点赞数
+| **upvoteEnable** | 可否点赞 
+
+
+- **查询示例：http://icpc-system.and-who.cn/Blog/get_list?Uusername=ahhh1**
+```
+{
+	"type": 1,
+	"message": "获取成功",
+	"data": {
+		"editable": true,
+		"data": [
+			{
+				"Bid": "1",
+        		"Btitle": "a Btitle",
+        		"Bauthor": "a Bauthor",
+        		"Btime": "2017-07-11 10:55:00",
+        		"Blikes": "233",
+        		"editable": true,
+			},
+			{
+				"Bid": "2",
+        		"Btitle": "a Btitle",
+        		"Bauthor": "a Bauthor",
+        		"Btime": "2017-07-11 10:55:00",
+        		"Blikes": "233",
+        		"editable": true,
+			},
+			{
+				"Bid": "3",
+        		"Btitle": "a Btitle",
+        		"Bauthor": "a Bauthor",
+        		"Btime": "2017-07-11 10:55:00",
+        		"Blikes": "233",
+        		"editable": true,
+			},
+		]
 	}
 }
 ```
