@@ -11,6 +11,7 @@
 | **17/10/18** | 新增接口 · **【添加一条个人博客记录文章 · register】**
 | **17/10/18** | 新增接口 · **【添加一条个人博客删除文章 · delete】**
 | **17/10/19** | 新增接口 · **【添加一条个人博客修改文章 · update】**
+| **17/10/20** | 新增接口 · **【添加一条个人博客查询文章 · get】**
 
 
 ---
@@ -117,5 +118,42 @@
 	"type": 1,
 	"message": "修改成功",
 	"data": []
+}
+```
+
+---
+
+## **接口 ·查询某篇文章**
+- **请求方法：GET**
+- **接口网址：http://icpc-system.and-who.cn/Blog/get?:Bid**
+
+| **返回的文章信息** | 备注
+| -------------------------- | ----
+|**editable**                |当前用户是否有可编辑权限
+| **Bid**                    | 记录id    
+| **Btitle**                 | 标题                     
+| **Bauthor**                | 作者         
+| **Btime**                  | 发表日期 
+| **Blikes**                 | 点赞数    
+| **BAarticle**              | 正文
+| **upvoteEnable**           |当前用户可否点赞
+
+
+- **成功返回**
+```
+{
+	{
+	"type": 1,
+	"message": "获取成功",
+	"data": {
+		"Bid": "233",
+		"Btitle": "a Btitle",
+		"Bauthor": "a Bauthor",
+		"Btime": "2017-07-11 10:55:00",
+		"Blikes": "233",
+		"BAarticle": "aaaaaaaaaa",
+		"editable": true,
+		"upvoteEnable": false
+	}
 }
 ```
