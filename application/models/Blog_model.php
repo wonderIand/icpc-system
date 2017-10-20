@@ -118,5 +118,68 @@ class Blog_model extends CI_Model {
 
 	}
 
+	/**
+	 * 获取某条文章记录
+	 */
+	public function get($form)
+	{
+
+		//check token
+		$this->load->model('User_model', 'user');
+		if (isset($form['Utoken']))
+		{
+			$this->user->check_token($form['Utoken']);			
+		}
+
+		//get article
+		$where = array('Bid' => $form['Bid']);
+		$result = $this->db->where($where)
+			->get('blog')
+			->result_array();
+		if ( ! $result) 
+		{
+			throw new Exception('记录不存在');
+		}
+		$article = $result[0];
+		$blog_article = $this->db->where($where)
+			->get('blog_article')
+			->result_array()[0];
+
+		//combine
+		foreach ($blog_article as $key => $value) {
+			$article[$key] = $value;
+		}
+		
+		//check editable
+		$article['editable'] = FALSE;
+		if (isset($form['Utoken']))
+		{		
+			$result = $this->db->select('Uusername')
+				->where('Utoken', $form['Utoken'])
+				->get('user')
+				->result_array()[0];
+			$username = $result['Uusername'];
+			$article['editable'] = $username == $article['Uusername'];
+		}
+
+		
+		$article['upvoteEnable'] = FALSE;
+		//get
+		return $article;
+
+		//check upvoteEnable 
+		if (isset($form['Utoken']))
+		{
+			$result = $this->db->where(array('Uusername' => $username, 'UTid' => $form['UTid']))
+				->get('Blog_likes')
+				->result_array();
+			if ( ! $result) 
+			{				
+				$article['upvoteEnable'] = TRUE;
+			}
+		}
+		return $article;
+
+	}
 
 }
