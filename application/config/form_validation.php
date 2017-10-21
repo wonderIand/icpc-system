@@ -231,6 +231,21 @@ $config = array(
 			'label' => '标签类型',
 			'rules' => 'required|is_natural_no_zero|less_than[3]'
 			)
+		),
+
+
+	//标签修改表单
+	'target_update' => array(
+			array(
+				'field' => 'Tid',
+				'label' => '标签标号',
+				'rules' => 'required'
+				),
+			array(
+				'field' => 'Tname',
+				'label' => '标签名',
+				'rules' => 'required|min_length[1]|max_length[30]'
+				)
 		)
 
 );
