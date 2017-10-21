@@ -24,16 +24,24 @@ class Target_model extends CI_Model {
 		$this->user->check_token($form['Utoken']);
 
 		//check Tfather
-		$Tfather = $form['Tfather'];
-		if ( ! $this->db->get_where('target', array('Tid' => $Tfather))->result_array())
+		$Tfather = $this->db->get_where('target', array('Tid' => $form['Tfather']))
+			->result_array();
+		if ( ! $Tfather)
 		{
 			throw new Exception('父标签不存在！');
+		}
+		$FatherType = $this->db->select('Ttype')
+			->get_where('target', array('Tid' => $form['Tfather']))
+			->result_array();
+		if ($FatherType[0]['Ttype'] != 1)
+		{
+			throw new Exception('父标签类型必须为1！');
 		}
 
 		//check repeat
 		$Tname = $form['Tname'];
 		$repeat = $this->db->select('Tname')
-			->get_where('target', array('Tfather' => $Tfather))
+			->get_where('target', array('Tfather' => $form['Tfather']))
 			->result_array();
 		foreach($repeat as $r)
 		{
