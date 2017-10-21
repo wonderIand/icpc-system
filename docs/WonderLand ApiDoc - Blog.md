@@ -191,6 +191,7 @@
 | **upvoteEnable** | 可否点赞 
 
 
+- **查询示例：http://icpc-system.and-who.cn/Blog/get_list?Bauthor=hbbhbb&&page_size=3&&page=4**
 - **查询示例：http://icpc-system.and-who.cn/Blog/get_list?Bauthor=ahhh1**
 ```
 {
