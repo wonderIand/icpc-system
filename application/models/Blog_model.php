@@ -122,7 +122,7 @@ class Blog_model extends CI_Model {
 	/*
 	 * 添加博客标签
 	 */
-	public function tag_register($form)
+	public function register_target ($form)
 	{
 		//config
 		$members = array('BTid', 'Bid');
@@ -162,10 +162,6 @@ class Blog_model extends CI_Model {
 		$data['TFLAG'] = array(0);
 		$this->load->model('Target_model', 'target');
 		$tag_info = $this->target->get($data);
-		if ( ! $tag_info)
-		{
-			throw new Exception("不存在的标签id");
-		}
 		if ($tag_info['Ttype'] != 2)
 		{
 			throw new Exception("博客标签类型必须为2");

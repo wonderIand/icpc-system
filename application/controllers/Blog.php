@@ -173,7 +173,7 @@ class Blog extends CI_Controller {
 	/**
 	 * 添加博客标签
 	 */
-	public function tag_register() 
+	public function register_target () 
 	{
 		//config
 		$members = array('Utoken', 'BTid', 'Bid');
@@ -187,7 +187,7 @@ class Blog extends CI_Controller {
 
 			//过滤 && insert
 			$this->load->model('Blog_model', 'my_blog');
-			$this->my_blog->tag_register(filter($post, $members));
+			$this->my_blog->register_target(filter($post, $members));
 
 		}
 		catch (Exception $e)
