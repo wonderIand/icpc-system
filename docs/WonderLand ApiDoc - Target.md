@@ -51,6 +51,7 @@
 	"type": 1,
 	"message": "获取成功",
 	"data": {
+		"Tid": "3",
 		"Tname": "排序"
 	}
 }
@@ -58,7 +59,8 @@
 	"type":1,
 	"message":"获取成功",
 	"data":{
-		"Tname": "排序"
+		"Tid": "3",
+		"Tname": "排序",
 		"Tson":[
 			{
 				"归并",
