@@ -159,7 +159,7 @@ class Blog_model extends CI_Model {
 				->get('user')
 				->result_array()[0];
 			$username = $result['Uusername'];
-			$article['editable'] = $username == $article['Uusername'];
+			$article['editable'] = $username == $article['Bauthor'];
 		}
 
 		$article['upvoteEnable'] = FALSE;
@@ -216,7 +216,7 @@ class Blog_model extends CI_Model {
 			$articles[$key]['upvoteEnable'] = FALSE;}
 
 		//return
-		$ret['editable'] = isset($user) && $user == $form['Uusername'];
+		$ret['editable'] = isset($user) && $user == $form['Bauthor'];
 		$ret['data'] = $articles;
 		return filter($ret, $members);
 
