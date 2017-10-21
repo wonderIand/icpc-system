@@ -211,7 +211,26 @@ $config = array(
 			'label' => '正文',
 			'rules' => 'required|min_length[1]|max_length[21500]'
 			)
-		)
+		),
 
+
+	//标签添加表单
+	'target_register' => array(
+		array(
+			'field' => 'Tfather',
+			'label' => '父标签标号',
+			'rules' => 'integer'
+			),
+		array(
+			'field' => 'Tname',
+			'label' => '标签名',
+			'rules' => 'required|min_length[1]|max_length[30]'
+			),
+		array(
+			'field' => 'Ttype',
+			'label' => '标签类型',
+			'rules' => 'required|is_natural_no_zero|less_than[3]'
+			)
+		)
 
 );
