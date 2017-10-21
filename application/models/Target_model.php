@@ -41,14 +41,11 @@ class Target_model extends CI_Model {
 		//check repeat
 		$Tname = $form['Tname'];
 		$repeat = $this->db->select('Tname')
-			->get_where('target', array('Tfather' => $form['Tfather']))
+			->get_where('target', array('Tfather' => $form['Tfather'], 'Tname' => $Tname))
 			->result_array();
-		foreach($repeat as $r)
+		if ($repeat)
 		{
-			if ($Tname == $r['Tname'])
-			{
-				throw new Exception("父标签下已存在同名标签！");
-			}
+			throw new Exception('父标签下已存在同名标签！');
 		}
 
 		//insert
@@ -76,14 +73,11 @@ class Target_model extends CI_Model {
 			->result_array();
 		$Tname = $form['Tname'];
 		$repeat = $this->db->select('Tname')
-			->get_where('target', array('Tfather' => $Tfather[0]['Tfather']))
+			->get_where('target', array('Tfather' => $Tfather[0]['Tfather'], 'Tname' => $Tname))
 			->result_array();
-		foreach($repeat as $r)
+		if ($repeat)
 		{
-			if ($Tname == $r['Tname'])
-			{
-				throw new Exception("父标签下已存在同名标签！");
-			}
+			throw new Exception('父标签下已存在同名标签！');
 		}
 
 		//update
