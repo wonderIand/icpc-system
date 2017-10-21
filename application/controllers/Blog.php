@@ -168,5 +168,37 @@ class Blog extends CI_Controller {
 		output_data(1, "修改成功", array());
 
 	}
+
+
+	/**
+	 * 添加博客标签
+	 */
+	public function tag_register() 
+	{
+		//config
+		$members = array('Utoken', 'BTid', 'Bid');
+
+		//post
+		try
+		{
+			//get post
+			$post = get_post();
+			$post['Utoken'] = get_token();
+
+			//过滤 && insert
+			$this->load->model('Blog_model', 'my_blog');
+			$this->my_blog->tag_register(filter($post, $members));
+
+		}
+		catch (Exception $e)
+		{
+			output_data($e->getCode(), $e->getMessage(), array());
+			return;
+		}
+
+		//return
+		output_data(1, '增加成功', array());
+	}
 	
+
 }
