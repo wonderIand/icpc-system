@@ -79,6 +79,22 @@ CREATE TABLE IF NOT EXISTS `blog_article` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 
+CREATE TABLE IF NOT EXISTS `target` (
+	`Tid` int AUTO_INCREMENT,
+	`Tfather` int NOT NULL,
+	`Tname` char(50) NOT NULL,
+	`Ttype` int NOT NULL,
+	PRIMARY KEY(`Tid`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+
+CREATE TABLE IF NOT EXISTS `blog_target` (
+	`BTid` int AUTO_INCREMENT,
+	`Tid` int NOT NULL,
+	PRIMARY KEY(`BTid`) 
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+
 -- CREATE TABLE IF NOT EXISTS `user_training_tag` (
 -- 	`UTid` int,
 -- 	`UTarticle` varchar(21500) DEFAULT ' ',
