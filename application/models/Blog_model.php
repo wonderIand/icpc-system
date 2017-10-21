@@ -125,7 +125,7 @@ class Blog_model extends CI_Model {
 	public function register_target ($form)
 	{
 		//config
-		$members = array('BTid', 'Bid');
+		$members = array('Bid', 'Tid');
 
 		//check token
 		$this->load->model('User_model', 'user');
@@ -157,7 +157,7 @@ class Blog_model extends CI_Model {
 		}
 
 		//check tag
-		$data['Tid'] = $form['BTid'];
+		$data['Tid'] = $form['Tid'];
 		$data['Utoken'] = $form['Utoken'];
 		$data['TFLAG'] = array(0);
 		$this->load->model('Target_model', 'target');
@@ -165,6 +165,15 @@ class Blog_model extends CI_Model {
 		if ($tag_info['Ttype'] != 2)
 		{
 			throw new Exception("博客标签类型必须为2");
+		}
+
+		//check repeat
+		$where = array('Bid' => $form['Bid'], 'Tid' => $form['Tid']);
+		$repeat = $this->db->get_where('blog_target', $where)
+			->result_array();
+		if ($repeat)
+		{
+			throw new Exception('该博客已存在重复标签');
 		}
 
 		//insert

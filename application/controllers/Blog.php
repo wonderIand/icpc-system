@@ -176,7 +176,7 @@ class Blog extends CI_Controller {
 	public function register_target () 
 	{
 		//config
-		$members = array('Utoken', 'BTid', 'Bid');
+		$members = array('Utoken', 'Bid', 'Tid');
 
 		//post
 		try
