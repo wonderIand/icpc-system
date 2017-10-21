@@ -31,7 +31,7 @@
 ## **接口 · 查询某个标签**
 
 - **请求方法：GET**
-- **接口网址：http://icpc-system.and-who.cn/Target/get**
+- **接口网址：http://icpc-system.and-who.cn/Target/get?Tid**
 
 - **表单要求**
 
