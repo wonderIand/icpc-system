@@ -58,6 +58,25 @@ class Target extends CI_Controller {
 				return;
 			}
 
+			//check Tfather
+			$Tfather = $post['Tfather'];
+			if ( ! $this->db->get_where('target', array('Tid' => $Tfather))->result_array())
+			{
+				throw new Exception('父标签不存在！');
+			}
+
+			//check repeat
+			$Tname = $post['Tname'];
+			$repeat = $this->db->select('Tname')->get_where('target', array('Tfather' => $Tfather))->result_array();
+			foreach($repeat as $r)
+			{
+				if ($Tname == $r['Tname'])
+				{
+					throw new Exception("父标签下已存在同名标签！");
+				}
+			}
+
+
 			//过滤 && insert
 			$this->load->model('Target_model', 'my_target');
 			$this->my_target->register(filter($post, $members));
@@ -73,4 +92,5 @@ class Target extends CI_Controller {
 		output_data(1, '增加成功', array());
 
 	}
+
 }

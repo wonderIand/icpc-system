@@ -27,4 +27,6 @@ class Target_model extends CI_Model {
 		$this->db->insert('target', filter($form, $members));
 
 	}
+
+
 }
