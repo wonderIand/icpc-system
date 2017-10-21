@@ -126,7 +126,7 @@
 
 ## **接口 ·查询某篇文章**
 - **请求方法：GET**
-- **接口网址：http://icpc-system.and-who.cn/Blog/get?:Bid**
+- **接口网址：http://icpc-system.and-who.cn/Blog/get?Bid**
 
 | **返回的文章信息** | 备注
 | -------------------------- | ----
@@ -139,7 +139,7 @@
 | **BAarticle**              | 正文
 | **upvoteEnable**           |当前用户可否点赞
 
-
+- **查询示例：http://icpc-system.and-who.cn/Blog/get?Bid=233**
 - **成功返回**
 ```
 {
@@ -165,7 +165,7 @@
 - **【！备注！】：此接口返回的记录信息中不包含文章，获取文章使用上面的查询单条记录接口 · GET**
 - **请求方法：GET**
 - **按记录添加时间排序**
-- **接口网址：http://icpc-system.and-who.cn/Blog/get_list?:Uusername**
+- **接口网址：http://icpc-system.and-who.cn/Blog/get_list?Bauthor**
 
 | **`GET` 字段可选项** | 备注
 | --------------- | --------
@@ -191,7 +191,7 @@
 | **upvoteEnable** | 可否点赞 
 
 
-- **查询示例：http://icpc-system.and-who.cn/Blog/get_list?Uusername=ahhh1**
+- **查询示例：http://icpc-system.and-who.cn/Blog/get_list?Bauthor=ahhh1**
 ```
 {
 	"type": 1,
@@ -200,24 +200,24 @@
 		"editable": true,
 		"data": [
 			{
-				"Bid": "1",
+        		"Bid": "1",
         		"Btitle": "a Btitle",
-        		"Bauthor": "a Bauthor",
+        		"Bauthor": "ahhh1",
         		"Btime": "2017-07-11 10:55:00",
         		"Blikes": "233",
         		"editable": true,
 			},
 			{
-				"Bid": "2",
+        		"Bid": "2",
         		"Btitle": "a Btitle",
-        		"Bauthor": "a Bauthor",
+        		"Bauthor": "ahhh1",
         		"Btime": "2017-07-11 10:55:00",
         		"Blikes": "233",
         		"editable": true,
 			},
 			{
-				"Bid": "3",
-        		"Btitle": "a Btitle",
+        		"Bid": "3",
+        		"Btitle": "ahhh1",
         		"Bauthor": "a Bauthor",
         		"Btime": "2017-07-11 10:55:00",
         		"Blikes": "233",
