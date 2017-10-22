@@ -40,6 +40,9 @@ class User extends CI_Controller {
 		try
 		{
 
+			//reject
+			throw new Exception("已关闭注册");			
+
 			//get post
 			$post = get_post();
 
