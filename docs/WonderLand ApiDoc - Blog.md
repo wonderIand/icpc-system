@@ -1,4 +1,8 @@
-﻿# WonderLand ApiDoc - Blog
+﻿# 删除
+
+标签（空格分隔）： 未分类
+
+# WonderLand ApiDoc - Blog
 
 标签（空格分隔）： WonderLand
 
@@ -8,13 +12,14 @@
 
 | 日期         | 备注  
 | ------------ | ------
-| **17/10/18** | 新增接口 · **【添加一条个人博客记录文章 · register】**
-| **17/10/18** | 新增接口 · **【添加一条个人博客删除文章 · delete】**
-| **17/10/19** | 新增接口 · **【添加一条个人博客修改文章 · update】**
-| **17/10/20** | 新增接口 · **【添加一条个人博客查询文章 · get】**
-| **17/10/20** | 新增接口 · **【获取某用户的个人博客文章列表 · get_list】**
-| **17/10/21** | 新增接口 · **【添加一条博客标签增加 · tag_register】**
+| **17/10/22** | 新增属性 · **`Bviews`**，**【get】【get_list】** 新增返回 **`Bviews`**
 | **17/10/22** | 新增接口 · **【添加一条博客标签增加 · register_target】**
+| **17/10/20** | 新增接口 · **【获取某用户的个人博客文章列表 · get_list】**
+| **17/10/20** | 新增接口 · **【添加一条个人博客查询文章 · get】**
+| **17/10/19** | 新增接口 · **【添加一条个人博客修改文章 · update】**
+| **17/10/18** | 新增接口 · **【添加一条个人博客删除文章 · delete】**
+| **17/10/18** | 新增接口 · **【添加一条个人博客记录文章 · register】**
+
 
 
 ---
@@ -29,6 +34,7 @@
 | **Bauthor**     | 作者     | -        | -        | char(20)       | -           
 | **Btime**       | 发表日期 | -        | -        | TIMESTAMP      | -
 | **Blikes**      | 点赞数   | -        | -        | int            | -
+| **Bviews**      | 浏览数   | -        | -        | int            | -
 
 
 - **`【blog_article 表】`**
@@ -148,11 +154,14 @@
 | **Bauthor**                | 作者         
 | **Btime**                  | 发表日期 
 | **Blikes**                 | 点赞数    
+| **Bviews**                 | 浏览数
 | **BAarticle**              | 正文
 | **upvoteEnable**           |当前用户可否点赞
 
+
 - **查询示例：http://icpc-system.and-who.cn/Blog/get?Bid=233**
 - **成功返回**
+
 ```
 {
 	{
@@ -163,6 +172,7 @@
 		"Btitle": "a Btitle",
 		"Bauthor": "a Bauthor",
 		"Btime": "2017-07-11 10:55:00",
+		"Bviews": "0",
 		"Blikes": "233",
 		"BAarticle": "aaaaaaaaaa",
 		"editable": true,
@@ -200,6 +210,7 @@
 | **Bauthor**      | 作者
 | **Btime**        | 发表日期
 | **Blikes**       | 点赞数
+| **Bviews**       | 浏览数
 | **upvoteEnable** | 可否点赞 
 
 
@@ -217,6 +228,7 @@
         		"Btitle": "a Btitle",
         		"Bauthor": "ahhh1",
         		"Btime": "2017-07-11 10:55:00",
+        		"Bviews": "0",
         		"Blikes": "233",
         		"editable": true,
 			},
@@ -225,6 +237,7 @@
         		"Btitle": "a Btitle",
         		"Bauthor": "ahhh1",
         		"Btime": "2017-07-11 10:55:00",
+        		"Bviews": "0",
         		"Blikes": "233",
         		"editable": true,
 			},
@@ -233,6 +246,7 @@
         		"Btitle": "ahhh1",
         		"Bauthor": "a Bauthor",
         		"Btime": "2017-07-11 10:55:00",
+		        "Bviews": "0",
         		"Blikes": "233",
         		"editable": true,
 			},
@@ -270,3 +284,5 @@
 	"data": []
 }
 ```
+
+
