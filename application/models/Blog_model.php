@@ -118,6 +118,130 @@ class Blog_model extends CI_Model {
 
 	}
 
+	/**
+	 * 获取某条文章记录
+	 */
+	public function get($form)
+	{
+
+		//check token
+		$this->load->model('User_model', 'user');
+		if (isset($form['Utoken']))
+		{
+			$this->user->check_token($form['Utoken']);			
+		}
+
+		//get article
+		$where = array('Bid' => $form['Bid']);
+		$result = $this->db->where($where)
+			->get('blog')
+			->result_array();
+		if ( ! $result) 
+		{
+			throw new Exception('记录不存在');
+		}
+		$article = $result[0];
+		$blog_article = $this->db->where($where)
+			->get('blog_article')
+			->result_array()[0];
+
+		//combine
+		foreach ($blog_article as $key => $value) {
+			$article[$key] = $value;
+		}
+		
+		//check editable
+		$article['editable'] = FALSE;
+		if (isset($form['Utoken']))
+		{		
+			$result = $this->db->select('Uusername')
+				->where('Utoken', $form['Utoken'])
+				->get('user')
+				->result_array()[0];
+			$username = $result['Uusername'];
+			$article['editable'] = $username == $article['Bauthor'];
+		}
+
+		$article['upvoteEnable'] = FALSE;
+
+		//get
+		return $article;
+
+		//check upvoteEnable 
+		if (isset($form['Utoken']))
+		{
+			$result = $this->db->where(array('Uusername' => $username, 'UTid' => $form['UTid']))
+				->get('Blog_likes')
+				->result_array();
+			if ( ! $result) 
+			{				
+				$article['upvoteEnable'] = TRUE;
+			}
+		}
+		return $article;
+
+	}
+
+	/**
+	 * 获取个人文章列表
+	 */
+	public function get_list($form)
+	{
+
+		//config
+		$members = array('page_size', 'page', 'page_max', 'editable', 'data');
+
+		//check token
+		$this->load->model('User_model', 'user');
+		if (isset($form['Utoken']))
+		{
+			$this->user->check_token($form['Utoken']);
+			$user = $this->db->where('Utoken', $form['Utoken'])->get('user')->result_array()[0]['Uusername'];
+		}
+
+		//select articles
+       	$where = array('Bauthor' => $form['Bauthor']);
+        if (isset($form['page_size']))
+        {
+			$ret['page_size'] = $form['page_size'];
+			$count = $this->db->where($where)->count_all_results('Blog');
+	        $ret['page_max'] = (int)(($count - 1) / $form['page_size']) + 1;
+			$ret['page'] = $form['page'];
+        	$this->db->limit($form['page_size'], ($form['page'] - 1) * $form['page_size']);
+        }
+       	$articles = $this->db->where($where)->order_by('Btime','DESC')->get('Blog')->result_array();
+
+       	//set upvoteEnable 
+       	foreach ($articles as $key => $article) {
+			$articles[$key]['upvoteEnable'] = FALSE;}
+
+		//return
+		$ret['editable'] = isset($user) && $user == $form['Bauthor'];
+		$ret['data'] = $articles;
+		return filter($ret, $members);
+
+
+		//check upvoteEnable 目前没有实现该功能
+		foreach ($articles as $key => $article) {
+			$articles[$key]['upvoteEnable'] = FALSE;
+			if (isset($form['Utoken']))
+			{
+				$result = $this->db->where(array('Uusername' => $user, 'Bid' => $article['Bid']))
+					->get('Blog_likes')
+					->result_array();
+				if ( ! $result)
+				{
+					$articles[$key]['upvoteEnable'] = TRUE;
+				}
+			}
+		}
+
+		//return
+		$ret['editable'] = isset($user) && $user == $form['Uusername'];
+		$ret['data'] = $articles;
+		return filter($ret, $members);
+
+	}
 
 	/*
 	 * 添加博客标签
