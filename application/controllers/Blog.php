@@ -168,5 +168,83 @@ class Blog extends CI_Controller {
 		output_data(1, "修改成功", array());
 
 	}
+
+
+	/**
+	 * 查询文章记录
+	 */
+	public function get()
+	{
+
+		//config
+		$members = array('Utoken', 'Bid');
+
+		//get
+		try
+		{
+			//get post
+			$post['Utoken'] = get_token(FALSE);
+			if ( ! $this->input->get('Bid'))
+			{
+				throw new Exception('必须指定Bid');				
+			}
+			$post['Bid'] = $this->input->get('Bid');
+
+			//DO get
+			$this->load->model('Blog_model', 'Blog');
+			$data = $this->Blog->get($post);
+
+		}
+		catch(Exception $e)
+		{
+			output_data($e->getCode(), $e->getMessage(), array());
+			return;
+		}
+
+		//return
+		output_data(1, '获取成功', $data);
+
+	}
 	
+	/**
+	 * 获取个人文章列表
+	 */
+	public function get_list()
+	{
+		//config
+		$members = array('Utoken', 'Bauthor', 'page_size', 'page');
+
+		//get_list
+		try
+		{
+
+			//get post
+			$post = get_post();
+			$post['Utoken'] = get_token(FALSE);
+			if ( ! $this->input->get('Bauthor'))
+			{
+				throw new Exception('必须制定用户名Bauthor');
+			}
+			$post['Bauthor'] = $this->input->get('Bauthor');
+			if ($this->input->get('page_size') && $this->input->get('page'))
+			{
+				$post['page_size'] = $this->input->get('page_size');
+				$post['page'] = $this->input->get('page');
+			}
+
+			//DO get_list
+			$this->load->model('Blog_model', 'Blog');
+			$data = $this->Blog->get_list(filter($post, $members));
+
+		}
+		catch(Exception $e)
+		{
+			output_data($e->getCode(), $e->getMessage(), array());
+			return;
+		}
+
+		//return
+		output_data(1, '获取成功', $data);
+
+	}
 }
