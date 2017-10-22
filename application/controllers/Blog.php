@@ -171,6 +171,36 @@ class Blog extends CI_Controller {
 
 
 	/**
+	 * 添加博客标签
+	 */
+	public function register_target () 
+	{
+		//config
+		$members = array('Utoken', 'Bid', 'Tid');
+
+		//post
+		try
+		{
+			//get post
+			$post = get_post();
+			$post['Utoken'] = get_token();
+
+			//过滤 && insert
+			$this->load->model('Blog_model', 'my_blog');
+			$this->my_blog->register_target(filter($post, $members));
+
+		}
+		catch (Exception $e)
+		{
+			output_data($e->getCode(), $e->getMessage(), array());
+			return;
+		}
+
+		//return
+		output_data(1, '增加成功', array());
+	}
+	
+	/**
 	 * 查询文章记录
 	 */
 	public function get()
@@ -247,4 +277,5 @@ class Blog extends CI_Controller {
 		output_data(1, '获取成功', $data);
 
 	}
+	
 }

@@ -49,7 +49,7 @@ class Target_model extends CI_Model {
 			->result_array();
 		if ( ! $result)
 		{
-			throw new Exception('记录不存在');
+			throw new Exception('标签不存在');
 		}
 
 		$data = $result[0];
