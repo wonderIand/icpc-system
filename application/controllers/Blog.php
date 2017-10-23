@@ -277,5 +277,41 @@ class Blog extends CI_Controller {
 		output_data(1, '获取成功', $data);
 
 	}
+
+	/**
+	 * 点赞
+	 */
+	public function like() 
+	{
+
+		//config
+		$members = array('Utoken', 'Bid');
+
+		//upvote
+		try
+		{
+			//get post
+			$post['Utoken'] = get_token();
+			if ( ! $this->input->get('Bid'))
+			{
+				throw new Exception("必须指定博客id");
+			}
+			$post['Bid'] = $this->input->get('Bid');
+
+			//DO like
+			$this->load->model('Blog_model', 'my_blog');
+			$this->my_blog->like(filter($post, $members));
+
+		}
+		catch(Exception $e)
+		{
+			output_data($e->getCode(), $e->getMessage(), array());
+			return;
+		}
+
+		//return
+		output_data(1, '点赞成功', array());
+
+	}
 	
 }

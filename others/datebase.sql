@@ -97,6 +97,20 @@ CREATE TABLE IF NOT EXISTS `blog_target` (
 	PRIMARY KEY(`BTid`) 
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
+CREATE TABLE IF NOT EXISTS `blog_like` (
+	`BLid` int AUTO_INCREMENT,
+	`Bid` int NOT NULL,
+	`Uusername` char(20) NOT NULL,
+	PRIMARY KEY(`BLid`)	
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS `blog_view` (
+	`BVid` int AUTO_INCREMENT,
+	`Bid` int NOT NULL,
+	`Uusername` char(20) NOT NULL,
+	PRIMARY KEY(`BVid`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
 
 -- CREATE TABLE IF NOT EXISTS `user_training_tag` (
 -- 	`UTid` int,
