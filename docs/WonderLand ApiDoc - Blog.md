@@ -39,7 +39,8 @@
 | **Btime**       | 发表日期 | -        | -        | TIMESTAMP      | -
 | **Blikes**      | 点赞数   | -        | -        | int            | -
 | **Bviews**      | 浏览数   | -        | -        | int            | -
-| **Bproblemid**  | 题号     | 1        | 5        | char(5)        | 仅包含字母数字
+| **Bproblemid**  | 题号     | 1        | 10       | char(5)        | 仅包含字母数字
+| **Btype**       | 类型     | 1        | 15       | char(10)       | -
 
 
 - **`【blog_article 表】`**
@@ -81,13 +82,15 @@
 | **Btitle**      | O      | 1        | 50       | -    
 | **BAarticle**   | O      | 1        | 21500    | - 
 | **Bproblemid**  | X      | -        | 5        | 仅包含字母和数字
+| **Btype**       | O      | 1        | 15       | -
 
 
 - **示例**
 ```
 {
 	"Btitle": "咸鱼之路",
-	"BAarticle": "一位乘客失去了梦想"
+	"BAarticle": "一位乘客失去了梦想",
+	"Btype": "算 法 学 习"
 }
 ```
 
@@ -235,6 +238,7 @@
 | **upvoteEnable** | 可否点赞 
 | **Btargets**     | 博客标签列表，其中 **Tfather** 为父标签，**Tname** 为标签名，**Tid** 为标签ID.
 | **Bproblemid**   | 题目标号
+| **Btype**        | 文章类型
 
 - **查询示例：http://icpc-system.and-who.cn/Blog/get_list?Bauthor=ahhh1**
 - **查询示例：http://icpc-system.and-who.cn/Blog/get_list?Bauthor=aaaau1&&page_size=3&&page=3**

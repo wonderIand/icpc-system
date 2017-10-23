@@ -189,7 +189,7 @@ $config = array(
 		array(
 			'field' => 'Btype',
 			'label' => '类型',
-			'rules' => 'required|min_length[1]|max_length[5]'
+			'rules' => 'required|min_length[1]|max_length[15]'
 			)
 		),
 
@@ -224,7 +224,7 @@ $config = array(
 		array(
 			'field' => 'Btype',
 			'label' => '类型',
-			'rules' => 'required|min_length[1]|max_length[5]'
+			'rules' => 'required|min_length[1]|max_length[15]'
 			)
 		),
 
