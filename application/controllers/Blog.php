@@ -278,14 +278,13 @@ class Blog extends CI_Controller {
 	public function get_list()
 	{
 		//config
-		$members = array('Utoken', 'Bauthor', 'page_size', 'page');
+		$members = array('Utoken', 'Bauthor', 'page_size', 'page', 'orderby');
 
 		//get_list
 		try
 		{
 
 			//get post
-			$post = get_post();
 			$post['Utoken'] = get_token(FALSE);
 			if ( ! $this->input->get('Bauthor'))
 			{
@@ -296,6 +295,10 @@ class Blog extends CI_Controller {
 			{
 				$post['page_size'] = $this->input->get('page_size');
 				$post['page'] = $this->input->get('page');
+			}
+			if ($this->input->get('orderby'))
+			{
+				$post['orderby'] = $this->input->get('orderby');
 			}
 
 			//DO get_list

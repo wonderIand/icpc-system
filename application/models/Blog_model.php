@@ -283,6 +283,7 @@ class Blog_model extends CI_Model {
 
 		//config
 		$members = array('total', 'page_size', 'page', 'page_max', 'editable', 'data');
+		$orderby_table = array('Btime' => 1, 'Bviews' => 1, 'Blikes' => 1);
 
 		//check token
 		$this->load->model('User_model', 'user');
@@ -302,7 +303,18 @@ class Blog_model extends CI_Model {
 			$ret['page'] = $form['page'];
         	$this->db->limit($form['page_size'], ($form['page'] - 1) * $form['page_size']);
         }
-       	$blogs = $this->db->where($where)->order_by('Btime','DESC')->get('blog')->result_array();
+
+        //set orderby
+    	$orderby = isset($form['orderby']) ? $form['orderby'] : 'Btime';
+    	if ( ! isset($orderby_table[$orderby]))
+    	{
+    		throw new Exception("不合法的排序字段");
+    	}
+
+    	//get blogs
+	    $blogs = $this->db->where($where)->order_by($orderby, 'DESC')->get('blog')->result_array();        	
+
+	    //get targets
        	if ($blogs)
        	foreach ($blogs as $key => $blog) 
        	{
