@@ -8,6 +8,7 @@
 
 | 日期         | 备注  
 | ------------ | ------
+| **17/10/23** | 新增属性 · **`Bproblemid`**, **【register】【update】**增加可选字段，**【get】【get_list】**增加返回字段
 | **17/10/23** | 新增接口 · **【博客标签删除 · delete_target】**
 | **17/10/23** | 新增接口 · **【博客点赞 · like】**
 | **17/10/23** | **【get_list】** 新增元素返回字段 **`total`**
@@ -36,6 +37,7 @@
 | **Btime**       | 发表日期 | -        | -        | TIMESTAMP      | -
 | **Blikes**      | 点赞数   | -        | -        | int            | -
 | **Bviews**      | 浏览数   | -        | -        | int            | -
+| **Bproblemid**  | 题号     | 1        | 5        | char(5)        | 仅包含字母数字
 
 
 - **`【blog_article 表】`**
@@ -76,6 +78,7 @@
 | **Utoken**      | O      | -        | -        | -
 | **Btitle**      | O      | 1        | 50       | -    
 | **BAarticle**   | O      | 1        | 21500    | - 
+| **Bproblemid**  | X      | -        | 5        | 仅包含字母和数字
 
 
 - **示例**
@@ -130,6 +133,7 @@
 | **Bid**         | O      | -        | -        | -
 | **Btitle**      | O      | 1        | 50       | -
 | **BAarticle**   | O      | 1        | 21500    | -
+| **Bproblemid**  | X      | -        | 5        | 仅包含字母或数字
 
 
 - **示例**
@@ -166,8 +170,9 @@
 | **Blikes**                 | 点赞数    
 | **Bviews**                 | 浏览数
 | **BAarticle**              | 正文
-| **upvoteEnable**           |当前用户可否点赞
+| **upvoteEnable**           | 当前用户可否点赞
 | **Btargets**               | 博客标签列表
+| **Bproblemid**             | 题目编号
 
 
 - **查询示例：http://icpc-system.and-who.cn/Blog/get?Bid=233**
@@ -178,27 +183,18 @@
 	"type": 1,
 	"message": "获取成功",
 	"data": {
-		"Bid": "1",
-		"Btitle": "咸鱼之路",
+		"Bid": "11",
+		"Btype": "博 文",
+		"Btitle": "翻身之路",
 		"Bauthor": "aaaau1",
-		"Btime": "2017-10-22 14:22:44",
+		"Btime": "2017-10-23 11:58:21",
 		"Blikes": "0",
-		"Bviews": "0",
-		"BAarticle": "一位乘客失去了梦想",
+		"Bviews": "1",
+		"Bproblemid": "foj2333",
+		"BAarticle": "一位乘客重新获得了梦想",
 		"editable": true,
-		"upvoteEnable": false,
-		"Btargets": [
-			{
-				"Tid": "2",
-				"Tfather": "root",
-				"Tname": "字符串"
-			},
-			{
-				"Tid": "3",
-				"Tfather": "root",
-				"Tname": "数论"
-			}
-		]
+		"upvoteEnable": true,
+		"Btargets": []
 	}
 }
 ```
@@ -236,7 +232,7 @@
 | **Bviews**       | 浏览数
 | **upvoteEnable** | 可否点赞 
 | **Btargets**     | 博客标签列表，其中 **Tfather** 为父标签，**Tname** 为标签名，**Tid** 为标签ID.
-
+| **Bproblemid**   | 题目标号
 
 - **查询示例：http://icpc-system.and-who.cn/Blog/get_list?Bauthor=ahhh1**
 - **查询示例：http://icpc-system.and-who.cn/Blog/get_list?Bauthor=aaaau1&&page_size=3&&page=3**
@@ -245,50 +241,45 @@
 	"type": 1,
 	"message": "获取成功",
 	"data": {
-		"total": 9,
+		"total": 11,
 		"page_size": "3",
 		"page": "1",
-		"page_max": 3,
+		"page_max": 4,
 		"editable": true,
 		"data": [
 			{
+				"Bid": "11",
+				"Btype": "博 文",
+				"Btitle": "翻身之路",
+				"Bauthor": "aaaau1",
+				"Btime": "2017-10-23 11:58:21",
+				"Blikes": "0",
+				"Bviews": "1",
+				"Bproblemid": "foj2333",
+				"Btargets": [],
+				"upvoteEnable": false
+			},
+			{
+				"Bid": "10",
+				"Btype": "博 文",
+				"Btitle": "咸鱼之路",
+				"Bauthor": "aaaau1",
+				"Btime": "2017-10-23 11:57:26",
+				"Blikes": "0",
+				"Bviews": "1",
+				"Bproblemid": "无",
+				"Btargets": [],
+				"upvoteEnable": false
+			},
+			{
 				"Bid": "9",
+				"Btype": "博 文",
 				"Btitle": "咸鱼之路",
 				"Bauthor": "aaaau1",
 				"Btime": "2017-10-23 04:37:30",
 				"Blikes": "0",
 				"Bviews": "0",
-				"Btargets": [
-					{
-						"Tid": "2",
-						"Tfather": "root",
-						"Tname": "字符串"
-					},
-					{
-						"Tid": "3",
-						"Tfather": "root",
-						"Tname": "数论"
-					}
-				],
-				"upvoteEnable": false
-			},
-			{
-				"Bid": "8",
-				"Btitle": "咸鱼之路",
-				"Bauthor": "aaaau1",
-				"Btime": "2017-10-23 04:37:29",
-				"Blikes": "0",
-				"Bviews": "0",
-				"Btargets": [],
-				"upvoteEnable": false
-			},
-			{
-				"Bid": "6",
-				"Btitle": "咸鱼之路",
-				"Bauthor": "aaaau1",
-				"Btime": "2017-10-23 04:37:29",
-				"Blikes": "0",
-				"Bviews": "0",
+				"Bproblemid": "无",
 				"Btargets": [],
 				"upvoteEnable": false
 			}

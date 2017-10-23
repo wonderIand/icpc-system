@@ -33,7 +33,7 @@ class Blog extends CI_Controller {
 	public function register()
 	{
 		//config
-		$members = array('Utoken', 'Btitle', 'BAarticle');
+		$members = array('Utoken', 'Bproblemid', 'Btitle', 'BAarticle');
 
 		//post
 		try 
@@ -60,7 +60,7 @@ class Blog extends CI_Controller {
 			}
 
 			//过滤 && insert
-			$this->load->model('Blog_model','my_blog');
+			$this->load->model('Blog_model', 'my_blog');
 			$this->my_blog->register(filter($post, $members));
 
 		}
@@ -128,7 +128,7 @@ class Blog extends CI_Controller {
 	public function update()
 	{
 		//config
-		$members = array('Utoken', 'Bid', 'Btitle', 'BAarticle');
+		$members = array('Utoken', 'Bproblemid', 'Bid', 'Btitle', 'BAarticle');
 
 		//post
 		try
@@ -151,6 +151,10 @@ class Blog extends CI_Controller {
 					}
 				}
 				return;
+			}
+			if ( ! isset($post['Bproblemid']))
+			{
+				$post['Bproblemid'] = '无';
 			}
 
 			//DO update

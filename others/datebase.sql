@@ -65,6 +65,8 @@ CREATE TABLE IF NOT EXISTS `user_training_up` (
 
 CREATE TABLE IF NOT EXISTS `blog` (
 	`Bid` int AUTO_INCREMENT,
+	`Btype` char(5) DEFAULT '博 文',
+	`Bproblemid` char(10) DEFAULT '无',
 	`Btitle` char(50) NOT NULL,
 	`Bauthor` char(20) NOT NULL,
 	`Btime` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,

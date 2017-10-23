@@ -180,6 +180,11 @@ $config = array(
 			'field' => 'BAarticle',
 			'label' => '正文',
 			'rules' => 'required|min_length[1]|max_length[21500]'
+			),
+		array(
+			'field' => 'Bproblemid',
+			'label' => '题目编号',
+			'rules' => 'min_length[1]|max_length[10]|alpha_numeric'
 			)
 		),
 
@@ -210,6 +215,11 @@ $config = array(
 			'field' => 'BAarticle',
 			'label' => '正文',
 			'rules' => 'required|min_length[1]|max_length[21500]'
+			),
+		array(
+			'field' => 'Bproblemid',
+			'label' => '题目编号',
+			'rules' => 'min_length[1]|max_length[10]|alpha_numeric'
 			)
 		),
 
