@@ -349,5 +349,14 @@ class Blog extends CI_Controller {
 		output_data(1, '点赞成功', array());
 
 	}
-	
+
+	/**
+	 * 获取博客类型列表
+	 */
+	public function get_type_list()
+	{
+		$data = array( "博 文", "题 解", "算 法 学 习", "比 赛 感 悟" );
+		output_data(1, '获取成功', $data);
+	}
+
 }
