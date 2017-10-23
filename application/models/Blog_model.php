@@ -259,20 +259,19 @@ class Blog_model extends CI_Model {
 		{
 			$article['Bviews'] = (string)($article['Bviews'] + 1); 
 		}
-		return $article;
 
 		//check upvoteEnable 
-		/*if (isset($form['Utoken']))
+		$article['upvoteEnable'] = true;
+		if (isset($form['Utoken']))
 		{
-			$result = $this->db->where(array('Uusername' => $username, 'UTid' => $form['UTid']))
-				->get('blog_likes')
-				->result_array();
-			if ( ! $result) 
+			if ($this->db->where(array('Uusername' => $username, 'Bid' => $form['Bid']))
+				->get('blog_like')
+				->result_array())
 			{				
-				$article['upvoteEnable'] = TRUE;
+				$article['upvoteEnable'] = false;
 			}
 		}
-		return $article;*/
+		return $article;
 
 	}
 
