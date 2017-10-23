@@ -209,7 +209,7 @@ class Blog_model extends CI_Model {
 			$ret['page'] = $form['page'];
         	$this->db->limit($form['page_size'], ($form['page'] - 1) * $form['page_size']);
         }
-       	$articles = $this->db->where($where)->order_by('Btime','DESC')->get('Blog')->result_array();
+       	$articles = $this->db->where($where)->order_by('Btime','DESC')->get('blog')->result_array();
 
        	//set upvoteEnable 
        	foreach ($articles as $key => $article) {
@@ -227,7 +227,7 @@ class Blog_model extends CI_Model {
 			if (isset($form['Utoken']))
 			{
 				$result = $this->db->where(array('Uusername' => $user, 'Bid' => $article['Bid']))
-					->get('Blog_likes')
+					->get('blog_likes')
 					->result_array();
 				if ( ! $result)
 				{
