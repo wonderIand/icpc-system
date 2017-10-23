@@ -46,10 +46,7 @@ class Target extends CI_Controller {
 			}
 			$post['Tid'] = $this->input->get('Tid');
 			$temp = get_post();
-			if (isset($temp['getson']))
-			{
-				$post['getson'] = $temp['getson'];				
-			}
+			$post['getson'] = isset($temp['getson']) ? $temp['getson'] : 1;				
 			if ($this->input->get('Bid'))
 			{
 				$post['Bid'] = $this->input->get('Bid');
