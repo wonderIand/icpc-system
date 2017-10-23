@@ -164,6 +164,25 @@ class Blog_model extends CI_Model {
 
 		$article['upvoteEnable'] = FALSE;
 
+		//get blog_target
+		$targets = $this->db->select('Tid')
+			->where('Bid', $form['Bid'])
+			->get('blog_target')
+			->result_array();
+		if ($targets)
+		foreach ($targets as $key => $target) {
+			$info = $this->db->select(array('Tid', 'Tfather', 'Tname'))
+				->where('Tid', $target['Tid'])
+				->get('target')
+				->result_array()[0];
+			$info['Tfather'] = $this->db->select('Tname')
+				->where('Tid', $info['Tfather'])
+				->get('target')
+				->result_array()[0]['Tname'];
+			$targets[$key] = $info;
+		}
+		$article['Btargets'] = $targets;
+
 		//get
 		return $article;
 
