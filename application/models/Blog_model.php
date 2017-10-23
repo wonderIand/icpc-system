@@ -168,17 +168,17 @@ class Blog_model extends CI_Model {
 		return $article;
 
 		//check upvoteEnable 
-		if (isset($form['Utoken']))
+		/*if (isset($form['Utoken']))
 		{
 			$result = $this->db->where(array('Uusername' => $username, 'UTid' => $form['UTid']))
-				->get('Blog_likes')
+				->get('blog_likes')
 				->result_array();
 			if ( ! $result) 
 			{				
 				$article['upvoteEnable'] = TRUE;
 			}
 		}
-		return $article;
+		return $article;*/
 
 	}
 
@@ -204,12 +204,12 @@ class Blog_model extends CI_Model {
         if (isset($form['page_size']))
         {
 			$ret['page_size'] = $form['page_size'];
-			$count = $this->db->where($where)->count_all_results('Blog');
+			$count = $this->db->where($where)->count_all_results('blog');
 	        $ret['page_max'] = (int)(($count - 1) / $form['page_size']) + 1;
 			$ret['page'] = $form['page'];
         	$this->db->limit($form['page_size'], ($form['page'] - 1) * $form['page_size']);
         }
-       	$articles = $this->db->where($where)->order_by('Btime','DESC')->get('Blog')->result_array();
+       	$articles = $this->db->where($where)->order_by('Btime','DESC')->get('blog')->result_array();
 
        	//set upvoteEnable 
        	foreach ($articles as $key => $article) {
@@ -227,7 +227,7 @@ class Blog_model extends CI_Model {
 			if (isset($form['Utoken']))
 			{
 				$result = $this->db->where(array('Uusername' => $user, 'Bid' => $article['Bid']))
-					->get('Blog_likes')
+					->get('blog_likes')
 					->result_array();
 				if ( ! $result)
 				{
