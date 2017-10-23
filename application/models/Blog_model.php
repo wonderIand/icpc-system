@@ -382,7 +382,6 @@ class Blog_model extends CI_Model {
 		//check tag
 		$data['Tid'] = $form['Tid'];
 		$data['Utoken'] = $form['Utoken'];
-		$data['TFLAG'] = array(0);
 		$this->load->model('Target_model', 'target');
 		$tag_info = $this->target->get($data);
 		if ($tag_info['Ttype'] != 2)
@@ -404,5 +403,61 @@ class Blog_model extends CI_Model {
 
 	}
 
+	/*
+	 * 删除博客标签
+	 */
+	public function delete_target($form)
+	{
+		//config
+		$members = array('Bid', 'Tid');
+
+		//check token
+		$this->load->model('User_model', 'user');
+		$this->user->check_token($form['Utoken']);
+
+		//check token & get user
+		$this->load->model('User_model', 'user');
+		$this->user->check_token($form['Utoken']);
+		$user = $this->db->select('Uusername')
+			->where('Utoken', $form['Utoken'])
+			->get('user')
+			->result_array()[0]['Uusername'];
+
+		//check Bid & get author
+		$result = $this->db->select('Bauthor')
+			->where('Bid', $form['Bid'])
+			->get('blog')
+			->result_array();
+		if ( ! $result)
+		{
+			throw new Exception('不存在的博客id', 0);
+		}
+		$author = $result ? $result[0]['Bauthor'] : NULL;
+
+		//check editable
+		if ($author != $user)
+		{
+			throw new Exception('只有作者可以修改博客', 402);
+		}
+
+		//check tag
+		$data['Tid'] = $form['Tid'];
+		$data['Utoken'] = $form['Utoken'];
+		$this->load->model('Target_model', 'target');
+		$tag_info = $this->target->get($data);
+
+		//check exist
+		$where = array('Bid' => $form['Bid'], 'Tid' => $form['Tid']);
+		$repeat = $this->db->get_where('blog_target', $where)
+			->result_array();
+		if ( ! $repeat)
+		{
+			throw new Exception('该博客没有该标签');
+		}
+
+		//delete
+		$this->db->delete('blog_target', $where);
+
+	}
 
 }

@@ -199,7 +199,39 @@ class Blog extends CI_Controller {
 		//return
 		output_data(1, '增加成功', array());
 	}
+
+
+	/**
+	 * 删除博客标签
+	 */
+	public function delete_target () 
+	{
+		//config
+		$members = array('Utoken', 'Bid', 'Tid');
+
+		//post
+		try
+		{
+			//get post
+			$post = get_post();
+			$post['Utoken'] = get_token();
+
+			//过滤 && delete
+			$this->load->model('Blog_model', 'my_blog');
+			$this->my_blog->delete_target(filter($post, $members));
+
+		}
+		catch (Exception $e)
+		{
+			output_data($e->getCode(), $e->getMessage(), array());
+			return;
+		}
+
+		//return
+		output_data(1, '删除成功', array());
+	}
 	
+
 	/**
 	 * 查询文章记录
 	 */
