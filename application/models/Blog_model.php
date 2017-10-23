@@ -36,6 +36,44 @@ class Blog_model extends CI_Model {
 	 **********************************************************************************************/
 
 	/**
+	 * 点赞
+	 */
+	public function like($form)
+	{
+		//check token
+		$this->load->model('User_model','user');
+		$this->user->check_token($form['Utoken']);
+		$username = $this->db->select('Uusername')
+			->where(array('Utoken' => $form['Utoken']))
+			->get('user')
+			->result_array()[0]['Uusername'];
+
+		//check Bid
+		$result = $this->db->select('Blikes')
+			->where(array('Bid' => $form['Bid']))
+			->get('blog')
+			->result_array();
+		if ( ! $result)
+		{
+			throw new Exception('文章不存在');
+		}
+		$likes = $result[0]['Blikes'];
+
+		//check blog_like
+		$where = array('Uusername' => $username, 'Bid' => $form['Bid']);
+		if ($this->db->where($where)->get('blog_like')->result_array())
+		{
+			throw new Exception('不能重复点赞', 402);
+		}
+
+		//DO like
+		$this->db->insert('blog_like', $where);
+		$this->db->update('blog', array('Blikes' => $likes + 1), array('Bid' => $form['Bid']));
+
+	} 
+
+
+	/**
 	 * 添加记录
 	 */
 	public function register($form)
