@@ -103,7 +103,7 @@ class Blog_model extends CI_Model {
 	public function register($form)
 	{
 		//config
-		$members = array('Btitle', 'Bauthor', 'Btime', 'Bproblemid');
+		$members = array('Btitle', 'Bauthor', 'Btime', 'Bproblemid', 'Btype');
 		$members_article = array('Bid', 'BAarticle');
 
 		//add time
@@ -170,7 +170,7 @@ class Blog_model extends CI_Model {
 	{
 		
 		//config
-		$members = array('Btitle', 'Bproblemid');
+		$members = array('Btitle', 'Bproblemid', 'Btype');
 		$members_article = array('BAarticle');
 
 		//check token & get user

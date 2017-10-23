@@ -33,7 +33,7 @@ class Blog extends CI_Controller {
 	public function register()
 	{
 		//config
-		$members = array('Utoken', 'Bproblemid', 'Btitle', 'BAarticle');
+		$members = array('Utoken', 'Btype', 'Bproblemid', 'Btitle', 'BAarticle');
 
 		//post
 		try 
@@ -128,7 +128,7 @@ class Blog extends CI_Controller {
 	public function update()
 	{
 		//config
-		$members = array('Utoken', 'Bproblemid', 'Bid', 'Btitle', 'BAarticle');
+		$members = array('Utoken', 'Btype', 'Bproblemid', 'Bid', 'Btitle', 'BAarticle');
 
 		//post
 		try

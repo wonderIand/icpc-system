@@ -185,6 +185,11 @@ $config = array(
 			'field' => 'Bproblemid',
 			'label' => '题目编号',
 			'rules' => 'min_length[1]|max_length[10]|alpha_numeric'
+			),
+		array(
+			'field' => 'Btype',
+			'label' => '类型',
+			'rules' => 'required|min_length[1]|max_length[5]'
 			)
 		),
 
@@ -217,9 +222,9 @@ $config = array(
 			'rules' => 'required|min_length[1]|max_length[21500]'
 			),
 		array(
-			'field' => 'Bproblemid',
-			'label' => '题目编号',
-			'rules' => 'min_length[1]|max_length[10]|alpha_numeric'
+			'field' => 'Btype',
+			'label' => '类型',
+			'rules' => 'required|min_length[1]|max_length[5]'
 			)
 		),
 
