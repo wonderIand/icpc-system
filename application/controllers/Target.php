@@ -33,7 +33,7 @@ class Target extends CI_Controller {
 	public function get()
 	{
 		//config
-		$members = array('Tid', 'Utoken', 'TFLAG');
+		$members = array('Tid', 'Bid', 'Utoken', 'getson');
 
 		//get
 		try 
@@ -43,10 +43,17 @@ class Target extends CI_Controller {
 			if ( ! $this->input->get('Tid'))
 			{
 				throw new Exception('必须指定Tid');
-				
 			}
 			$post['Tid'] = $this->input->get('Tid');
-			$post['TFLAG'] = get_post();
+			$temp = get_post();
+			if (isset($temp['getson']))
+			{
+				$post['getson'] = $temp['getson'];				
+			}
+			if ($this->input->get('Bid'))
+			{
+				$post['Bid'] = $this->input->get('Bid');
+			}
 
 			//Do get
 			$this->load->model('Target_model', 'my_target');

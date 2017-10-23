@@ -22,6 +22,14 @@ class Target_model extends CI_Model {
 	 * 工具集
 	 *****************************************************************************************************/
 
+	private function get_statu($bid, $tid)
+	{
+		if ($this->db->where(array('Bid' => $bid, 'Tid' => $tid))->get('blog_target')->result_array())
+		{
+			return 1;
+		}
+		return 0;
+	}
 
 	/*****************************************************************************************************
 	 * 主接口
@@ -55,16 +63,29 @@ class Target_model extends CI_Model {
 		$data = $result[0];
 		$data = filter($data, $members);
 
-		//check TFLAG
-		if ( current($form['TFLAG']) )
+		//check getson
+		if (isset($form['getson']) && $form['getson'] == 1)
 		{
 			$where = array('Tfather' => $data['Tid']);
 			$data['Tson'] = $this->db->select('Tid,Tname,Ttype')
 					->where($where)
 					->get('target')
 					->result_array();
-			return $data;
 		}
+
+		//check Bid
+		if (isset($form['Bid']))
+		{
+			$data['Tstatu'] = $this->get_statu($form['Bid'], $data['Tid']);
+			if (isset($data['Tson']) && $data['Tson'])
+			{
+				foreach ($data['Tson'] as $key => $value) 
+				{
+					$data['Tson'][$key]['Tstatu'] = $this->get_statu($form['Bid'], $value['Tid']);
+				}		
+			}
+		}
+
 
 		return $data;
 	}
