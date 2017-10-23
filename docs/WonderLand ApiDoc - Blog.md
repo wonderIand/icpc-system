@@ -8,6 +8,7 @@
 
 | 日期         | 备注  
 | ------------ | ------
+| **17/10/23** | **【get_list】** 新增元素返回字段 **`total`**
 | **17/10/23** | **【get_list】** 新增元素返回字段 **`Btargets`**
 | **17/10/23** | **【get】** 新增返回值 **`Btargets`**
 | **17/10/22** | 新增属性 · **`Bviews`**，**【get】【get_list】** 新增返回 **`Bviews`**
@@ -210,6 +211,7 @@
 | **page_size**   | 分页大小
 | **page**        | 当前页
 | **page_max**    | 最大页数
+| **total**       | 总条目
 
 
 
@@ -222,7 +224,7 @@
 | **Blikes**       | 点赞数
 | **Bviews**       | 浏览数
 | **upvoteEnable** | 可否点赞 
-| **Btargets**               | 博客标签列表
+| **Btargets**     | 博客标签列表，其中 **Tfather** 为父标签，**Tname** 为标签名，**Tid** 为标签ID.
 
 
 - **查询示例：http://icpc-system.and-who.cn/Blog/get_list?Bauthor=ahhh1**
@@ -232,36 +234,17 @@
 	"type": 1,
 	"message": "获取成功",
 	"data": {
+		"total": 9,
 		"page_size": "3",
-		"page": "3",
+		"page": "1",
 		"page_max": 3,
 		"editable": true,
 		"data": [
 			{
-				"Bid": "3",
+				"Bid": "9",
 				"Btitle": "咸鱼之路",
 				"Bauthor": "aaaau1",
-				"Btime": "2017-10-23 04:37:27",
-				"Blikes": "0",
-				"Bviews": "0",
-				"Btargets": [],
-				"upvoteEnable": false
-			},
-			{
-				"Bid": "2",
-				"Btitle": "咸鱼之路",
-				"Bauthor": "aaaau1",
-				"Btime": "2017-10-23 04:37:25",
-				"Blikes": "0",
-				"Bviews": "0",
-				"Btargets": [],
-				"upvoteEnable": false
-			},
-			{
-				"Bid": "1",
-				"Btitle": "咸鱼之路",
-				"Bauthor": "aaaau1",
-				"Btime": "2017-10-22 14:22:44",
+				"Btime": "2017-10-23 04:37:30",
 				"Blikes": "0",
 				"Bviews": "0",
 				"Btargets": [
@@ -276,6 +259,26 @@
 						"Tname": "数论"
 					}
 				],
+				"upvoteEnable": false
+			},
+			{
+				"Bid": "8",
+				"Btitle": "咸鱼之路",
+				"Bauthor": "aaaau1",
+				"Btime": "2017-10-23 04:37:29",
+				"Blikes": "0",
+				"Bviews": "0",
+				"Btargets": [],
+				"upvoteEnable": false
+			},
+			{
+				"Bid": "6",
+				"Btitle": "咸鱼之路",
+				"Bauthor": "aaaau1",
+				"Btime": "2017-10-23 04:37:29",
+				"Blikes": "0",
+				"Bviews": "0",
+				"Btargets": [],
 				"upvoteEnable": false
 			}
 		]
