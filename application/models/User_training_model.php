@@ -370,7 +370,7 @@ class User_training_model extends CI_Model {
 	{
 
 		//config
-		$members = array('page_size', 'page', 'page_max', 'editable', 'data');
+		$members = array('total', 'page_size', 'page', 'page_max', 'editable', 'data');
 
 		//check token
 		$this->load->model('User_model', 'user');
@@ -382,11 +382,11 @@ class User_training_model extends CI_Model {
 
 		//select training
        	$where = array('Uusername' => $form['Uusername']);
+       	$ret['total'] = $this->db->where($where)->count_all_results('user_training');
         if (isset($form['page_size']))
         {
 			$ret['page_size'] = $form['page_size'];
-			$count = $this->db->where($where)->count_all_results('user_training');
-	        $ret['page_max'] = (int)(($count - 1) / $form['page_size']) + 1;
+	        $ret['page_max'] = (int)(($ret['total'] - 1) / $form['page_size']) + 1;
 			$ret['page'] = $form['page'];
         	$this->db->limit($form['page_size'], ($form['page'] - 1) * $form['page_size']);
         }
