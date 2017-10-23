@@ -10,6 +10,9 @@ class Blog_model extends CI_Model {
 	 * 私有工具集
 	 **********************************************************************************************/
 
+	/**
+	 * 获取文章标签
+	 */
 	private function get_targets($bid)
 	{
 		$targets = $this->db->select('Tid')
@@ -30,6 +33,27 @@ class Blog_model extends CI_Model {
 		}
 		return $targets;
 	}
+
+	/**
+	 * 文章阅读量，新阅读量返回true
+	 */
+	private function add_view($username, $bid)
+	{
+		$where = array('Uusername' => $username, 'Bid' => $bid);
+		if ( ! $this->db->where($where)
+			->get('blog_view')
+			->result_array())
+		{
+			$this->db->insert('blog_view', $where);
+			$views = $this->db->select('Bviews')
+				->where(array('Bid' => $bid))
+				->get('blog')
+				->result_array()[0]['Bviews'];
+			$this->db->update('blog', array('Bviews' => $views + 1), array('Bid' => $bid));
+			return true;
+		}
+		return false;
+	}	
 
 	/**********************************************************************************************
 	 * 对外接口
@@ -230,7 +254,11 @@ class Blog_model extends CI_Model {
 		//get blog_target
 		$article['Btargets'] = $this->get_targets($form['Bid']);
 
-		//get
+		//view & get
+		if (isset($username) && $this->add_view($username, $form['Bid']))
+		{
+			$article['Bviews'] = (string)($article['Bviews'] + 1); 
+		}
 		return $article;
 
 		//check upvoteEnable 
