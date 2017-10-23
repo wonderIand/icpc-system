@@ -1,8 +1,4 @@
-﻿# 删除
-
-标签（空格分隔）： 未分类
-
-# WonderLand ApiDoc - Blog
+﻿# WonderLand ApiDoc - Blog
 
 标签（空格分隔）： WonderLand
 
@@ -12,6 +8,8 @@
 
 | 日期         | 备注  
 | ------------ | ------
+| **17/10/23** | **【get_list】** 新增元素返回字段 **`Btargets`**
+| **17/10/23** | **【get】** 新增返回值 **`Btargets`**
 | **17/10/22** | 新增属性 · **`Bviews`**，**【get】【get_list】** 新增返回 **`Bviews`**
 | **17/10/22** | 新增接口 · **【添加一条博客标签增加 · register_target】**
 | **17/10/20** | 新增接口 · **【获取某用户的个人博客文章列表 · get_list】**
@@ -144,7 +142,7 @@
 
 ## **接口 ·查询某篇文章**
 - **请求方法：GET**
-- **接口网址：http://icpc-system.and-who.cn/Blog/get?Bid**
+- **接口网址：http://icpc-system.and-who.cn/Blog/get?:Bid**
 
 | **返回的文章信息** | 备注
 | -------------------------- | ----
@@ -157,6 +155,7 @@
 | **Bviews**                 | 浏览数
 | **BAarticle**              | 正文
 | **upvoteEnable**           |当前用户可否点赞
+| **Btargets**               | 博客标签列表
 
 
 - **查询示例：http://icpc-system.and-who.cn/Blog/get?Bid=233**
@@ -164,19 +163,30 @@
 
 ```
 {
-	{
 	"type": 1,
 	"message": "获取成功",
 	"data": {
-		"Bid": "233",
-		"Btitle": "a Btitle",
-		"Bauthor": "a Bauthor",
-		"Btime": "2017-07-11 10:55:00",
+		"Bid": "1",
+		"Btitle": "咸鱼之路",
+		"Bauthor": "aaaau1",
+		"Btime": "2017-10-22 14:22:44",
+		"Blikes": "0",
 		"Bviews": "0",
-		"Blikes": "233",
-		"BAarticle": "aaaaaaaaaa",
+		"BAarticle": "一位乘客失去了梦想",
 		"editable": true,
-		"upvoteEnable": false
+		"upvoteEnable": false,
+		"Btargets": [
+			{
+				"Tid": "2",
+				"Tfather": "root",
+				"Tname": "字符串"
+			},
+			{
+				"Tid": "3",
+				"Tfather": "root",
+				"Tname": "数论"
+			}
+		]
 	}
 }
 ```
@@ -212,46 +222,65 @@
 | **Blikes**       | 点赞数
 | **Bviews**       | 浏览数
 | **upvoteEnable** | 可否点赞 
+| **Btargets**               | 博客标签列表
 
 
-- **查询示例：http://icpc-system.and-who.cn/Blog/get_list?Bauthor=hbbhbb&&page_size=3&&page=4**
 - **查询示例：http://icpc-system.and-who.cn/Blog/get_list?Bauthor=ahhh1**
+- **查询示例：http://icpc-system.and-who.cn/Blog/get_list?Bauthor=aaaau1&&page_size=3&&page=3**
 ```
 {
 	"type": 1,
 	"message": "获取成功",
 	"data": {
+		"page_size": "3",
+		"page": "3",
+		"page_max": 3,
 		"editable": true,
 		"data": [
 			{
-        		"Bid": "1",
-        		"Btitle": "a Btitle",
-        		"Bauthor": "ahhh1",
-        		"Btime": "2017-07-11 10:55:00",
-        		"Bviews": "0",
-        		"Blikes": "233",
-        		"editable": true,
+				"Bid": "3",
+				"Btitle": "咸鱼之路",
+				"Bauthor": "aaaau1",
+				"Btime": "2017-10-23 04:37:27",
+				"Blikes": "0",
+				"Bviews": "0",
+				"Btargets": [],
+				"upvoteEnable": false
 			},
 			{
-        		"Bid": "2",
-        		"Btitle": "a Btitle",
-        		"Bauthor": "ahhh1",
-        		"Btime": "2017-07-11 10:55:00",
-        		"Bviews": "0",
-        		"Blikes": "233",
-        		"editable": true,
+				"Bid": "2",
+				"Btitle": "咸鱼之路",
+				"Bauthor": "aaaau1",
+				"Btime": "2017-10-23 04:37:25",
+				"Blikes": "0",
+				"Bviews": "0",
+				"Btargets": [],
+				"upvoteEnable": false
 			},
 			{
-        		"Bid": "3",
-        		"Btitle": "ahhh1",
-        		"Bauthor": "a Bauthor",
-        		"Btime": "2017-07-11 10:55:00",
-		        "Bviews": "0",
-        		"Blikes": "233",
-        		"editable": true,
-			},
+				"Bid": "1",
+				"Btitle": "咸鱼之路",
+				"Bauthor": "aaaau1",
+				"Btime": "2017-10-22 14:22:44",
+				"Blikes": "0",
+				"Bviews": "0",
+				"Btargets": [
+					{
+						"Tid": "2",
+						"Tfather": "root",
+						"Tname": "字符串"
+					},
+					{
+						"Tid": "3",
+						"Tfather": "root",
+						"Tname": "数论"
+					}
+				],
+				"upvoteEnable": false
+			}
 		]
 	}
+}
 ```
 
 ---

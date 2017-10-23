@@ -10,6 +10,31 @@ class Blog_model extends CI_Model {
 	 * 私有工具集
 	 **********************************************************************************************/
 
+	private function get_targets($bid)
+	{
+		$targets = $this->db->select('Tid')
+			->where('Bid', $bid)
+			->get('blog_target')
+			->result_array();
+		if ($targets)
+		foreach ($targets as $key => $target) {
+			$info = $this->db->select(array('Tid', 'Tfather', 'Tname'))
+				->where('Tid', $target['Tid'])
+				->get('target')
+				->result_array()[0];
+			$info['Tfather'] = $this->db->select('Tname')
+				->where('Tid', $info['Tfather'])
+				->get('target')
+				->result_array()[0]['Tname'];
+			$targets[$key] = $info;
+		}
+		return $targets;
+	}
+
+	/**********************************************************************************************
+	 * 对外接口
+	 **********************************************************************************************/
+
 	/**
 	 * 添加记录
 	 */
@@ -164,6 +189,9 @@ class Blog_model extends CI_Model {
 
 		$article['upvoteEnable'] = FALSE;
 
+		//get blog_target
+		$article['Btargets'] = $this->get_targets($form['Bid']);
+
 		//get
 		return $article;
 
@@ -209,20 +237,25 @@ class Blog_model extends CI_Model {
 			$ret['page'] = $form['page'];
         	$this->db->limit($form['page_size'], ($form['page'] - 1) * $form['page_size']);
         }
-       	$articles = $this->db->where($where)->order_by('Btime','DESC')->get('blog')->result_array();
+       	$blogs = $this->db->where($where)->order_by('Btime','DESC')->get('blog')->result_array();
+       	if ($blogs)
+       	foreach ($blogs as $key => $blog) 
+       	{
+       		$blogs[$key]['Btargets'] = $this->get_targets($blog['Bid']);
+       	}
 
        	//set upvoteEnable 
-       	foreach ($articles as $key => $article) {
-			$articles[$key]['upvoteEnable'] = FALSE;}
+       	foreach ($blogs as $key => $blog) {
+			$blogs[$key]['upvoteEnable'] = FALSE;}
 
 		//return
 		$ret['editable'] = isset($user) && $user == $form['Bauthor'];
-		$ret['data'] = $articles;
+		$ret['data'] = $blogs;
 		return filter($ret, $members);
 
 
 		//check upvoteEnable 目前没有实现该功能
-		foreach ($articles as $key => $article) {
+		/*foreach ($articles as $key => $article) {
 			$articles[$key]['upvoteEnable'] = FALSE;
 			if (isset($form['Utoken']))
 			{
@@ -239,7 +272,7 @@ class Blog_model extends CI_Model {
 		//return
 		$ret['editable'] = isset($user) && $user == $form['Uusername'];
 		$ret['data'] = $articles;
-		return filter($ret, $members);
+		return filter($ret, $members);*/
 
 	}
 
