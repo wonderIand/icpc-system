@@ -153,7 +153,7 @@ class User_model extends CI_Model {
 	{
 
 		//config
-		$members_user = array('Uusername', 'Ulast_visit');
+		$members_user = array('Uusername', 'Utype', 'Ulast_visit');
 		$members_info = array('Unickname', 'Urealname');
 
 		//check token
@@ -197,7 +197,7 @@ class User_model extends CI_Model {
 
 		//config
 		$members = array('page_size', 'page', 'page_max', 'data');
-		$members_user = array('Uusername', 'Ulast_visit');
+		$members_user = array('Uusername', 'Utype', 'Ulast_visit');
 		$members_info = array('Urealname', 'Unickname');
 
 		//check token

@@ -8,11 +8,12 @@
 
 | 日期         | 备注  
 | ------------ | ------
-| **17/07/--** | 添加接口 · **【用户注册 · register】**
-| **17/07/--** | 添加接口 · **【用户登陆 · login】**
-| **17/07/--** | 添加接口 · **【获取某用户信息 · get】**
-| **17/07/--** | 添加接口 · **【获取用户列表 · get_list】**
+| **17/07/23** | 添加属性 · **`Utype`**，【get】【get_list】增加返回该字段
 | **17/07/09** | **【WonderLand Beta 1.0 Compeleted】**
+| **17/07/--** | 添加接口 · **【获取用户列表 · get_list】**
+| **17/07/--** | 添加接口 · **【获取某用户信息 · get】**
+| **17/07/--** | 添加接口 · **【用户登陆 · login】**
+| **17/07/--** | 添加接口 · **【用户注册 · register】**
 
 
 ---
@@ -25,6 +26,7 @@
 | ------------- | ------ | -------- | -------- | --------- | --------
 | **Uusername** | 用户名 | 6        | 16       | char(20)  | 字母/数字/下划线/破折号
 | **Upassword** | 密码   | 6        | 16       | char(20)  | -                     
+| **Utype**     | 类型   | -        | -        | -         | - 
 | **Utoken**    | 凭据   | 30       | 30       | char(30)  | -
 | **Ulast_visit**| 上次访问 | -     | -        | TIMESTAMP | - 
 
@@ -104,6 +106,7 @@
 | ---------------------- | ----
 | **Uusername**          | 用户名
 | **Urealname**          | 真实姓名
+| **Utype**              | 用户类型
 | **Unickname**          | 昵称
 | **Ulast_visit**        | 上次访问时间
 
@@ -115,10 +118,11 @@
 	"type": 1,
 	"message": "获取成功",
 	"data": {
-		"Uusername": "aaaau6",
-		"Urealname": "a 真实姓名真实姓名",
+		"Uusername": "aaaau1",
+		"Utype": "user",
+		"Ulast_visit": "2017-10-22 14:29:29",
 		"Unickname": "a",
-		"Ulast_visit": "2017-07-06 17:16:24"
+		"Urealname": "a 真实姓名真实姓名"
 	}
 }
 ```
@@ -140,6 +144,7 @@
 | ---------------------- | ----
 | **Uusername**          | 用户名
 | **Urealname**          | 真实姓名
+| **Utype**              | 用户类型
 | **Unickname**          | 昵称
 | **Ulast_visit**        | 上次访问时间
 
@@ -150,19 +155,28 @@
 	"type": 1,
 	"message": "获取成功",
 	"data": {
-		"page_size": "2",
-		"page": "2",
-		"page_max": 3,
+		"page_size": "3",
+		"page": "1",
+		"page_max": 2,
 		"data": [
 			{
-				"Uusername": "aaaau3",
-				"Ulast_visit": "2017-07-07 08:59:21",
+				"Uusername": "aaaau1",
+				"Utype": "user",
+				"Ulast_visit": "2017-10-22 14:29:29",
 				"Urealname": "a 真实姓名真实姓名",
 				"Unickname": "a"
 			},
 			{
-				"Uusername": "aaaau4",
-				"Ulast_visit": "2017-07-07 08:59:23",
+				"Uusername": "aaaau3",
+				"Utype": "user",
+				"Ulast_visit": "2017-07-10 08:14:32",
+				"Urealname": "a 真实姓名真实姓名",
+				"Unickname": "a"
+			},
+			{
+				"Uusername": "aaaau41",
+				"Utype": "user",
+				"Ulast_visit": "2017-07-10 05:08:33",
 				"Urealname": "a 真实姓名真实姓名",
 				"Unickname": "a"
 			}
