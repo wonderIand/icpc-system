@@ -113,6 +113,17 @@ CREATE TABLE IF NOT EXISTS `blog_view` (
 	PRIMARY KEY(`BVid`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
+CREATE TABLE IF NOT EXISTS `oj_account`(
+	`Uusername` char(20),
+	`HDUusername` char(20),
+	`HDUpassword` char(20),
+	`FOJusername` char(20),
+	`FOJpassword` char(20),
+	`CFusername` char(20),
+	`CFpassword` char(20),
+	PRIMARY KEY(`Uusername`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
 
 -- CREATE TABLE IF NOT EXISTS `user_training_tag` (
 -- 	`UTid` int,
