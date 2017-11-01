@@ -261,6 +261,30 @@ $config = array(
 				'label' => '标签名',
 				'rules' => 'required|min_length[1]|max_length[30]'
 				)
+		),
+
+	//oj关联账户表单
+	'oj_account' => array(
+		array(
+			'field' => 'Uusername',
+			'label' => '用户名',
+			'rules' => 'required'
+			),
+		array(
+			'field' => 'OJname',
+			'label' => 'oj名称',
+			'rules' => 'required'
+			),
+		array(
+			'field' => 'OJusername',
+			'label' => 'oj用户名',
+			'rules' => 'required'
+			),
+		array(
+			'field' => 'OJpassword',
+			'label' => 'oj密码',
+			'rules' => 'required'
+			)
 		)
 
 );
