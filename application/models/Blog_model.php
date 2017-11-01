@@ -55,6 +55,38 @@ class Blog_model extends CI_Model {
 		return false;
 	}	
 
+	/**
+	 * 标签检索博客，返回所有满足的博客标号(Bid)
+	 */
+	private function search($tname)
+	{
+		//get tid
+		foreach ($tname as $key => $name)
+		{
+			$where = array('Tname' => $name, 'Ttype' => 2);
+			$targets[$key] = $this->db->select('Tid')
+				->where($where)
+				->get('target')
+				->result_array();
+		}
+
+		//get bid
+		if ($targets)
+		{
+			foreach ($targets as $key => $target)
+			{
+				$bid[$key] = $this->db->select('Bid')
+					->where(array('Tid' => $target[0]['Tid']))
+					->get('blog_target')
+					->result_array();
+			}
+		}
+
+		//return
+		return $bid;
+	}
+
+
 	/**********************************************************************************************
 	 * 对外接口
 	 **********************************************************************************************/
