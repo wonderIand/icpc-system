@@ -118,7 +118,7 @@ CREATE TABLE IF NOT EXISTS `oj_account`(
 	`OJname` char(20),
 	`OJpassword` char(20),
 	`OJusername` char(20),
-	PRIMARY KEY(`Uusername`)
+	PRIMARY KEY(`Uusername`,`OJname`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 
