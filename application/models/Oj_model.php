@@ -15,7 +15,7 @@ class Oj_model extends CI_Model {
 	/**
 	 * 添加hdu账号
 	 */
-	public function add_hdu_account($form)
+	public function add_hdu_account($form)	
 	{
 		//config
 		$members = array('Uusername', 'OJname', 'OJusername', 'OJpassword');
@@ -38,6 +38,16 @@ class Oj_model extends CI_Model {
 			throw new Exception("账户已被关联");
 		}
 		
+		//check OJ
+		$where = array('OJname' => $form['OJname'],'Uusername' => $form['Uusername']);
+		if ( $result = $this->db->select('Uusername')
+			->where($where)
+			->get('oj_account')
+			->result_array())
+		{
+			throw new Exception("已关联hdu账号");
+		}
+
 		//check hdu username and password
 		$url ='http://acm.hdu.edu.cn/status.php';
 		$ch1 = curl_init();
