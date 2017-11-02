@@ -87,4 +87,40 @@ class Oj_model extends CI_Model {
 		$this->db->insert('oj_account',filter($form,$members));
 	}
 
+	//添加foj账号
+	public function add_foj_account($form)	
+	{
+		//config
+		$members = array('Uusername', 'OJname', 'OJusername', 'OJpassword');
+
+		
+		//check token
+		$this->load->model('User_model','my_user');
+		if (isset($form['Utoken'])) 
+		{
+			$this->my_user->check_token($form['Utoken']);
+		}
+
+		//check OJusername
+		$where = array('OJname' => $form['OJname'],'OJusername' => $form['OJusername']);
+		if ( $result = $this->db->select('OJusername')
+			->where($where)
+			->get('oj_account')
+			->result_array())
+		{
+			throw new Exception("账户已被关联");
+		}
+		
+		//check OJ
+		$where = array('OJname' => $form['OJname'],'Uusername' => $form['Uusername']);
+		if ( $result = $this->db->select('Uusername')
+			->where($where)
+			->get('oj_account')
+			->result_array())
+		{
+			throw new Exception("已关联foj账号");
+		}
+
+		$this->db->insert('oj_account',filter($form,$members));
+	}
 }
