@@ -27,7 +27,7 @@
 - **查询示例：http://icpc-system.and-who.cn/Station/recent_contests?page_size=2&page=2**
 - **成功返回例子**
 
-```
+
 ```
 {
 	"type": 1,
@@ -58,7 +58,6 @@
 		"page_max": 1
 	}
 }
-```
 ```
 
 
