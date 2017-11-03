@@ -54,6 +54,104 @@ class Blog_model extends CI_Model {
 		}
 		return false;
 	}	
+	
+
+	/**
+	 *	获取一个标签的所有叶子节点
+	 */
+	private function get_leaves($tid)
+	{
+		//config
+		$type_father = 1;
+		$type_son = 2;
+		$ret = array();
+
+		//check type && get leaves
+		$ttype = $this->db->select('Ttype')
+			->where('Tid', $tid)
+			->get('target')
+			->result_array()[0]['Ttype'];
+		if ($ttype == $type_son)
+		{
+			return array($tid);
+		}
+		else if ($ttype == $type_father)
+		{
+			$sons = $this->db->select('Tid')
+				->where('Tfather', $tid)
+				->get('target')
+				->result_array();
+			foreach ($sons as $son)
+			{
+				$leaves = $this->get_leaves($son['Tid']);
+				foreach ($leaves as $leaf)
+				{
+					array_push($ret, $leaf);
+				}
+			}
+		}
+
+		//return
+		return $ret;
+	}
+
+
+	/**
+	 * 标签检索博客，返回所有满足的博客标号(Bid)
+	 */
+	private function search($tids)
+	{
+		//config
+		$tosearch = array();
+		$result = array();
+
+		//get leaves
+		foreach ($tids as $tid)
+		{
+			//check exist
+			$where = array('Tid' => $tid);
+			$exist = $this->db->get_where('target', $where)
+					->result_array();
+			if ($exist)
+			{
+				//get leaves
+				$leaves = $this->get_leaves($tid);
+				foreach ($leaves as $leaf)
+				{
+					array_push($tosearch, $leaf);
+				}
+			}
+		}
+		
+		//DO search
+		if ($tosearch)
+		{
+			foreach ($tosearch as $key => $tid)
+			{
+				$bids[$key] = $this->db->select('Bid')
+					->where(array('Tid' => $tid))
+					->get('blog_target')
+					->result_array();
+			}
+
+			//get bid && duplicate removal
+			$_key = 0;
+			foreach ($bids as $key => $bid)
+			{
+				foreach ($bid as $id)
+				{
+					if ( ! in_array($id, $result))
+					{
+						$result[$_key] = $id;
+						$_key++;
+					}
+				}
+			}
+		}
+
+		//return
+		return $result;
+	}
 
 
 	/**********************************************************************************************
