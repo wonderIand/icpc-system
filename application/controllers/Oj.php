@@ -38,6 +38,14 @@ class Oj extends CI_Controller {
 			$post = get_post();
 			$post['Utoken'] = get_token();
 			
+			//check OJname
+			if (isset($post['OJname']))
+			{
+				if ($post['OJname'] != "hdu")
+				{
+					throw new Exception("oj名称错误");
+				}
+			}
 			//check form
 			$this->load->library('form_validation');
 			$this->form_validation->set_data($post);
@@ -80,6 +88,15 @@ class Oj extends CI_Controller {
 			//get post
 			$post = get_post();
 			$post['Utoken'] = get_token();
+			
+			//check OJname
+			if (isset($post['OJname']))
+			{
+				if ($post['OJname'] != "foj")
+				{
+					throw new Exception("oj名称错误");
+				}
+			}
 			
 			//check form
 			$this->load->library('form_validation');
