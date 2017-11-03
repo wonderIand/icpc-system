@@ -35,10 +35,11 @@ class Station extends CI_Controller {
 
 		//config
 		$members = array('page_size', 'page');
-
+		
 		$url = "http://contests.acmicpc.info/contests.json";
-		$content = file_get_contents($url); 	
-		$data = (array)json_decode($content);
+		$content = file_get_contents($url); 
+
+		$data['data'] = (array)json_decode($content);
 
 		//get page && page_size
 		try
@@ -47,10 +48,9 @@ class Station extends CI_Controller {
 			//get post
 			if ($this->input->get('page_size') && $this->input->get('page'))
 			{
-				$post['page_size'] = $this->input->get('page_size');
-				$post['page'] = $this->input->get('page');
-				$data['page_size'] = $post['page_size'];
-				$data['page'] = $post['page'];
+				$data['page_size'] = $this->input->get('page_size');
+				$data['page'] = $this->input->get('page');
+				$data['page_max'] = (int)(count($data['data']) - 1)/$data['page_size'] + 1;
 			}
 
 		}
