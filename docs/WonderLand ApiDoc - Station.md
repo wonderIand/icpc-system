@@ -8,6 +8,7 @@
 
 | 日期         | 备注  
 | ------------ | ------
+| **17/11/04** | **新增station_recent_contests 表、station_last_vist 表**
 | **17/11/02** | **【recent_contest】 新增元素返回字段 page 、page_size、page_max**
 | **17/07/12** | 添加接口 · **【获取近期比赛 · recent_contest】**
  
@@ -30,7 +31,7 @@
 
 
 
-- **【station_station_last_vist 表】**
+- **【station_last_vist 表】**
 
 | 属性名        |     中文   | 最小长度 | 最大长度 | 类型      | 特殊要求
 | ------------- | ---------- | -------- | -------- | --------- | --------
