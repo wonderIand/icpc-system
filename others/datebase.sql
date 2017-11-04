@@ -114,6 +114,24 @@ CREATE TABLE IF NOT EXISTS `blog_view` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 
+CREATE TABLE IF NOT EXISTS `station_recent_contests` (
+	`Id` char(20) NOT NULL,
+	`Oj` char(20) NOT NULL,
+	`Link` char(150) NOT NULL,
+	`Name` char(20) NOT NULL,
+	`Start_time` TIMESTAMP NOT NULL,
+	`Week` char(10) ,
+	`Access` char(10) DEFAULT "",
+	PRIMARY KEY(`Id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+
+CREATE TABLE IF NOT EXISTS `station_last_vist` (
+	`Last_vist` TIMESTAMP NOT NULL,
+	PRIMARY KEY(`Last_vist`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+
 -- CREATE TABLE IF NOT EXISTS `user_training_tag` (
 -- 	`UTid` int,
 -- 	`UTarticle` varchar(21500) DEFAULT ' ',
