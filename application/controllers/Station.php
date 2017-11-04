@@ -35,11 +35,10 @@ class Station extends CI_Controller {
 
 		//config
 		$members = array('page_size', 'page');
-		
-		$url = "http://contests.acmicpc.info/contests.json";
-		$content = file_get_contents($url); 
 
-		$data['data'] = (array)json_decode($content);
+		//get recent_contests
+		$this->load->model('Station_model','my_station');
+		$data['data'] = $this->my_station->recent_contests();
 
 		//get page && page_size
 		try

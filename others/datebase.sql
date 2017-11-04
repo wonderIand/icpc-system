@@ -115,20 +115,20 @@ CREATE TABLE IF NOT EXISTS `blog_view` (
 
 
 CREATE TABLE IF NOT EXISTS `station_recent_contests` (
-	`Id` char(20) NOT NULL,
-	`Oj` char(20) NOT NULL,
-	`Link` char(150) NOT NULL,
-	`Name` char(20) NOT NULL,
-	`Start_time` TIMESTAMP NOT NULL,
-	`Week` char(10) ,
-	`Access` char(10) DEFAULT "",
+	`id` char(20) NOT NULL,
+	`oj` char(20) NOT NULL,
+	`link` char(150) NOT NULL,
+	`name` char(20) NOT NULL,
+	`start_time` TIMESTAMP NOT NULL,
+	`week` char(10) ,
+	`access` char(10) DEFAULT "",
 	PRIMARY KEY(`Id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 
-CREATE TABLE IF NOT EXISTS `station_last_vist` (
-	`Last_vist` TIMESTAMP NOT NULL,
-	PRIMARY KEY(`Last_vist`)
+CREATE TABLE IF NOT EXISTS `station_last_visit` (
+	`Last_visit` char(20) NOT NULL,
+	PRIMARY KEY(`Last_visit`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 
