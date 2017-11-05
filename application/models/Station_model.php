@@ -26,6 +26,10 @@ class Station_model extends CI_Model {
 	 * 主接口
 	 **********************************************************************************************/
 	
+
+	/**
+	 * 获取最近比赛列表
+	 */
 	public function recent_contests()
 	{
 		//config
