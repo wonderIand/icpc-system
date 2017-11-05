@@ -63,6 +63,14 @@ CREATE TABLE IF NOT EXISTS `user_training_up` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 
+CREATE TABLE IF NOT EXISTS `user_training_view` (
+	`UTVid` int AUTO_INCREMENT,
+	`UTid` int,
+	`Uusername` char(20),
+	PRIMARY KEY(`UTVid`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+
 CREATE TABLE IF NOT EXISTS `blog` (
 	`Bid` int AUTO_INCREMENT,
 	`Btype` char(5) DEFAULT '博 文',
