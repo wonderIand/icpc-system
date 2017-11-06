@@ -79,25 +79,25 @@ class Oj_model extends CI_Model {
 		curl_setopt($ch2, CURLOPT_POSTFIELDS, $post_data);
 		curl_setopt($ch2, CURLOPT_RETURNTRANSFER, true);
 		curl_setopt($ch2, CURLOPT_COOKIEFILE, $cookie_file);
-		curl_setopt($ch2, CURLOPT_FOLLOWLOCATION, 1);
-		if (curl_exec($ch2))
-		{
-			$content = curl_multi_getcontent($ch2);
-		}
-		else
-		{
-			throw new Exception('关联账户用户名或密码错误',401);
-		}
+		curl_exec($ch2);
 		curl_close($ch2);
-		unlink($cookie_file);
+		
+
+		$url = "http://acm.hdu.edu.cn/status.php";
+		$ch3 = curl_init();
+		curl_setopt($ch3, CURLOPT_URL, $url);
+		curl_setopt($ch3, CURLOPT_RETURNTRANSFER, true);
+		curl_setopt($ch3, CURLOPT_COOKIEFILE, $cookie_file);
+		$content = curl_exec($ch3);
+		curl_close($ch3);
 
 		$re = "/".$form['OJusername']."/";
 		if ( ! preg_match($re,$content,$match))
 		{
 			throw new Exception("关联账户用户名或密码错误");
 		}
-
-		$this->db->insert('oj_account',filter($form,$members));
+		unlink($cookie_file);
+		$this->db->insert('oj_account',filter($form, $members));
 	}
 
 	//添加foj账号
@@ -134,7 +134,7 @@ class Oj_model extends CI_Model {
 			throw new Exception("已关联foj账号");
 		}
 
-		$this->db->insert('oj_account',filter($form,$members));
+		$this->db->insert('oj_account',filter($form, $members));
 	}
 	//添加cf账号
 	public function add_cf_account($form)
@@ -218,25 +218,25 @@ class Oj_model extends CI_Model {
 		curl_setopt($ch2, CURLOPT_POSTFIELDS, $post_data);
 		curl_setopt($ch2, CURLOPT_RETURNTRANSFER, true);
 		curl_setopt($ch2, CURLOPT_COOKIEFILE, $cookie_file);
-		curl_setopt($ch2, CURLOPT_FOLLOWLOCATION, 1);
-		if (curl_exec($ch2))
-		{
-			$text = curl_multi_getcontent($ch2);
-		}
-		else
-		{
-			throw new Exception('关联账户用户名或密码错误',401);
-		}
+		curl_exec($ch2);
 		curl_close($ch2);
-		unlink($cookie_file);
 
+		$url = "http://codeforces.com/problemset";
+		$ch3 = curl_init();
+		curl_setopt($ch3, CURLOPT_URL, $url);
+		curl_setopt($ch3, CURLOPT_RETURNTRANSFER, true);
+		curl_setopt($ch3, CURLOPT_COOKIEFILE, $cookie_file);
+		$content = curl_exec($ch3);
+		curl_close($ch3);
+
+		unlink($cookie_file);
 		//正则匹配获取判断是否登录成功
 		$re = "/".$form["OJusername"]."/i";
-		if (! preg_match($re,$text,$match))
+		if (! preg_match($re,$content,$match))
 		{
-			throw new Exception("关联账户用户名或密码错误",401);
+			throw new Exception("关联账户用户名或密码错误");
 		}		
 
-		$this->db->insert('oj_account',filter($form,$members));
+		$this->db->insert('oj_account',filter($form, $members));
 	}
 }
