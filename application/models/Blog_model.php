@@ -99,27 +99,23 @@ class Blog_model extends CI_Model {
 	/**
 	 * 标签检索博客，返回所有满足的博客标号(Bid)
 	 */
-	private function search($tids)
+	private function search($tid)
 	{
 		//config
 		$tosearch = array();
 		$result = array();
 
-		//get leaves
-		foreach ($tids as $tid)
+		//check exist
+		$where = array('Tid' => $tid);
+		$exist = $this->db->get_where('target', $where)
+				->result_array();
+		if ($exist)
 		{
-			//check exist
-			$where = array('Tid' => $tid);
-			$exist = $this->db->get_where('target', $where)
-					->result_array();
-			if ($exist)
+			//get leaves
+			$leaves = $this->get_leaves($tid);
+			foreach ($leaves as $leaf)
 			{
-				//get leaves
-				$leaves = $this->get_leaves($tid);
-				foreach ($leaves as $leaf)
-				{
-					array_push($tosearch, $leaf);
-				}
+				array_push($tosearch, $leaf);
 			}
 		}
 		
@@ -356,7 +352,7 @@ class Blog_model extends CI_Model {
 		//view & get
 		if (isset($username) && $this->add_view($username, $form['Bid']))
 		{
-			$article['Bviews'] = (string)($article['Bviews'] + 1); 
+			$article['Bviews'] = (string)($article['Bviews'] + 1);
 		}
 
 		//check upvoteEnable 
@@ -381,7 +377,7 @@ class Blog_model extends CI_Model {
 	{
 
 		//config
-		$members = array('total', 'page_size', 'page', 'page_max', 'editable', 'data');
+		$members = array('total', 'page_size', 'page', 'page_max', 'editable', 'tid', 'data');
 		$orderby_table = array('Btime' => 1, 'Bviews' => 1, 'Blikes' => 1);
 
 		//check token
@@ -392,9 +388,47 @@ class Blog_model extends CI_Model {
 			$user = $this->db->where('Utoken', $form['Utoken'])->get('user')->result_array()[0]['Uusername'];
 		}
 
+		//target search blogs
+		if (isset($form['tid']))
+		{
+			//get leaves
+			$ret['tid'] = $form['tid'];
+			$leaves = $this->get_leaves($form['tid']);
+
+			//get bids
+			foreach ($leaves as $leaf)
+			{
+				$where = array('Tid' => $leaf);
+				$this->db->or_where($where);
+			}
+			$this->db->where('Bauthor', $form['Bauthor']);
+			$tmp = $this->db->select('blog.Bid')
+				->from('blog')
+				->join('blog_target', 'blog.Bid=blog_target.Bid')
+				->get()
+				->result_array();
+			foreach ($tmp as $key => $t)
+			{
+				$bids[$key] = $t['Bid'];
+			}
+			$bids = array_unique($bids);
+		}
+
 		//select articles
-       	$where = array('Bauthor' => $form['Bauthor']);
-       	$ret['total'] = $this->db->where($where)->count_all_results('blog');
+		if ( ! isset($form['tid']))
+		{
+       		$where = array('Bauthor' => $form['Bauthor']);
+       		$ret['total'] = $this->db->where($where)->count_all_results('blog');
+        }
+        else
+        {
+        	foreach ($bids as $bid)
+			{
+				$where = array('Bid' => $bid);
+				$this->db->or_where($where);
+			}
+			$ret['total'] = $this->db->count_all_results('blog');
+        }
         if (isset($form['page_size']))
         {
 			$ret['page_size'] = $form['page_size'];
@@ -411,18 +445,34 @@ class Blog_model extends CI_Model {
     	}
 
     	//get blogs
-	    $blogs = $this->db->where($where)->order_by($orderby, 'DESC')->get('blog')->result_array();        	
+    	if ( ! isset($form['tid']))
+    	{
+			$blogs = $this->db->where($where)->order_by($orderby, 'DESC')->get('blog')->result_array(); 
+    	}
+    	else
+    	{
+    		foreach ($bids as $bid)
+			{
+				$where = array('Bid' => $bid);
+				$this->db->or_where($where);
+			}
+			$blogs = $this->db->order_by($orderby, 'DESC')->get('blog')->result_array();
+    	}
 
 	    //get targets
        	if ($blogs)
-       	foreach ($blogs as $key => $blog) 
        	{
-       		$blogs[$key]['Btargets'] = $this->get_targets($blog['Bid']);
-       	}
+       		foreach ($blogs as $key => $blog) 
+       		{
+       			$blogs[$key]['Btargets'] = $this->get_targets($blog['Bid']);
+       		}
+        }
 
        	//set upvoteEnable 
-       	foreach ($blogs as $key => $blog) {
-			$blogs[$key]['upvoteEnable'] = FALSE;}
+       	foreach ($blogs as $key => $blog) 
+       	{
+			$blogs[$key]['upvoteEnable'] = FALSE;
+		}
 
 		//return
 		$ret['editable'] = isset($user) && $user == $form['Bauthor'];
