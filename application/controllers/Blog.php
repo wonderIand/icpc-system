@@ -278,7 +278,7 @@ class Blog extends CI_Controller {
 	public function get_list()
 	{
 		//config
-		$members = array('Utoken', 'Bauthor', 'page_size', 'page', 'orderby');
+		$members = array('Utoken', 'Bauthor', 'page_size', 'page', 'orderby', 'tid');
 
 		//get_list
 		try
@@ -299,6 +299,10 @@ class Blog extends CI_Controller {
 			if ($this->input->get('orderby'))
 			{
 				$post['orderby'] = $this->input->get('orderby');
+			}
+			if ($this->input->get('tid'))
+			{
+				$post['tid'] = $this->input->get('tid');
 			}
 
 			//DO get_list
