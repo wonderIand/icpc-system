@@ -14,13 +14,22 @@ class User_training_model extends CI_Model {
 	/**
 	 * 增加访问量
 	 */
-	private function add_view($where) 
+	private function add_view($username, $utid) 
 	{
-		$view = $this->db->select('UTview')
-			->where($where)
-			->get('user_training')
-			->result_array()[0]['UTview'];
-		$this->db->update('user_training', array('UTview' => $view+1), $where);
+		$where = array('Uusername' => $username, 'UTid' => $utid);
+		if ( ! $this->db->where($where)
+				->get('user_training_view')
+				->result_array())
+		{
+			$this->db->insert('user_training_view',$where);
+			$view = $this->db->select('UTview')
+				->where(array('UTid' => $utid))
+				->get('user_training')
+				->result_array()[0]['UTview'];
+			$this->db->update('user_training', array('UTview' => $view + 1), array('UTid' => $utid));	
+			return true;
+		}
+		return false;
 	}
 
 
@@ -143,6 +152,12 @@ class User_training_model extends CI_Model {
 				->result_array()[0];
 			$username = $result['Uusername'];
 			$training['editable'] = $username == $training['Uusername'];
+		}
+
+		//view & get
+		if (isset($username) && $this->add_view($username, $form['UTid']))
+		{
+			$training['UTview'] = (string)($training['UTview'] + 1);
 		}
 
 		//check upvoteEnable
