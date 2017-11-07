@@ -23,7 +23,7 @@
 {
 	"type": 1,
 	"message": "获取成功",
-	"data": {
+	"contests": {
 		"data": [
 			{
 				"id": "164404",
@@ -42,7 +42,8 @@
 				"start_time": "2017-11-04 12:00:00",
 				"week": "SAT",
 				"access": "Public"
-			},
+			}
+		],
 			
 		"page_size": "2",
 		"page": "2",
@@ -66,7 +67,7 @@
 {
 	"type": 1,
 	"message": "获取成功",
-	"data": {
+	"contests": {
 		"data": [
 			{
 				"id": "164404",
@@ -86,6 +87,7 @@
 				"week": "SAT",
 				"access": "Public"
 			}
+		]
 }
 ```
 

@@ -60,7 +60,7 @@
 	"type": 1,
 	"message": "获取成功",
 	"data": {
-		"data": [
+		"contests": [
 			{
 				"id": "164404",
 				"oj": "Codeforces",
@@ -78,8 +78,8 @@
 				"start_time": "2017-11-04 12:00:00",
 				"week": "SAT",
 				"access": "Public"
-			},
-			
+			}
+		],
 		"page_size": "2",
 		"page": "2",
 		"page_max": 1

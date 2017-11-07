@@ -38,7 +38,7 @@ class Station extends CI_Controller {
 
 		//get recent_contests
 		$this->load->model('Station_model','my_station');
-		$data['data'] = $this->my_station->recent_contests();
+		$data['contests'] = $this->my_station->recent_contests();
 
 		//get page && page_size
 		try
@@ -49,7 +49,7 @@ class Station extends CI_Controller {
 			{
 				$data['page_size'] = $this->input->get('page_size');
 				$data['page'] = $this->input->get('page');
-				$data['page_max'] = (int)(count($data['data']) - 1)/$data['page_size'] + 1;
+				$data['page_max'] = (int)(count($data['contests']) - 1)/$data['page_size'] + 1;
 			}
 
 		}
