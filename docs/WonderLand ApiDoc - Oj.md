@@ -8,8 +8,8 @@
 
 | 日期         | 备注  
 | ------------ | ------
-| **17/11/01** | 添加接口 · **【添加hdu关联账号 add_hdu_account】**
-| **17/11/02** | 添加接口 · **【添加foj关联账号 add_foj_account】**
+| **17/11/07** | 添加接口 · **【添加oj关联账号 add_oj_account】**
+| **17/11/07** | 添加接口 · **【获取oj过题数信息 get_oj_acproblems】**
 
 
 ---
@@ -27,17 +27,17 @@
 
 ---
 
-## **接口 · 添加hdu关联账号**
+## **接口 · 添加oj关联账号**
 
 - **请求方法：POST**
-- **接口网址：http://icpc-system.and-who.cn/Oj/add_hdu_account**
+- **接口网址：http://icpc-system.and-who.cn/Oj/add_oj_account**
 
 - **表单要求**
 
 | 属性名         | 必要性 | 最小长度 | 最大长度 | 特殊要求
 | -------------  | ------ | -------- | -------- | --------
 | **Uusername**  | O      | 6        | 16       | 字母/数字/下划线/破折号
-| **OJname**     | O      | -        | -        | 为"hdu"                      
+| **OJname**     | O      | -        | -        | 为"hdu"或"foj"或"cf" 分别表示添加对应oj的账号                     
 | **OJpassword** | O      | -        | -        | -                     
 | **OJusername** | O      | -        | -        | -                     
 
@@ -54,19 +54,17 @@
 
 ---
 
-## **接口 · 添加foj关联账号**
+## **接口 · 获取oj过题数信息**
 
-- **请求方法：POST**
-- **接口网址：http://icpc-system.and-who.cn/Oj/add_foj_account**
+- **请求方法：GET**
+- **接口网址：http://icpc-system.and-who.cn/Oj/get_oj_acproblems?Uusername=&OJname=**
 
 - **表单要求**
 
 | 属性名         | 必要性 | 最小长度 | 最大长度 | 特殊要求
 | -------------  | ------ | -------- | -------- | --------
 | **Uusername**  | O      | 6        | 16       | 字母/数字/下划线/破折号
-| **OJname**     | O      | -        | -        | 为"foj"                      
-| **OJpassword** | O      | -        | -        | -                     
-| **OJusername** | O      | -        | -        | -                     
+| **OJname**     | O      | -        | -        | 为"hdu"或"foj"或"cf" 分别表示查询对应oj的过题数  
 
 
 - **成功返回例子**
@@ -74,35 +72,7 @@
 ```
 {
 	"type": 1,
-	"message": "添加成功",
-	"data": []
+	"message": "查询成功",
+	"data": "22" 
 }
 ```
-
----
-
-## **接口 · 添加foj关联账号**
-
-- **请求方法：POST**
-- **接口网址：http://icpc-system.and-who.cn/Oj/add_cf_account**
-
-- **表单要求**
-
-| 属性名         | 必要性 | 最小长度 | 最大长度 | 特殊要求
-| -------------  | ------ | -------- | -------- | --------
-| **Uusername**  | O      | 6        | 16       | 字母/数字/下划线/破折号
-| **OJname**     | O      | -        | -        | 为"cf"                      
-| **OJpassword** | O      | -        | -        | -                     
-| **OJusername** | O      | -        | -        | -                     
-
-
-- **成功返回例子**
-
-```
-{
-	"type": 1,
-	"message": "添加成功",
-	"data": []
-}
-```
-

@@ -19,14 +19,14 @@ class Oj extends CI_Controller {
 	/*****************************************************************************************************
 	 * 工具集
 	 *****************************************************************************************************/
-
+	
 
 	/*****************************************************************************************************
 	 * 主接口
 	 *****************************************************************************************************/
 	
-	//添加hdu关联账号
-	public function add_hdu_account()
+	//添加oj关联账号
+	public function add_oj_account()
 	{
 		//config
 		$members = array('Utoken', 'Uusername', 'OJname', 'OJusername', 'OJpassword');
@@ -41,7 +41,8 @@ class Oj extends CI_Controller {
 			//check OJname
 			if (isset($post['OJname']))
 			{
-				if ($post['OJname'] != "hdu")
+				if ($post['OJname'] != "hdu" && $post['OJname'] != "foj"
+					&& $post['OJname'] != "cf")
 				{
 					throw new Exception("oj名称错误");
 				}
@@ -64,7 +65,23 @@ class Oj extends CI_Controller {
 			}
 
 			$this->load->model("Oj_model","oj");
-			$this->oj->add_hdu_account(filter($post,$members));
+			if ($post['OJname'] == 'hdu')
+			{
+				$this->oj->add_hdu_account(filter($post, $members));
+			}
+			else if ($post['OJname'] == 'foj')
+			{
+				$this->oj->add_foj_account(filter($post, $members));
+			}
+			else if ($post['OJname'] == 'cf')
+			{
+				$this->oj->add_cf_account(filter($post, $members));
+			}
+			else
+			{
+				throw new Exception("oj名称错误");
+			}
+
 
 		}
 		catch(Exception $e)
@@ -76,48 +93,48 @@ class Oj extends CI_Controller {
 		//return
 		output_data(1, "添加成功", array());
 	}
-	//添加foj关联账号
-	public function add_foj_account()
+
+	//获取对应oj过题数
+	public function get_oj_acproblems()
 	{
 		//config
-		$members = array('Utoken', 'Uusername', 'OJname', 'OJusername', 'OJpassword');
+		$members = array('Utoken', 'Uusername', 'OJname');
 
-		//post
+		//get
 		try
 		{
 			//get post
-			$post = get_post();
-			$post['Utoken'] = get_token();
-			
-			//check OJname
-			if (isset($post['OJname']))
+			$post['Utoken'] = get_token(FALSE);
+			if (! $this->input->get('Uusername'))
 			{
-				if ($post['OJname'] != "foj")
-				{
-					throw new Exception("oj名称错误");
-				}
+				throw new Exception("必须指定Uusername");
 			}
-			
-			//check form
-			$this->load->library('form_validation');
-			$this->form_validation->set_data($post);
+			$post['Uusername'] = $this->input->get('Uusername');
 
-			if ( ! $this->form_validation->run('oj_account'))
+			if (! $this->input->get('OJname'))
 			{
-				$this->load->helper('form');
-				foreach ($members as $member) 
-				{
-					if (form_error($member))
-					{
-						throw new Exception(strip_tags(form_error($member)));
-					}
-				}
-				return;
+				throw new Exception("必须指定OJname");
 			}
+			$post['OJname'] = $this->input->get('OJname');
 
-			$this->load->model("Oj_model","oj");
-			$this->oj->add_foj_account(filter($post,$members));
-
+			// filter && get info
+			$this->load->model("Oj_model", 'oj');
+			if ($post['OJname'] == 'hdu')
+			{
+				$data = $this->oj->get_hdu_acproblems(filter($post, $members));
+			}
+			else if ($post['OJname'] == 'foj')
+			{
+				$data = $this->oj->get_foj_acproblems(filter($post, $members));
+			}
+			else if ($post['OJname'] == 'cf')
+			{
+				$data = $this->oj->get_cf_acproblems(filter($post, $members));
+			}
+			else
+			{
+				throw new Exception("oj名称错误");
+			}
 		}
 		catch(Exception $e)
 		{
@@ -125,59 +142,6 @@ class Oj extends CI_Controller {
 			return;
 		}
 
-		//return
-		output_data(1, "添加成功", array());
-	}
-	//添加cf关联账号
-	public function add_cf_account()
-	{
-		//config
-		$members = array('Utoken', 'Uusername', 'OJname', 'OJusername', 'OJpassword');
-
-		//post
-		try
-		{
-			//get post
-			$post = get_post();
-			$post['Utoken'] = get_token();
-			
-			//check OJname
-			if (isset($post['OJname']))
-			{
-				if ($post['OJname'] != "cf")
-				{
-					throw new Exception("oj名称错误");
-				}
-			}
-			
-			//check form
-			$this->load->library('form_validation');
-			$this->form_validation->set_data($post);
-
-			if ( ! $this->form_validation->run('oj_account'))
-			{
-				$this->load->helper('form');
-				foreach ($members as $member) 
-				{
-					if (form_error($member))
-					{
-						throw new Exception(strip_tags(form_error($member)));
-					}
-				}
-				return;
-			}
-
-			$this->load->model("Oj_model","oj");
-			$this->oj->add_cf_account(filter($post,$members));
-
-		}
-		catch(Exception $e)
-		{
-			output_data($e->getCode(), $e->getMessage(), array());
-			return;
-		}
-
-		//return
-		output_data(1, "添加成功", array());
+		output_data(1, "查询成功", $data);
 	}
 }

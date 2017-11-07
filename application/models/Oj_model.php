@@ -239,4 +239,72 @@ class Oj_model extends CI_Model {
 
 		$this->db->insert('oj_account',filter($form, $members));
 	}
+
+	/**
+	 * 获取hdu过题数
+	 */
+	public function get_hdu_acproblems($form)
+	{
+		//config
+		$members = array('Uusername', 'OJname');
+
+		//check token
+		$this->load->model('User_model','user');
+		if (isset($form['Utoken']))
+		{
+			$this->user->check_token($form['Utoken']);
+		}
+
+		//check OJname
+		if (isset($form['OJname']))
+		{
+			if ($form['OJname'] != 'hdu')
+			{
+				throw new Exception('oj名称错误');
+			}
+		}
+		else
+		{
+			throw new Exception('oj名称错误');
+		}
+
+		//get OJusername
+		$OJusername = $this->db->select('OJusername')
+						->where(array('OJname' => $form['OJname'],
+									'Uusername' => $form['Uusername']))
+						->get('oj_account')->result_array();
+		if (! $OJusername)
+		{
+			throw new Exception('用户名错误');
+		}
+		//get url
+		$url = 'http://acm.hdu.edu.cn/userstatus.php?user='.$OJusername[0]['OJusername'];
+
+		//get html
+		$ch = curl_init();
+		curl_setopt($ch, CURLOPT_URL, $url);
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+		if (curl_exec($ch))
+		{
+			$text = curl_multi_getcontent($ch);
+		}
+		else
+		{
+			throw new Exception('用户名错误');
+		}
+
+		//正则匹配获取过题数信息
+		$re = "/(Problems Solved<\/td><td align=center>)(\d+)/i";
+		if (preg_match($re, $text, $match))
+		{
+			$res = $match[2];
+		}
+		else
+		{
+			throw new Exception("用户名错误");
+		}
+		curl_close($ch);
+
+		return $res;
+	}
 }
