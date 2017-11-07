@@ -18,15 +18,7 @@
 ![Blog_model - get_leaves](http://images2017.cnblogs.com/blog/886317/201711/886317-20171103123225170-976303099.png)
 
 
----
 
-## **函数 · 根据标签号检索博客**
-
-- **流程图**
-![Blog_model - search](http://images2017.cnblogs.com/blog/886317/201711/886317-20171103123227013-1229084475.png)
-
-
----
 
 
 

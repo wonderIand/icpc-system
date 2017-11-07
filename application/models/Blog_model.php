@@ -94,61 +94,7 @@ class Blog_model extends CI_Model {
 		//return
 		return $ret;
 	}
-
-
-	/**
-	 * 标签检索博客，返回所有满足的博客标号(Bid)
-	 */
-	private function search($tid)
-	{
-		//config
-		$tosearch = array();
-		$result = array();
-
-		//check exist
-		$where = array('Tid' => $tid);
-		$exist = $this->db->get_where('target', $where)
-				->result_array();
-		if ($exist)
-		{
-			//get leaves
-			$leaves = $this->get_leaves($tid);
-			foreach ($leaves as $leaf)
-			{
-				array_push($tosearch, $leaf);
-			}
-		}
-		
-		//DO search
-		if ($tosearch)
-		{
-			foreach ($tosearch as $key => $tid)
-			{
-				$bids[$key] = $this->db->select('Bid')
-					->where(array('Tid' => $tid))
-					->get('blog_target')
-					->result_array();
-			}
-
-			//get bid && duplicate removal
-			$_key = 0;
-			foreach ($bids as $key => $bid)
-			{
-				foreach ($bid as $id)
-				{
-					if ( ! in_array($id, $result))
-					{
-						$result[$_key] = $id;
-						$_key++;
-					}
-				}
-			}
-		}
-
-		//return
-		return $result;
-	}
-
+	
 
 	/**********************************************************************************************
 	 * 对外接口
