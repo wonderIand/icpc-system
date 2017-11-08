@@ -410,7 +410,7 @@ class Oj_model extends CI_Model {
 		}
 
 		//get OJusername & OJpassword
-		$OJuser = $this->db->select(array('OJusername','OJpassword'))
+		$OJuser = $this->db->select(array('OJusername', 'OJpassword'))
 						->where(array('OJname' => $form['OJname'],
 									'Uusername' => $form['Uusername']))
 						->get('oj_account')->result_array();
@@ -472,7 +472,7 @@ class Oj_model extends CI_Model {
 		curl_setopt($ch3, CURLOPT_COOKIEFILE, $cookie_file);
 		$content = curl_exec($ch3);
 		curl_close($ch3);
-		
+
 		//删除cookie文件
 		unlink($cookie_file);
 		//正则匹配获取过题数信息
