@@ -8,6 +8,7 @@
 
 | 日期         | 备注  
 | ------------ | ------
+| **17/11/06** | **【get_list】**增加可选字段
 | **17/10/23** | 新增接口 · **【获取可选博文类型列表 · get_type_list】**
 | **17/10/23** | 新增属性 · **`Bproblemid`**, **【register】【update】**增加必要字段，**【get】【get_list】**增加返回字段
 | **17/10/23** | 新增属性 · **`Bproblemid`**, **【register】【update】**增加可选字段，**【get】【get_list】**增加返回字段
@@ -217,6 +218,7 @@
 | **page_size**   | 设置分页大小，和 **page** 成对存在
 | **page**        | 设置查询页，和 **page_size** 成对存在
 | **orderby**     | 设置排序关键字，可选：**`Btime` `Bviews` `Blikes`**
+| **tid**         | 设置检索标签，内容为一个标签标号
 
 
 | 返回的json数组包括  | 备注
@@ -226,6 +228,7 @@
 | **page**        | 当前页
 | **page_max**    | 最大页数
 | **total**       | 总条目
+| **tid**         | 检索标签标号
 
 
 
@@ -243,7 +246,7 @@
 | **Btype**        | 文章类型
 
 - **查询示例：http://icpc-system.and-who.cn/Blog/get_list?Bauthor=ahhh1**
-- **查询示例：http://icpc-system.and-who.cn/Blog/get_list?Bauthor=aaaau1&&page_size=3&&page=3**
+- **查询示例：http://icpc-system.and-who.cn/Blog/get_list?Bauthor=aaaau1&&page_size=3&&page=3&&tid=12**
 ```
 {
 	"type": 1,
@@ -254,6 +257,7 @@
 		"page": "1",
 		"page_max": 4,
 		"editable": true,
+		"tid": "12",
 		"data": [
 			{
 				"Bid": "11",
@@ -264,7 +268,13 @@
 				"Blikes": "0",
 				"Bviews": "1",
 				"Bproblemid": "foj2333",
-				"Btargets": [],
+				"Btargets": [
+					{
+						"Tid": "12",
+						"Tfather": "root",
+						"Tname": "字符串"
+					}
+				],
 				"upvoteEnable": false
 			},
 			{
@@ -276,19 +286,13 @@
 				"Blikes": "0",
 				"Bviews": "1",
 				"Bproblemid": "无",
-				"Btargets": [],
-				"upvoteEnable": false
-			},
-			{
-				"Bid": "9",
-				"Btype": "博 文",
-				"Btitle": "咸鱼之路",
-				"Bauthor": "aaaau1",
-				"Btime": "2017-10-23 04:37:30",
-				"Blikes": "0",
-				"Bviews": "0",
-				"Bproblemid": "无",
-				"Btargets": [],
+				"Btargets": [
+					{
+						"Tid": "12",
+						"Tfather": "root",
+						"Tname": "字符串"
+					}
+				],
 				"upvoteEnable": false
 			}
 		]
