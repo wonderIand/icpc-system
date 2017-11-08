@@ -294,6 +294,20 @@ $config = array(
 			'label' => '用户名',
 			'rules' => 'required'
 			)
+		),
+
+	//删除oj关联账户表单
+	'del_oj_account' => array(
+		array(
+			'field' => 'Uusername',
+			'label' => '用户名',
+			'rules' => 'required'
+			),
+		array(
+			'field' => 'OJname',
+			'label' => 'oj名称',
+			'rules' => 'required'
+			)
 		)
 
 );

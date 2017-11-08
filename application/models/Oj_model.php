@@ -109,7 +109,9 @@ class Oj_model extends CI_Model {
 		$this->db->insert('oj_account',filter($form, $members));
 	}
 
-	//添加foj账号
+	/**
+	 * 添加foj账号
+	 */
 	public function add_foj_account($form)	
 	{
 		//config
@@ -151,7 +153,9 @@ class Oj_model extends CI_Model {
 
 		$this->db->insert('oj_account',filter($form, $members));
 	}
-	//添加cf账号
+	/**
+	 * 添加cf账号
+	 */
 	public function add_cf_account($form)
 	{
 		//config
@@ -537,5 +541,38 @@ class Oj_model extends CI_Model {
 		}
 
 		return $OJuserinfo;
+	}
+	/**
+	 * 删除用户的oj关联账号信息
+	 */
+	public function del_oj_account($form)
+	{
+		//config
+		$members = array('Uusername', 'OJname');
+		$where = array('Uusername' => $form['Uusername'],
+						'OJname' => $form['OJname']);
+		//check token
+		$this->load->model('User_model', 'user');
+		$this->user->check_token($form['Utoken']);
+		$username = $this->db->select('Uusername')
+			->where(array('Utoken' => $form['Utoken']))
+			->get('user')
+			->result_array()[0]['Uusername'];
+
+		if ($username != $form['Uusername'])
+		{
+			throw new Exception('请重新登录');
+		}
+
+		//检查该记录是否存在
+		$OJuserinfo = $this->db->select(array('Uusername'))
+					->where($where)->get('oj_account')->result_array();
+
+		if (! $OJuserinfo)
+		{
+			throw new Exception('未关联该OJ账号');
+		}
+
+		$this->db->delete('oj_account', $where);
 	}
 }

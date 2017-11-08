@@ -25,7 +25,9 @@ class Oj extends CI_Controller {
 	 * 主接口
 	 *****************************************************************************************************/
 	
-	//添加oj关联账号
+	/**
+	 * 添加oj关联账号
+	 */
 	public function add_oj_account()
 	{
 		//config
@@ -94,7 +96,9 @@ class Oj extends CI_Controller {
 		output_data(1, "添加成功", array());
 	}
 
-	//获取对应oj过题数
+	/**
+	 * 获取对应oj过题数
+	 */
 	public function get_oj_acproblems()
 	{
 		//config
@@ -186,5 +190,56 @@ class Oj extends CI_Controller {
 		}
 
 		output_data(1, "查询成功", $data);
+	}
+
+	/**
+	 * 删除oj关联账号信息
+	 */
+	public function del_oj_account()
+	{
+		//config
+		$members = array('Utoken', 'Uusername', 'OJname');
+
+		//post
+		try
+		{
+			//get post
+			$post = get_post();
+			$post['Utoken'] = get_token();
+
+			//check form
+			$this->load->library('form_validation');
+			$this->form_validation->set_data($post);
+
+			if (! $this->form_validation->run('del_oj_account'))
+			{
+				$this->load->helper('form');
+				foreach ($members as $member)
+				{
+					if (form_error($member))
+					{
+						throw new Exception(strip_tags(form_error($member)));
+					}
+				}
+			}
+
+			$this->load->model('Oj_model', 'oj');
+
+			if ($post['OJname'] == 'hdu' || $post['OJname'] == 'foj' || $post['OJname'] == 'cf')
+			{
+				$data = $this->oj->del_oj_account($post);
+			}
+			else
+			{
+				throw new Exception('OJ名称错误');
+			}
+		}
+		catch (Exception $e)
+		{
+			output_data($e->getCode(), $e->getMessage(), array());
+			return;
+		}
+
+		output_data(1, "删除成功", array());
 	}
 }
