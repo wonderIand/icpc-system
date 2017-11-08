@@ -51,7 +51,7 @@ class Oj extends CI_Controller {
 			$this->load->library('form_validation');
 			$this->form_validation->set_data($post);
 
-			if ( ! $this->form_validation->run('oj_account'))
+			if ( ! $this->form_validation->run('add_oj_account'))
 			{
 				$this->load->helper('form');
 				foreach ($members as $member) 
@@ -137,6 +137,49 @@ class Oj extends CI_Controller {
 			}
 		}
 		catch(Exception $e)
+		{
+			output_data($e->getCode(), $e->getMessage(), array());
+			return;
+		}
+
+		output_data(1, "查询成功", $data);
+	}
+
+	/**
+	 * 查询所有OJ(hdu,foj,cf)关联账号信息
+	 */
+	public function get_oj_account()
+	{
+		//config
+		$members = array('Utoken', 'Uusername');
+
+		//post
+		try
+		{
+			//get post
+			$post = get_post();
+			$post['Utoken'] = get_token();
+
+			//check form
+			$this->load->library('form_validation');
+			$this->form_validation->set_data($post);
+
+			if (! $this->form_validation->run('get_oj_account'))
+			{
+				$this->load->helper('form');
+				foreach ($members as $member)
+				{
+					if (form_error($member))
+					{
+						throw new Exception(strip_tags(form_error($member)));
+					}
+				}
+			}
+
+			$this->load->model('Oj_model', 'oj');
+			$data = $this->oj->get_oj_account($post);
+		}
+		catch (Exception $e)
 		{
 			output_data($e->getCode(), $e->getMessage(), array());
 			return;

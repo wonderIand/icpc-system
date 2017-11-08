@@ -10,6 +10,7 @@
 | ------------ | ------
 | **17/11/07** | 添加接口 · **【添加oj关联账号 add_oj_account】**
 | **17/11/07** | 添加接口 · **【获取oj过题数信息 get_oj_acproblems】**
+| **17/11/08** | 添加接口 · **【查询用户所有oj关联账号信息 get_oj_account】**
 
 
 ---
@@ -74,5 +75,45 @@
 	"type": 1,
 	"message": "查询成功",
 	"data": "22" 
+}
+```
+
+---
+
+## **接口 · 查询用户所有oj关联账号信息**
+
+- **请求方法：POST**
+- **接口网址：http://icpc-system.and-who.cn/Oj/get_oj_account**
+
+- **表单要求**
+
+| 属性名         | 必要性 | 最小长度 | 最大长度 | 特殊要求
+| -------------  | ------ | -------- | -------- | --------
+| **Uusername**  | O      | 6        | 16       | 字母/数字/下划线/破折号
+
+
+- **成功返回例子**
+
+```
+{
+	"type": 1,
+	"message": "查询成功",
+	"data": [
+		{
+			"OJname": "cf",
+			"OJusername": "xxxxxxx",
+			"OJpassword": "xxxxxxx"
+		},
+		{
+			"OJname": "foj",
+			"OJusername": "xxxxxxx",
+			"OJpassword": "xxxxxxx"
+		},
+		{
+			"OJname": "hdu",
+			"OJusername": "xxxxxxx",
+			"OJpassword": "xxxxxxx"
+		}
+	]
 }
 ```

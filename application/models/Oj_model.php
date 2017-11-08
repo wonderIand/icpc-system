@@ -22,10 +22,16 @@ class Oj_model extends CI_Model {
 
 		
 		//check token
-		$this->load->model('User_model','my_user');
-		if (isset($form['Utoken'])) 
+		$this->load->model('User_model', 'my_user');
+		$this->my_user->check_token($form['Utoken']);
+		$username = $this->db->select('Uusername')
+			->where(array('Utoken' => $form['Utoken']))
+			->get('user')
+			->result_array()[0]['Uusername'];
+
+		if ($username != $form['Uusername'])
 		{
-			$this->my_user->check_token($form['Utoken']);
+			throw new Exception('请重新登录');
 		}
 
 		//check OJusername
@@ -111,10 +117,16 @@ class Oj_model extends CI_Model {
 
 		
 		//check token
-		$this->load->model('User_model','my_user');
-		if (isset($form['Utoken'])) 
+		$this->load->model('User_model', 'my_user');
+		$this->my_user->check_token($form['Utoken']);
+		$username = $this->db->select('Uusername')
+			->where(array('Utoken' => $form['Utoken']))
+			->get('user')
+			->result_array()[0]['Uusername'];
+
+		if ($username != $form['Uusername'])
 		{
-			$this->my_user->check_token($form['Utoken']);
+			throw new Exception('请重新登录');
 		}
 
 		//check OJusername
@@ -147,10 +159,16 @@ class Oj_model extends CI_Model {
 
 		
 		//check token
-		$this->load->model('User_model','my_user');
-		if (isset($form['Utoken'])) 
+		$this->load->model('User_model', 'my_user');
+		$this->my_user->check_token($form['Utoken']);
+		$username = $this->db->select('Uusername')
+			->where(array('Utoken' => $form['Utoken']))
+			->get('user')
+			->result_array()[0]['Uusername'];
+
+		if ($username != $form['Uusername'])
 		{
-			$this->my_user->check_token($form['Utoken']);
+			throw new Exception('请重新登录');
 		}
 
 		//check OJusername
@@ -253,7 +271,7 @@ class Oj_model extends CI_Model {
 		$members = array('Uusername', 'OJname');
 
 		//check token
-		$this->load->model('User_model','user');
+		$this->load->model('User_model', 'user');
 		if (isset($form['Utoken']))
 		{
 			$this->user->check_token($form['Utoken']);
@@ -321,7 +339,7 @@ class Oj_model extends CI_Model {
 		$members = array('Uusername', 'OJname');
 
 		//check token
-		$this->load->model('User_model','user');
+		$this->load->model('User_model', 'user');
 		if (isset($form['Utoken']))
 		{
 			$this->user->check_token($form['Utoken']);
@@ -390,7 +408,7 @@ class Oj_model extends CI_Model {
 		$members = array('Uusername', 'OJname');
 
 		//check token
-		$this->load->model('User_model','user');
+		$this->load->model('User_model', 'user');
 		if (isset($form['Utoken']))
 		{
 			$this->user->check_token($form['Utoken']);
@@ -487,5 +505,37 @@ class Oj_model extends CI_Model {
 		}
 
 		return $res;
+	}
+	/**
+	 * 查询所有oj(hdu,foj,cf)关联账号信息
+	 */
+	public function get_oj_account($form)
+	{
+		//config
+		$members = array('Uusername');
+
+		//check token
+		$this->load->model('User_model', 'user');
+		$this->user->check_token($form['Utoken']);
+		$username = $this->db->select('Uusername')
+			->where(array('Utoken' => $form['Utoken']))
+			->get('user')
+			->result_array()[0]['Uusername'];
+
+		if ($username != $form['Uusername'])
+		{
+			throw new Exception('请重新登录');
+		}
+
+		$OJuserinfo = $this->db->select(array('OJname', 'OJusername', 'OJpassword'))
+					->where(array('Uusername' => $form['Uusername']))
+					->get('oj_account')->result_array();
+
+		if (! $OJuserinfo)
+		{
+			throw new Exception('未关联oj账户');
+		}
+
+		return $OJuserinfo;
 	}
 }

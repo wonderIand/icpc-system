@@ -263,8 +263,8 @@ $config = array(
 				)
 		),
 
-	//oj关联账户表单
-	'oj_account' => array(
+	//添加oj关联账户表单
+	'add_oj_account' => array(
 		array(
 			'field' => 'Uusername',
 			'label' => '用户名',
@@ -283,6 +283,15 @@ $config = array(
 		array(
 			'field' => 'OJpassword',
 			'label' => 'oj密码',
+			'rules' => 'required'
+			)
+		),
+
+	//查询所有oj关联账户表单
+	'get_oj_account' => array(
+		array(
+			'field' => 'Uusername',
+			'label' => '用户名',
 			'rules' => 'required'
 			)
 		)
