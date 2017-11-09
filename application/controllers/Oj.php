@@ -39,7 +39,7 @@ class Oj extends CI_Controller {
 			//get post
 			$post = get_post();
 			$post['Utoken'] = get_token();
-			
+
 			//check OJname
 			if (isset($post['OJname']))
 			{
@@ -83,7 +83,6 @@ class Oj extends CI_Controller {
 			{
 				throw new Exception("oj名称错误");
 			}
-
 
 		}
 		catch(Exception $e)

@@ -15,7 +15,7 @@ class Oj_model extends CI_Model {
 	/**
 	 * 添加hdu账号
 	 */
-	public function add_hdu_account($form)	
+	public function add_hdu_account($form)
 	{
 		//config
 		$members = array('Uusername', 'OJname', 'OJusername', 'OJpassword');
@@ -44,16 +44,6 @@ class Oj_model extends CI_Model {
 			throw new Exception("账户已被关联");
 		}
 		
-		//check OJ
-		$where = array('OJname' => $form['OJname'],'Uusername' => $form['Uusername']);
-		if ( $result = $this->db->select('Uusername')
-			->where($where)
-			->get('oj_account')
-			->result_array())
-		{
-			throw new Exception("已关联hdu账号");
-		}
-
 		//check hdu username and password
 		$url ='http://acm.hdu.edu.cn/status.php';
 		$ch1 = curl_init();
@@ -73,11 +63,11 @@ class Oj_model extends CI_Model {
 
 		$url = 'http://acm.hdu.edu.cn/userloginex.php?action=login';
 		$post_data = array
-						(
-							'username' => $form['OJusername'],
-							'userpass' => $form['OJpassword'],
-							'login' => 'Sign In',
-						);
+					(
+						'username' => $form['OJusername'],
+						'userpass' => $form['OJpassword'],
+						'login' => 'Sign In',
+					);
 		$post_data = http_build_query($post_data);
 		$ch2 = curl_init();
 		curl_setopt($ch2, CURLOPT_URL, $url);
@@ -99,13 +89,12 @@ class Oj_model extends CI_Model {
 
 		//删除cookie文件
 		unlink($cookie_file);
-
+		
 		$re = "/".$form['OJusername']."/";
-		if ( ! preg_match($re,$content,$match))
+		if (! preg_match($re,$content,$match))
 		{
 			throw new Exception("关联账户用户名或密码错误");
 		}
-
 		$this->db->insert('oj_account',filter($form, $members));
 	}
 
@@ -230,12 +219,12 @@ class Oj_model extends CI_Model {
 	
 		//模拟登录
 		$post_data = array
-			(
-				'csrf_token' => $token,
-				'action' => 'enter',
-				'handle' => $form['OJusername'],
-				'password' => $form['OJpassword']
-			);
+					(
+						'csrf_token' => $token,
+						'action' => 'enter',
+						'handle' => $form['OJusername'],
+						'password' => $form['OJpassword']
+					);
 		$post_data = http_build_query($post_data);
 		$ch2 = curl_init();
 		curl_setopt($ch2, CURLOPT_URL, $url);
@@ -246,7 +235,7 @@ class Oj_model extends CI_Model {
 		curl_exec($ch2);
 		curl_close($ch2);
 
-		$url = "http://codeforces.com/problemset";
+		$url = "http://codeforces.com/problemset/standings";
 		$ch3 = curl_init();
 		curl_setopt($ch3, CURLOPT_URL, $url);
 		curl_setopt($ch3, CURLOPT_RETURNTRANSFER, true);
@@ -297,7 +286,7 @@ class Oj_model extends CI_Model {
 		//get OJusername
 		$OJusername = $this->db->select('OJusername')
 						->where(array('OJname' => $form['OJname'],
-									'Uusername' => $form['Uusername']))
+							'Uusername' => $form['Uusername']))
 						->get('oj_account')->result_array();
 		if (! $OJusername)
 		{
@@ -365,7 +354,7 @@ class Oj_model extends CI_Model {
 		//get OJusername
 		$OJusername = $this->db->select('OJusername')
 						->where(array('OJname' => $form['OJname'],
-									'Uusername' => $form['Uusername']))
+								'Uusername' => $form['Uusername']))
 						->get('oj_account')->result_array();
 		if (! $OJusername)
 		{
@@ -434,7 +423,7 @@ class Oj_model extends CI_Model {
 		//get OJusername & OJpassword
 		$OJuser = $this->db->select(array('OJusername', 'OJpassword'))
 						->where(array('OJname' => $form['OJname'],
-									'Uusername' => $form['Uusername']))
+								'Uusername' => $form['Uusername']))
 						->get('oj_account')->result_array();
 		if (! $OJuser)
 		{
