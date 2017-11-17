@@ -121,6 +121,14 @@ CREATE TABLE IF NOT EXISTS `blog_view` (
 	PRIMARY KEY(`BVid`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
+CREATE TABLE IF NOT EXISTS `oj_account`(
+	`Uusername` char(20),
+	`OJname` char(20),
+	`OJpassword` char(20),
+	`OJusername` char(20),
+	PRIMARY KEY(`Uusername`,`OJname`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
 
 CREATE TABLE IF NOT EXISTS `station_recent_contests` (
 	`id` char(20) NOT NULL,
