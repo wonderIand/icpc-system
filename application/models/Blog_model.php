@@ -566,4 +566,15 @@ class Blog_model extends CI_Model {
 
 	}
 
+	/**
+	 * 获取博客点赞排行
+	 */
+	public function like_ranking()
+	{
+
+		//get like_ranking list
+		$data = $this->db->order_by('Blikes', 'DESC')->get('blog')->result_array();
+		return $data;
+	}
+
 }

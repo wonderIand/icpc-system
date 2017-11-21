@@ -366,4 +366,29 @@ class Blog extends CI_Controller {
 		output_data(1, '获取成功', $data);
 	}
 
+	/**
+	 * 点赞排行
+	 */
+	public function like_ranking() 
+	{
+
+	
+		//upvote_ranking
+		try
+		{
+			//like_ranking list
+			$this->load->model('Blog_model', 'my_blog');
+			$data = $this->my_blog->like_ranking();
+		}
+		catch(Exception $e)
+		{
+			output_data($e->getCode(), $e->getMessage(), array());
+			return;
+		}
+
+		//return
+		output_data(1, '获取成功', $data);
+
+	}
+
 }
