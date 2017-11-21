@@ -1,103 +1,103 @@
 # WonderLand ApiDoc - Oj
 
-±êÇ©£¨¿Õ¸ñ·Ö¸ô£©£º WonderLand
+æ ‡ç­¾ï¼ˆç©ºæ ¼åˆ†éš”ï¼‰ï¼š WonderLand
 
 ---
 
-## **ÈÕÖ¾**
+## **æ—¥å¿—**
 
-| ÈÕÆÚ         | ±¸×¢  
+| æ—¥æœŸ         | å¤‡æ³¨  
 | ------------ | ------
-| **17/11/07** | Ìí¼Ó½Ó¿Ú ¡¤ **¡¾Ìí¼Óoj¹ØÁªÕËºÅ add_oj_account¡¿**
-| **17/11/07** | Ìí¼Ó½Ó¿Ú ¡¤ **¡¾»ñÈ¡oj¹ýÌâÊýÐÅÏ¢ get_oj_acproblems¡¿**
-| **17/11/08** | Ìí¼Ó½Ó¿Ú ¡¤ **¡¾²éÑ¯ÓÃ»§ËùÓÐoj¹ØÁªÕËºÅÐÅÏ¢ get_oj_account¡¿**
-| **17/11/08** | Ìí¼Ó½Ó¿Ú ¡¤ **¡¾É¾³ýÓÃ»§oj¹ØÁªÕËºÅÐÅÏ¢ del_oj_account¡¿**
+| **17/11/07** | æ·»åŠ æŽ¥å£ Â· **ã€æ·»åŠ ojå…³è”è´¦å· add_oj_accountã€‘**
+| **17/11/07** | æ·»åŠ æŽ¥å£ Â· **ã€èŽ·å–ojè¿‡é¢˜æ•°ä¿¡æ¯ get_oj_acproblemsã€‘**
+| **17/11/08** | æ·»åŠ æŽ¥å£ Â· **ã€æŸ¥è¯¢ç”¨æˆ·æ‰€æœ‰ojå…³è”è´¦å·ä¿¡æ¯ get_oj_accountã€‘**
+| **17/11/08** | æ·»åŠ æŽ¥å£ Â· **ã€åˆ é™¤ç”¨æˆ·ojå…³è”è´¦å·ä¿¡æ¯ del_oj_accountã€‘**
 
 ---
 
-## **ÊôÐÔ**
+## **å±žæ€§**
 
-- **¡¾oj_account ±í¡¿**
+- **ã€oj_account è¡¨ã€‘**
 
-| ÊôÐÔÃû        | ÖÐÎÄ    | ×îÐ¡³¤¶È | ×î´ó³¤¶È | ÀàÐÍ      | ÌØÊâÒªÇó
+| å±žæ€§å        | ä¸­æ–‡    | æœ€å°é•¿åº¦ | æœ€å¤§é•¿åº¦ | ç±»åž‹      | ç‰¹æ®Šè¦æ±‚
 | ------------- | ------  | -------- | -------- | --------- | --------
-| **Uusername** | ÓÃ»§Ãû  | 6        | 16       | char(20)  | ×ÖÄ¸/Êý×Ö/ÏÂ»®Ïß/ÆÆÕÛºÅ
-| **OJname** 	| ojÃû³Æ  | -        | -        | char(20)  | Îª"hdu"»ò"foj"»ò"cf"                     
-| **OJpassword**| ojÓÃ»§Ãû| -        | -        | char(20)  | - 
-| **OJusername**| ojÃÜÂë  | -        | -        | char(20)  | -                
+| **Uusername** | ç”¨æˆ·å  | 6        | 16       | char(20)  | å­—æ¯/æ•°å­—/ä¸‹åˆ’çº¿/ç ´æŠ˜å·
+| **OJname** 	| ojåç§°  | -        | -        | char(20)  | ä¸º"hdu"æˆ–"foj"æˆ–"cf"                     
+| **OJpassword**| ojç”¨æˆ·å| -        | -        | char(20)  | - 
+| **OJusername**| ojå¯†ç   | -        | -        | char(20)  | -                
 
 ---
 
-## **½Ó¿Ú ¡¤ Ìí¼Óoj¹ØÁªÕËºÅ**
+## **æŽ¥å£ Â· æ·»åŠ ojå…³è”è´¦å·**
 
-- **ÇëÇó·½·¨£ºPOST**
-- **½Ó¿ÚÍøÖ·£ºhttp://icpc-system.and-who.cn/Oj/add_oj_account**
+- **è¯·æ±‚æ–¹æ³•ï¼šPOST**
+- **æŽ¥å£ç½‘å€ï¼šhttp://icpc-system.and-who.cn/Oj/add_oj_account**
 
-- **±íµ¥ÒªÇó**
+- **è¡¨å•è¦æ±‚**
 
-| ÊôÐÔÃû         | ±ØÒªÐÔ | ×îÐ¡³¤¶È | ×î´ó³¤¶È | ÌØÊâÒªÇó
+| å±žæ€§å         | å¿…è¦æ€§ | æœ€å°é•¿åº¦ | æœ€å¤§é•¿åº¦ | ç‰¹æ®Šè¦æ±‚
 | -------------  | ------ | -------- | -------- | --------
-| **Uusername**  | O      | 6        | 16       | ×ÖÄ¸/Êý×Ö/ÏÂ»®Ïß/ÆÆÕÛºÅ
-| **OJname**     | O      | -        | -        | Îª"hdu"»ò"foj"»ò"cf" ·Ö±ð±íÊ¾Ìí¼Ó¶ÔÓ¦ojµÄÕËºÅ                     
+| **Uusername**  | O      | 6        | 16       | å­—æ¯/æ•°å­—/ä¸‹åˆ’çº¿/ç ´æŠ˜å·
+| **OJname**     | O      | -        | -        | ä¸º"hdu"æˆ–"foj"æˆ–"cf" åˆ†åˆ«è¡¨ç¤ºæ·»åŠ å¯¹åº”ojçš„è´¦å·                     
 | **OJpassword** | O      | -        | -        | -                     
 | **OJusername** | O      | -        | -        | -                     
 
 
-- **³É¹¦·µ»ØÀý×Ó**
+- **æˆåŠŸè¿”å›žä¾‹å­**
 
 ```
 {
 	"type": 1,
-	"message": "Ìí¼Ó³É¹¦",
+	"message": "æ·»åŠ æˆåŠŸ",
 	"data": []
 }
 ```
 
 ---
 
-## **½Ó¿Ú ¡¤ »ñÈ¡oj¹ýÌâÊýÐÅÏ¢**
+## **æŽ¥å£ Â· èŽ·å–ojè¿‡é¢˜æ•°ä¿¡æ¯**
 
-- **ÇëÇó·½·¨£ºGET**
-- **½Ó¿ÚÍøÖ·£ºhttp://icpc-system.and-who.cn/Oj/get_oj_acproblems?Uusername=&OJname=**
+- **è¯·æ±‚æ–¹æ³•ï¼šGET**
+- **æŽ¥å£ç½‘å€ï¼šhttp://icpc-system.and-who.cn/Oj/get_oj_acproblems?Uusername=&OJname=**
 
-- **±íµ¥ÒªÇó**
+- **è¡¨å•è¦æ±‚**
 
-| ÊôÐÔÃû         | ±ØÒªÐÔ | ×îÐ¡³¤¶È | ×î´ó³¤¶È | ÌØÊâÒªÇó
+| å±žæ€§å         | å¿…è¦æ€§ | æœ€å°é•¿åº¦ | æœ€å¤§é•¿åº¦ | ç‰¹æ®Šè¦æ±‚
 | -------------  | ------ | -------- | -------- | --------
-| **Uusername**  | O      | 6        | 16       | ×ÖÄ¸/Êý×Ö/ÏÂ»®Ïß/ÆÆÕÛºÅ
-| **OJname**     | O      | -        | -        | Îª"hdu"»ò"foj"»ò"cf" ·Ö±ð±íÊ¾²éÑ¯¶ÔÓ¦ojµÄ¹ýÌâÊý  
+| **Uusername**  | O      | 6        | 16       | å­—æ¯/æ•°å­—/ä¸‹åˆ’çº¿/ç ´æŠ˜å·
+| **OJname**     | O      | -        | -        | ä¸º"hdu"æˆ–"foj"æˆ–"cf" åˆ†åˆ«è¡¨ç¤ºæŸ¥è¯¢å¯¹åº”ojçš„è¿‡é¢˜æ•°  
 
 
-- **³É¹¦·µ»ØÀý×Ó**
+- **æˆåŠŸè¿”å›žä¾‹å­**
 
 ```
 {
 	"type": 1,
-	"message": "²éÑ¯³É¹¦",
+	"message": "æŸ¥è¯¢æˆåŠŸ",
 	"data": "22" 
 }
 ```
 
 ---
 
-## **½Ó¿Ú ¡¤ ²éÑ¯ÓÃ»§ËùÓÐoj¹ØÁªÕËºÅÐÅÏ¢**
+## **æŽ¥å£ Â· æŸ¥è¯¢ç”¨æˆ·æ‰€æœ‰ojå…³è”è´¦å·ä¿¡æ¯**
 
-- **ÇëÇó·½·¨£ºPOST**
-- **½Ó¿ÚÍøÖ·£ºhttp://icpc-system.and-who.cn/Oj/get_oj_account**
+- **è¯·æ±‚æ–¹æ³•ï¼šPOST**
+- **æŽ¥å£ç½‘å€ï¼šhttp://icpc-system.and-who.cn/Oj/get_oj_account**
 
-- **±íµ¥ÒªÇó**
+- **è¡¨å•è¦æ±‚**
 
-| ÊôÐÔÃû         | ±ØÒªÐÔ | ×îÐ¡³¤¶È | ×î´ó³¤¶È | ÌØÊâÒªÇó
+| å±žæ€§å         | å¿…è¦æ€§ | æœ€å°é•¿åº¦ | æœ€å¤§é•¿åº¦ | ç‰¹æ®Šè¦æ±‚
 | -------------  | ------ | -------- | -------- | --------
-| **Uusername**  | O      | 6        | 16       | ×ÖÄ¸/Êý×Ö/ÏÂ»®Ïß/ÆÆÕÛºÅ
+| **Uusername**  | O      | 6        | 16       | å­—æ¯/æ•°å­—/ä¸‹åˆ’çº¿/ç ´æŠ˜å·
 
 
-- **³É¹¦·µ»ØÀý×Ó**
+- **æˆåŠŸè¿”å›žä¾‹å­**
 
 ```
 {
 	"type": 1,
-	"message": "²éÑ¯³É¹¦",
+	"message": "æŸ¥è¯¢æˆåŠŸ",
 	"data": [
 		{
 			"OJname": "cf",
@@ -120,25 +120,25 @@
 
 ---
 
-## **½Ó¿Ú ¡¤ É¾³ýoj¹ØÁªÕËºÅÐÅÏ¢**
+## **æŽ¥å£ Â· åˆ é™¤ojå…³è”è´¦å·ä¿¡æ¯**
 
-- **ÇëÇó·½·¨£ºPOST**
-- **½Ó¿ÚÍøÖ·£ºhttp://icpc-system.and-who.cn/Oj/del_oj_account**
+- **è¯·æ±‚æ–¹æ³•ï¼šPOST**
+- **æŽ¥å£ç½‘å€ï¼šhttp://icpc-system.and-who.cn/Oj/del_oj_account**
 
-- **±íµ¥ÒªÇó**
+- **è¡¨å•è¦æ±‚**
 
-| ÊôÐÔÃû         | ±ØÒªÐÔ | ×îÐ¡³¤¶È | ×î´ó³¤¶È | ÌØÊâÒªÇó
+| å±žæ€§å         | å¿…è¦æ€§ | æœ€å°é•¿åº¦ | æœ€å¤§é•¿åº¦ | ç‰¹æ®Šè¦æ±‚
 | -------------  | ------ | -------- | -------- | --------
-| **Uusername**  | O      | 6        | 16       | ×ÖÄ¸/Êý×Ö/ÏÂ»®Ïß/ÆÆÕÛºÅ
-| **OJname**     | O      | -        | -        | Îª"hdu"»ò"foj"»ò"cf" ·Ö±ð±íÊ¾É¾³ý¶ÔÓ¦ojµÄ¹ØÁªÕËºÅ
+| **Uusername**  | O      | 6        | 16       | å­—æ¯/æ•°å­—/ä¸‹åˆ’çº¿/ç ´æŠ˜å·
+| **OJname**     | O      | -        | -        | ä¸º"hdu"æˆ–"foj"æˆ–"cf" åˆ†åˆ«è¡¨ç¤ºåˆ é™¤å¯¹åº”ojçš„å…³è”è´¦å·
 
 
-- **³É¹¦·µ»ØÀý×Ó**
+- **æˆåŠŸè¿”å›žä¾‹å­**
 
 ```
 {
 	"type": 1,
-	"message": "É¾³ý³É¹¦",
+	"message": "åˆ é™¤æˆåŠŸ",
 	"data": []
 }
 ```
