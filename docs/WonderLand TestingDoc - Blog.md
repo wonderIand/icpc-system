@@ -157,3 +157,94 @@
 ```
 
 
+## **接口 · 删除文章**
+- **请求方法：POST**
+- **接口网址：http://icpc-system.and-who.cn/Blog/delete**
+- **测试用例：**
+
+**Test 1** · 删除文章测试
+```
+{
+	"Bid": "1"
+}
+```
+
+**返回信息**
+```
+{
+	"type": 1,
+	"message": "删除成功",
+	"data": []
+}
+```
+
+**Test 2** · 删除不存在的记录测试
+```
+{
+	"Bid": "1"
+}
+```
+
+**返回信息**
+```
+{
+	"type": 0,
+	"message": "记录不存在",
+	"data": []
+}
+```
+
+---
+
+## **接口 · 点赞排行**
+- **请求方法：GET**
+- **接口网址：http://icpc-system.and-who.cn/Blog/ranking_like**
+- **测试用例：**
+
+**Test 1** · 获取点赞排行
+```
+{
+}
+```
+**返回信息**
+```
+{
+	"type": 1,
+	"message": "获取成功",
+	"data": [
+		{
+			"Bid": "2",
+			"Btype": "算 法 学",
+			"Bproblemid": "无",
+			"Btitle": "咸鱼之路",
+			"Bauthor": "hbbhbb",
+			"Btime": "2017-11-21 15:45:10",
+			"Blikes": "2",
+			"Bviews": "0"
+		},
+		{
+			"Bid": "1",
+			"Btype": "算 法 学",
+			"Bproblemid": "无",
+			"Btitle": "咸鱼之路",
+			"Bauthor": "hbbhbb",
+			"Btime": "2017-11-21 15:45:04",
+			"Blikes": "1",
+			"Bviews": "2"
+		},
+		{
+			"Bid": "3",
+			"Btype": "算 法 学",
+			"Bproblemid": "无",
+			"Btitle": "咸鱼之路",
+			"Bauthor": "hbbhbb",
+			"Btime": "2017-11-21 15:45:10",
+			"Blikes": "0",
+			"Bviews": "0"
+		}
+	]
+}
+```
+
+
+---
