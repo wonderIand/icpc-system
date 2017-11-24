@@ -220,7 +220,7 @@ class User extends CI_Controller {
 		$config['overwrite'] = TRUE;
 		$config['max_size'] = 1000;
 		$config['max_width'] = 1024;
-        $config['max_height'] = 768;
+		$config['max_height'] = 768;
 
 		//upload
 		try
@@ -232,7 +232,7 @@ class User extends CI_Controller {
             	$error = array('error' => $this->upload->display_errors());
             	output_data(0, '上传失败', $error);
 	        }
-    	    else
+    		else
         	{	
         		$data = array('upload_data' => $this->upload->data());
 				$this->load->helper('url');
