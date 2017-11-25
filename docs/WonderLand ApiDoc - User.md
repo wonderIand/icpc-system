@@ -8,6 +8,7 @@
 
 | 日期         | 备注  
 | ------------ | ------
+| **17/11/24** | 添加接口 · **【上传用户头像 · upload_icon】**
 | **17/07/23** | 添加属性 · **`Utype`**，【get】【get_list】增加返回该字段
 | **17/07/09** | **【WonderLand Beta 1.0 Compeleted】**
 | **17/07/--** | 添加接口 · **【获取用户列表 · get_list】**
@@ -37,7 +38,7 @@
 | ------------- | ------ | -------- | -------- | --------- | --------
 | **Uusername** | 用户名 | 6        | 16       | char(20)  | 字母/数字/下划线/破折号
 | **Unickname** | 昵称   | 1        | 15       | char(20)  | -
-| **Urealname** | 真名   | 1        | 10       | char(20)  | -                       
+| **Urealname** | 真名   | 1        | 10       | char(20)  | -
 
 
 ---
@@ -181,6 +182,64 @@
 				"Unickname": "a"
 			}
 		]
+	}
+}
+```
+
+---
+
+## **接口 · 上传用户头像**
+
+- **请求方法：POST**
+- **接口网址：http://icpc-system.and-who.cn/User/upload_icon**
+
+- **表单要求**
+
+满足以下要求的**图片**
+
+| **项目**          | **要求** |
+| ---------------  | ----------- |
+| **类型**          | gif jpg png |
+| **文件大小最大值**  | 1000KB |
+| **图片最大宽度**   | 1024像素 |
+| **图片最大高度**   | 768像素 |
+
+- **成功返回**
+
+```
+{
+	"type":1,
+	"message":"上传成功",
+	"data": {
+		"upload_data": {
+			"file_name": "zhengshuhao.JPG",
+			"file_type": "image\/jpeg",
+			"file_path": "D:\/Demo\/icpc-system\/uploads\/user_icon\/",
+			"full_path": "D:\/Demo\/icpc-system\/uploads\/user_icon\/zhengshuhao.JPG",
+			"raw_name": "zhengshuhao",
+			"orig_name": "zhengshuhao.JPG",
+			"client_name": "IMG_4562.JPG",
+			"file_ext": ".JPG",
+			"file_size": 59.47,
+			"is_image": true,
+			"image_width": 700,
+			"image_height": 700,
+			"image_type": "jpeg",
+			"image_size_str": "width=\"700\" height=\"700\""
+			},
+		"icon_path": "http:\/\/icpc-system.and-who.cn\/uploads\/user_icon\/zhengshuhao.JPG"
+	}
+}
+```
+
+- **失败返回**
+
+```
+{
+	"type": 0,
+	"message": "上传失败",
+	"data": {
+		"error": "上传文件超出PHP配置文件中允许的最大长度."
 	}
 }
 ```
