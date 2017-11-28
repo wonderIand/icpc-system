@@ -153,7 +153,7 @@ CREATE TABLE IF NOT EXISTS `oj_last_visit` (
 	`Last_visit` char(20) NOT NULL,
 	`OJname` char(20),
 	`ACproblem` int,
-	PRIMARY KEY(`OJname`)
+	PRIMARY KEY(`OJname`,`Uusername`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 
