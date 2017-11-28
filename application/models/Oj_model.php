@@ -6,10 +6,88 @@ class Oj_model extends CI_Model {
 	 * 工具集
 	 *****************************************************************************************************/
 
+	/**
+	 * 检测时间差,单位:秒
+	 */
+	private function is_timeout($pre)
+	{
+		$this->load->helper('date');
+		$now = date("y-m-d h:i:s");
+		$dis = strtotime($now) - strtotime($pre);
+		return   $dis > 3600;
+	}
+
 
 	/**********************************************************************************************
 	 * 主接口
 	 **********************************************************************************************/
+
+
+	/**
+	 * 添加缓存
+	 */
+	public function get_cache($form)
+	{
+		//config
+		$member = array('Uusername', 'OJname', 'Last_visit', 'ACproblem');
+		$members = array('Uusername', 'OJname');
+
+		$where = array('Uusername' => $form['Uusername'], 'OJname' => $form['OJname']);
+		if ( !$visit = $this->db->select('Last_visit')
+			->where($where)
+			->get('oj_last_visit')
+			->result_array())
+		{
+			$last_visit = "2017-11-03 22:07:00";
+		}
+		else
+		{
+			$last_visit = $visit[0]['Last_visit'];
+		}	
+
+		//缓存
+		if($this->is_timeout($last_visit) == TRUE)
+		{
+			$data['Uusername'] = $form['Uusername'];
+			$data['OJname'] = $form['OJname'];
+			$data['Last_visit'] = date("y-m-d h:i:s");
+			if ($form['OJname'] == 'cf')
+			{
+				$data['ACproblem']= $this->get_cf_acproblems(filter($form, $members));
+			}
+			else if ($form['OJname'] == 'foj')
+			{
+				$data['ACproblem'] = $this->get_foj_acproblems(filter($form, $members));
+			}
+			else if ($form['OJname'] == 'hdu')
+			{
+				$data['ACproblem'] = $this->get_hdu_acproblems(filter($form, $members));
+			}
+			else
+			{
+				throw new Exception("OJ名称出错");	
+			}
+			
+			//update&&insert
+			$rel = $data['ACproblem'];
+			if ( !$visit )
+			{
+				$this->db->insert('oj_last_visit', filter($data, $member), $where);
+			}
+			else
+			{
+				$this->db->update('oj_last_visit',filter($data, $member), $where);
+			}
+		}
+		else
+		{
+			$rel = $this->db->select('ACproblem')
+							->where($where)
+							->get('oj_last_visit')
+							->result_array()[0]['ACproblem'];
+		}
+		return $rel;
+	}
 
 
 	/**
