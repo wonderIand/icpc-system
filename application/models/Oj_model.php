@@ -457,7 +457,7 @@ class Oj_model extends CI_Model {
 		{
 			throw new Exception("用户名错误");
 		}	
-		
+
 		//模拟登录
 		$post_data = array
 					(
