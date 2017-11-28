@@ -148,6 +148,15 @@ CREATE TABLE IF NOT EXISTS `station_last_visit` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 
+CREATE TABLE IF NOT EXISTS `oj_last_visit` (
+	`Uusername` char(20),
+	`Last_visit` char(20) NOT NULL,
+	`OJname` char(20),
+	`ACproblem` int,
+	PRIMARY KEY(`OJname`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+
 -- CREATE TABLE IF NOT EXISTS `user_training_tag` (
 -- 	`UTid` int,
 -- 	`UTarticle` varchar(21500) DEFAULT ' ',

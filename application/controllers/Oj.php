@@ -122,22 +122,7 @@ class Oj extends CI_Controller {
 
 			// filter && get info
 			$this->load->model("Oj_model", 'oj');
-			if ($post['OJname'] == 'hdu')
-			{
-				$data = $this->oj->get_hdu_acproblems(filter($post, $members));
-			}
-			else if ($post['OJname'] == 'foj')
-			{
-				$data = $this->oj->get_foj_acproblems(filter($post, $members));
-			}
-			else if ($post['OJname'] == 'cf')
-			{
-				$data = $this->oj->get_cf_acproblems(filter($post, $members));
-			}
-			else
-			{
-				throw new Exception("oj名称错误");
-			}
+			$data = $this->oj->get_cache(filter($post, $members));
 		}
 		catch(Exception $e)
 		{
