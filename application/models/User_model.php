@@ -241,4 +241,24 @@ class User_model extends CI_Model {
 	}
 
 
+	/**
+	 * 上传用户头像
+	 **/
+	public function upload_icon($form)
+	{
+		//config
+		$members_info = array('Uiconpath');
+
+		//check token
+		if (isset($form['Utoken']))
+		{
+			$this->check_token($form['Utoken']);
+		}
+
+		//select user
+		$where = array('Uusername' => $form['Uusername']);
+		$this->db->update('user_info', filter($form, $members_info), $where);
+	}
+
+
 }
