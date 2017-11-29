@@ -166,6 +166,7 @@ class Oj extends CI_Controller {
 
 			$this->load->model('Oj_model', 'oj');
 			$data = $this->oj->get_oj_account($post);
+
 		}
 		catch (Exception $e)
 		{

@@ -598,9 +598,19 @@ class Oj_model extends CI_Model {
 			throw new Exception('请重新登录');
 		}
 
-		$OJuserinfo = $this->db->select(array('OJname', 'OJusername', 'OJpassword'))
+		$OJuserinfo = $this->db->select(array('OJname', 'OJusername'))
 					->where(array('Uusername' => $form['Uusername']))
 					->get('oj_account')->result_array();
+
+
+		//get oj_account
+		$form['Uusername'] = $form['Uusername'];
+		foreach ($OJuserinfo as $key => $value) {
+			
+			$form['OJname'] = $value['OJname'];
+			$value['Account'] = $this->oj->get_cache($form);
+			$OJuserinfo[$key] = $value;
+		}	
 
 		if (! $OJuserinfo)
 		{
@@ -608,7 +618,7 @@ class Oj_model extends CI_Model {
 		}
 
 		return $OJuserinfo;
-	}
+	}	
 	/**
 	 * 删除用户的oj关联账号信息
 	 */
