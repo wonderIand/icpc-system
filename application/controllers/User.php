@@ -256,4 +256,31 @@ class User extends CI_Controller {
 	}
 
 
+	/**
+	 * 获取用户头像
+	 **/
+	public function get_icon()
+	{
+		//config
+		$members = array('Uusername');
+
+		//get
+		try
+		{
+			//get username
+			$post = get_post();
+			$username = $post['Uusername'];
+
+			//get url
+			$this->load->model('User_model', 'user');
+			$data = $this->user->get_icon(filter($post, $members));
+			output_data(1, '获取成功', $data);
+		}
+		catch(Exception $e)
+		{
+			output_data($e->getCode(), $e->getMessage(), array());
+			return;	
+		}
+	}
+
 }
