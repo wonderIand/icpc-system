@@ -166,6 +166,20 @@ class Oj extends CI_Controller {
 
 			$this->load->model('Oj_model', 'oj');
 			$data = $this->oj->get_oj_account($post);
+
+			//get oj_account
+
+			$form['Uusername'] = $post['Uusername'];
+			$form['OJname'] = 'foj';
+			//$data['foj'] = $this->oj->get_cache($form);
+
+			$form['OJname'] = 'hdu';
+			//$data['hdu'] = $this->oj->get_cache($form);
+
+			$form['OJname'] = 'cf';
+			//$data['cf'] = $this->oj->get_cache($form);
+
+
 		}
 		catch (Exception $e)
 		{

@@ -8,6 +8,7 @@
 
 | 日期         | 备注  
 | ------------ | ------
+| **17/11/29** | 修改接口 · **【修改get_oj_account 返回值:增加Account、删除OJpassword】**
 | **17/11/07** | 添加接口 · **【添加oj关联账号 add_oj_account】**
 | **17/11/07** | 添加接口 · **【获取oj过题数信息 get_oj_acproblems】**
 | **17/11/08** | 添加接口 · **【查询用户所有oj关联账号信息 get_oj_account】**
@@ -102,17 +103,17 @@
 		{
 			"OJname": "cf",
 			"OJusername": "xxxxxxx",
-			"OJpassword": "xxxxxxx"
+			"Account": "xx"
 		},
 		{
 			"OJname": "foj",
 			"OJusername": "xxxxxxx",
-			"OJpassword": "xxxxxxx"
+			"Account": "xx"
 		},
 		{
 			"OJname": "hdu",
 			"OJusername": "xxxxxxx",
-			"OJpassword": "xxxxxxx"
+			"Account": "xx"
 		}
 	]
 }
