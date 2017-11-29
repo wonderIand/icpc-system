@@ -49,3 +49,33 @@
 	}
 }
 ```
+
+---
+
+## **接口 · 获取用户头像**
+
+- **请求方法：GET**
+- **接口网址：http://icpc-system.and-who.cn/User/get_icon?Uusername=zhengshuhao**
+- **测试用例**
+
+### **Test 1** 当前用户已上传头像
+**返回信息**
+```
+{
+	"type": 1,
+	"message": "获取成功",
+	"data": {
+		"Uiconpath": "http:\/\/icpc-system.and-who.cn\/uploads\/user_icon\/zhengshuhao.JPG"
+	}
+}
+```
+
+### **Test 2** 当前用户未上传头像
+**返回信息**
+```
+{
+	"type": 0,
+	"message": "该用户未上传头像",
+	"data": []
+}
+```
