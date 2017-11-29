@@ -13,6 +13,7 @@ CREATE TABLE IF NOT EXISTS `user_info` (
 	`Uusername` char(20),
 	`Urealname` char(20) default ' ',
 	`Unickname` char(20) default ' ',
+	`Uiconpath` char(100) NOT NULL DEFAULT '-',
 	PRIMARY KEY(`Uusername`)
 )	ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
