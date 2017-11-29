@@ -368,7 +368,7 @@ class Oj_model extends CI_Model {
 						->get('oj_account')->result_array();
 		if (! $OJusername)
 		{
-			//throw new Exception('用户名错误');
+			throw new Exception('用户名错误');
 		}
 		//get url
 		$url = 'http://acm.hdu.edu.cn/userstatus.php?user='.$OJusername[0]['OJusername'];
@@ -383,7 +383,7 @@ class Oj_model extends CI_Model {
 		}
 		else
 		{
-			//throw new Exception('用户名错误');
+			throw new Exception('用户名错误');
 		}
 
 		//正则匹配获取过题数信息
@@ -394,7 +394,7 @@ class Oj_model extends CI_Model {
 		}
 		else
 		{
-			//throw new Exception("用户名错误");
+			throw new Exception("用户名错误");
 		}
 		curl_close($ch);
 
