@@ -226,4 +226,56 @@ class Oj extends CI_Controller {
 
 		output_data(1, "删除成功", array());
 	}
+	/**
+	 * 查看oj近期两周提交过题记录
+	 */
+	public function get_oj_acinfo()
+	{
+		//config
+		$members = array('Utoken', 'Uusername', 'OJname');
+
+		//get
+		try
+		{
+			//get post
+			$post['Utoken'] = get_token(FALSE);
+			if (! $this->input->get('Uusername'))
+			{
+				throw new Exception("必须指定Uusername");
+			}
+			$post['Uusername'] = $this->input->get('Uusername');
+
+			if (! $this->input->get('OJname'))
+			{
+				throw new Exception("必须指定OJname");
+			}
+			$post['OJname'] = $this->input->get('OJname');
+
+			// filter && get info
+			$this->load->model("Oj_model", 'oj');
+			if ($post['OJname'] == 'cf')
+			{
+				$data = $this->oj->get_cf_acinfo(filter($post,$members));
+			}
+			else if ($form['OJname'] == 'foj')
+			{
+				throw new Exception("暂无此功能");
+			}
+			else if ($form['OJname'] == 'hdu')
+			{
+				throw new Exception("暂无此功能");
+			}
+			else
+			{
+				throw new Exception("OJ名称出错");	
+			}
+		}
+		catch(Exception $e)
+		{
+			output_data($e->getCode(), $e->getMessage(), array());
+			return;
+		}
+
+		output_data(1, "查询成功", $data);
+	}
 }
