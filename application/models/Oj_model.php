@@ -686,6 +686,7 @@ class Oj_model extends CI_Model {
 		date_default_timezone_set("Asia/Shanghai");
 		$tow_week_ago = strtotime("-2 week");
 		$data = array();
+		$map = array();
 		while (True)
 		{
 			$url = "http://codeforces.com/api/user.status?handle=".$OJuser[0]['OJusername'].
@@ -720,10 +721,15 @@ class Oj_model extends CI_Model {
 				{
 					continue;
 				}
+				$problem = $value['problem'];
+				if (isset($map[$problem['contestId'].$problem['index']." - ".$problem['name']]))
+				{
+					continue;
+				}
 				$data[$num]['OJname'] = 'cf';
 				$data[$num]['time'] = date("Y-m-d H:i:s", $value['creationTimeSeconds']);
-				$problem = $value['problem'];
 				$data[$num]['name'] = $problem['contestId'].$problem['index']." - ".$problem['name'];
+				$map[$problem['contestId'].$problem['index']." - ".$problem['name']] = 1;
 				if (sizeof($value['author']['members']) > 1)
 				{
 					$data[$num]['url'] = 'http://codeforces.com/problemset/'.'gymProblem/'
