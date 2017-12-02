@@ -391,4 +391,27 @@ class Blog extends CI_Controller {
 
 	}
 
+	/**
+	 * 阅读排行
+	 */
+	public function bviews_ranking() 
+	{	
+		//bviews_ranking
+		try
+		{
+			//bviews_ranking list
+			$this->load->model('Blog_model', 'my_blog');
+			$data = $this->my_blog->bviews_ranking();
+		}
+		catch(Exception $e)
+		{
+			output_data($e->getCode(), $e->getMessage(), array());
+			return;
+		}
+
+		//return
+		output_data(1, '获取成功', $data);
+
+	}
+
 }
