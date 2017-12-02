@@ -24,8 +24,8 @@
 | ------------- | ------  | -------- | -------- | --------- | --------
 | **Uusername** | 用户名  | 6        | 16       | char(20)  | 字母/数字/下划线/破折号
 | **OJname** 	| oj名称  | -        | -        | char(20)  | 为"hdu"或"foj"或"cf"                     
-| **OJpassword**| oj用户名| -        | -        | char(20)  | - 
-| **OJusername**| oj密码  | -        | -        | char(20)  | -                
+| **OJpassword**| oj密码  | -        | -        | char(20)  | - 
+| **OJusername**| oj用户名| -        | -        | char(20)  | -                
 
 ---
 
