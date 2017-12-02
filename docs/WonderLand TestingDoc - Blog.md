@@ -209,5 +209,62 @@
 }
 ```
 
+---
+
+
+## **接口 · 阅读排行**
+- **请求方法：GET**
+- **接口网址：http://icpc-system.and-who.cn/Blog/bviews_ranking**
+- **测试用例：**
+
+**Test 1** · 获取阅读排行
+```
+{
+}
+```
+**返回信息**
+```
+{
+	"type": 1,
+	"message": "获取成功",
+	"data": [
+		{
+			"Bid": "1",
+			"Btype": "算 法 学",
+			"Bproblemid": "无",
+			"Btitle": "咸鱼之路",
+			"Bauthor": "hbbhbb",
+			"Btime": "2017-11-21 15:45:04",
+			"Blikes": "1",
+			"Bviews": "3"
+		},
+		{
+			"Bid": "3",
+			"Btype": "算 法 学",
+			"Bproblemid": "无",
+			"Btitle": "咸鱼之路",
+			"Bauthor": "hbbhbb",
+			"Btime": "2017-11-21 15:45:10",
+			"Blikes": "0",
+			"Bviews": "1"
+		},
+		{
+			"Bid": "5",
+			"Btype": "算 法 学",
+			"Bproblemid": "无",
+			"Btitle": "咸鱼之路2",
+			"Bauthor": "hbbhbb",
+			"Btime": "2017-11-21 15:49:34",
+			"Blikes": "0",
+			"Bviews": "1"
+		}
+	]
+}
+```
 
 ---
+
+
+
+
+

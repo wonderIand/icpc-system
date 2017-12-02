@@ -8,6 +8,7 @@
 
 | 日期         | 备注  
 | ------------ | ------
+| **17/12/02** | 新增接口 · **【获取博客点赞排行 · bviews_ranking】**
 | **17/11/23** | 新增接口 · **【获取博客点赞排行 · like_ranking】**
 | **17/11/06** | **【get_list】**增加可选字段
 | **17/10/23** | 新增接口 · **【获取可选博文类型列表 · get_type_list】**
@@ -463,6 +464,56 @@
 			"Btime": "2017-11-21 15:45:10",
 			"Blikes": "0",
 			"Bviews": "0"
+		}
+	]
+}
+```
+
+## **接口 · 获取博客阅读排行**
+
+- **请求方法：GET**
+- **接口网址：http://icpc-system.and-who.cn/Blog/bviews_ranking**
+- **表单要求**
+| 属性名          | 必要性 | 最小长度 | 最大长度 | 特殊要求
+| --------------- | ------ | -------- | -------- | --------
+|                 |        |          |          |
+- **示例：http://icpc-system.and-who.cn/Blog/bviews_ranking**
+
+- **成功返回**
+```
+{
+	"type": 1,
+	"message": "获取成功",
+	"data": [
+		{
+			"Bid": "1",
+			"Btype": "算 法 学",
+			"Bproblemid": "无",
+			"Btitle": "咸鱼之路",
+			"Bauthor": "hbbhbb",
+			"Btime": "2017-11-21 15:45:04",
+			"Blikes": "1",
+			"Bviews": "3"
+		},
+		{
+			"Bid": "3",
+			"Btype": "算 法 学",
+			"Bproblemid": "无",
+			"Btitle": "咸鱼之路",
+			"Bauthor": "hbbhbb",
+			"Btime": "2017-11-21 15:45:10",
+			"Blikes": "0",
+			"Bviews": "1"
+		},
+		{
+			"Bid": "5",
+			"Btype": "算 法 学",
+			"Bproblemid": "无",
+			"Btitle": "咸鱼之路2",
+			"Bauthor": "hbbhbb",
+			"Btime": "2017-11-21 15:49:34",
+			"Blikes": "0",
+			"Bviews": "1"
 		}
 	]
 }
