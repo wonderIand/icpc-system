@@ -652,4 +652,30 @@ class Oj_model extends CI_Model {
 
 		$this->db->delete('oj_account', $where);
 	}
+
+
+	/**
+	 * 获取题量排行
+	 */
+	public function get_list($form)
+	{
+
+		//check token
+		$this->load->model('User_model', 'user');
+		if (isset($form['Utoken']))
+		{
+			$this->user->check_token($form['Utoken']);			
+		}
+
+		//get
+		$where = array('OJname' => $form['OJname']);
+		$data = $this->db->select('Uusername, ACproblem')
+				->order_by('ACproblem', $form['Sort'])
+				->get_where('oj_last_visit', array('OJname' => $form['OJname']))
+				->result_array();
+
+
+		return $data;
+	}
+
 }
