@@ -308,6 +308,21 @@ $config = array(
 			'label' => 'oj名称',
 			'rules' => 'required'
 			)
+		),
+
+
+	//获取题量排行表单
+	'get_list' => array(
+		array(
+			'field' => 'OJname',
+			'label' => 'oj名称',
+			'rules' => 'required'
+			),
+		array(
+			'field' => 'Sort',
+			'label' => '排序方式',
+			'rules' => 'required'
+			)
 		)
 
 );
