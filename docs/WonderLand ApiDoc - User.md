@@ -8,6 +8,8 @@
 
 | 日期         | 备注  
 | ------------ | ------
+| **17/11/29** | 添加接口 · **【获取用户头像url】**
+| **17/11/29** | 新增属性 · **Uiconpath**
 | **17/11/24** | 添加接口 · **【上传用户头像 · upload_icon】**
 | **17/07/23** | 添加属性 · **`Utype`**，【get】【get_list】增加返回该字段
 | **17/07/09** | **【WonderLand Beta 1.0 Compeleted】**
@@ -39,6 +41,7 @@
 | **Uusername** | 用户名 | 6        | 16       | char(20)  | 字母/数字/下划线/破折号
 | **Unickname** | 昵称   | 1        | 15       | char(20)  | -
 | **Urealname** | 真名   | 1        | 10       | char(20)  | -
+| **Uiconpath** | 头像url | -        | 100      | char(100) | -
 
 
 ---
@@ -241,5 +244,39 @@
 	"data": {
 		"error": "上传文件超出PHP配置文件中允许的最大长度."
 	}
+}
+```
+
+
+---
+
+## **接口 · 获取用户头像**
+
+- **请求方法：GET**
+- **接口网址：http://icpc-system.and-who.cn/User/get_icon?Uusername=zhengshuhao**
+
+| **返回的标签信息包含** | 备注
+| ---------------------- | ----
+| **icon_path**				 | 用户头像url
+
+- **成功返回**
+
+```
+{
+	"type": 1,
+	"message": "获取成功",
+	"data": {
+		"Uiconpath": "http:\/\/icpc-system.and-who.cn\/uploads\/user_icon\/zhengshuhao.JPG"
+	}
+}
+```
+
+- **失败返回**
+
+```
+{
+	"type": 0,
+	"message": "该用户未上传头像",
+	"data": []
 }
 ```

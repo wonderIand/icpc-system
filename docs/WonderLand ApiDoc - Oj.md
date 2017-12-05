@@ -8,6 +8,8 @@
 
 | 日期         | 备注  
 | ------------ | ------
+| **17/12/3**  | 添加接口 · **【获取题量排行】**
+| **17/11/29** | 修改接口 · **【修改get_oj_account 返回值:增加Account、删除OJpassword】**
 | **17/11/07** | 添加接口 · **【添加oj关联账号 add_oj_account】**
 | **17/11/07** | 添加接口 · **【获取oj过题数信息 get_oj_acproblems】**
 | **17/11/08** | 添加接口 · **【查询用户所有oj关联账号信息 get_oj_account】**
@@ -103,17 +105,17 @@
 		{
 			"OJname": "cf",
 			"OJusername": "xxxxxxx",
-			"OJpassword": "xxxxxxx"
+			"Account": "xx"
 		},
 		{
 			"OJname": "foj",
 			"OJusername": "xxxxxxx",
-			"OJpassword": "xxxxxxx"
+			"Account": "xx"
 		},
 		{
 			"OJname": "hdu",
 			"OJusername": "xxxxxxx",
-			"OJpassword": "xxxxxxx"
+			"Account": "xx"
 		}
 	]
 }
@@ -178,3 +180,37 @@
 	}
 }
 ```
+
+---
+
+## **接口 · 获取题量排行**
+
+- **请求方法：GET**
+- **接口网址：http://icpc-system.and-who.cn/Oj/get_list**
+
+- **表单要求**
+| 属性名         | 必要性 | 最小长度 | 最大长度 | 特殊要求
+| -------------  | ------ | -------- | -------- | --------
+| **OJname**     | O      | -        | -        | 为"hdu"或"foj"或"cf" 分别表示删除对应oj的关联账号
+| **Sort**		 | O      | -        | -        | -
+
+
+- **成功返回例子**
+```
+{
+	"type": 1,
+	"message": "获取成功",
+	"data": [
+		{
+			"Uusername": "Kirito",
+			"ACproblem": "266"
+		},
+		{
+			"Uusername": "Distance",
+			"ACproblem": "1"
+		}
+	]
+}
+```
+
+---

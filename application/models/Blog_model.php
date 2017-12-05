@@ -577,4 +577,15 @@ class Blog_model extends CI_Model {
 		return $data;
 	}
 
+	/**
+	 * 获取博客阅读排行
+	 */
+	public function bviews_ranking()
+	{
+
+		//get bviews_ranking list
+		$data = $this->db->order_by('Bviews', 'DESC')->get('blog')->result_array();
+		return $data;
+	}
+
 }

@@ -1,7 +1,7 @@
 <?php
 
 header("Access-Control-Allow-Origin: *");
-header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept");
+header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept, Utoken");
 header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS');
 
 defined('BASEPATH') OR exit('No direct script access allowed');
@@ -166,6 +166,7 @@ class Oj extends CI_Controller {
 
 			$this->load->model('Oj_model', 'oj');
 			$data = $this->oj->get_oj_account($post);
+
 		}
 		catch (Exception $e)
 		{
@@ -226,6 +227,7 @@ class Oj extends CI_Controller {
 
 		output_data(1, "删除成功", array());
 	}
+
 	/**
 	 * 查看oj近期两周提交过题记录
 	 */
@@ -233,7 +235,6 @@ class Oj extends CI_Controller {
 	{
 		//config
 		$members = array('Utoken', 'Uusername', 'OJname');
-
 		//get
 		try
 		{
@@ -244,13 +245,11 @@ class Oj extends CI_Controller {
 				throw new Exception("必须指定Uusername");
 			}
 			$post['Uusername'] = $this->input->get('Uusername');
-
 			if (! $this->input->get('OJname'))
 			{
 				throw new Exception("必须指定OJname");
 			}
 			$post['OJname'] = $this->input->get('OJname');
-
 			// filter && get info
 			$this->load->model("Oj_model", 'oj');
 			if ($post['OJname'] == 'cf')
@@ -275,7 +274,51 @@ class Oj extends CI_Controller {
 			output_data($e->getCode(), $e->getMessage(), array());
 			return;
 		}
-
 		output_data(1, "查询成功", $data);
+	}
+	/**
+	 * 获取题量排行
+	 */
+	public function get_list()
+	{
+		//config
+		$members = array('Utoken', 'OJname', 'Sort');
+		//post
+		try
+		{
+			//get post
+			$post = get_post();
+			$post['Utoken'] = get_token();
+			//check form
+			$this->load->library('form_validation');
+			$this->form_validation->set_data($post);
+			if (! $this->form_validation->run('get_list'))
+			{
+				$this->load->helper('form');
+				foreach ($members as $member)
+				{
+					if (form_error($member))
+					{
+						throw new Exception(strip_tags(form_error($member)));
+					}
+				}
+			}
+			//get &&filter
+			$this->load->model('Oj_model', 'oj');
+			if ($post['OJname'] == 'hdu' || $post['OJname'] == 'foj' || $post['OJname'] == 'cf')
+			{
+				$data = $this->oj->get_list(filter($post, $members));
+			}
+			else
+			{
+				throw new Exception('OJ名称错误');
+			}
+		}
+		catch (Exception $e)
+		{
+			output_data($e->getCode(), $e->getMessage(), array());
+			return;
+		}
+		output_data(1, "获取成功", $data);
 	}
 }

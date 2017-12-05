@@ -207,11 +207,15 @@ class User extends CI_Controller {
  	 */
 	public function upload_icon()
 	{
+		//config
+		$members = array('Utoken', 'Uusername', 'Uiconpath');
+
 		//get username
 		$post['Utoken'] = get_token();
 		$this->load->model('User_model', 'user');
 		$user_info = $this->user->get($post);
 		$username = $user_info['Uusername'];
+		$post['Uusername'] = $username;
 
 		//upload config
 		$config['upload_path'] = './uploads/user_icon/';
@@ -227,7 +231,7 @@ class User extends CI_Controller {
 		{
 			$this->load->library('upload', $config);
 
-			if ( ! $this->upload->do_upload('user_icon'))
+			if ( ! $this->upload->do_upload('userfile'))
         	{
             	$error = array('error' => $this->upload->display_errors());
             	output_data(0, '上传失败', $error);
@@ -237,6 +241,10 @@ class User extends CI_Controller {
         		$data = array('upload_data' => $this->upload->data());
 				$this->load->helper('url');
             	$data['icon_path'] = base_url() . 'uploads/user_icon/' . $data['upload_data']['file_name'];
+            	$post['Uiconpath'] = $data['icon_path'];
+
+            	$this->load->model('User_model', 'user');
+            	$this->user->upload_icon(filter($post, $members));
             	output_data(1, '上传成功', $data);
         	}
 		}
@@ -247,5 +255,32 @@ class User extends CI_Controller {
 		}
 	}
 
+
+	/**
+	 * 获取用户头像
+	 **/
+	public function get_icon()
+	{
+		//config
+		$members = array('Uusername');
+
+		//get
+		try
+		{
+			//get username
+			$post = get_post();
+			$username = $post['Uusername'];
+
+			//get url
+			$this->load->model('User_model', 'user');
+			$data = $this->user->get_icon(filter($post, $members));
+			output_data(1, '获取成功', $data);
+		}
+		catch(Exception $e)
+		{
+			output_data($e->getCode(), $e->getMessage(), array());
+			return;	
+		}
+	}
 
 }

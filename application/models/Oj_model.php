@@ -597,10 +597,19 @@ class Oj_model extends CI_Model {
 		{
 			throw new Exception('请重新登录');
 		}
-
-		$OJuserinfo = $this->db->select(array('OJname', 'OJusername', 'OJpassword'))
+		
+		$OJuserinfo = $this->db->select(array('OJname', 'OJusername'))
 					->where(array('Uusername' => $form['Uusername']))
 					->get('oj_account')->result_array();
+
+		//get oj_account
+		$form['Uusername'] = $form['Uusername'];
+		foreach ($OJuserinfo as $key => $value) {
+			
+			$form['OJname'] = $value['OJname'];
+			$value['Account'] = $this->oj->get_cache($form);
+			$OJuserinfo[$key] = $value;
+		}	
 
 		if (! $OJuserinfo)
 		{
@@ -608,7 +617,7 @@ class Oj_model extends CI_Model {
 		}
 
 		return $OJuserinfo;
-	}
+	}	
 	/**
 	 * 删除用户的oj关联账号信息
 	 */
@@ -752,4 +761,52 @@ class Oj_model extends CI_Model {
 		$res['ac_info'] = $data;
 		return $res;
 	}
+
+
+	/**
+	 * 获取题量排行
+	 */
+	public function get_list()
+	{
+		//config
+		$members = array('Utoken', 'OJname', 'Sort');
+		//post
+		try
+		{
+			//get post
+			$post = get_post();
+			$post['Utoken'] = get_token();
+			//check form
+			$this->load->library('form_validation');
+			$this->form_validation->set_data($post);
+			if (! $this->form_validation->run('get_list'))
+			{
+				$this->load->helper('form');
+				foreach ($members as $member)
+				{
+					if (form_error($member))
+					{
+						throw new Exception(strip_tags(form_error($member)));
+					}
+				}
+			}
+			//get &&filter
+			$this->load->model('Oj_model', 'oj');
+			if ($post['OJname'] == 'hdu' || $post['OJname'] == 'foj' || $post['OJname'] == 'cf')
+			{
+				$data = $this->oj->get_list(filter($post, $members));
+			}
+			else
+			{
+				throw new Exception('OJ名称错误');
+			}
+		}
+		catch (Exception $e)
+		{
+			output_data($e->getCode(), $e->getMessage(), array());
+			return;
+		}
+		output_data(1, "获取成功", $data);
+	}
+
 }
