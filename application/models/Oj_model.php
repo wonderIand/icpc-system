@@ -587,21 +587,14 @@ class Oj_model extends CI_Model {
 
 		//check token
 		$this->load->model('User_model', 'user');
-		$this->user->check_token($form['Utoken']);
-		$username = $this->db->select('Uusername')
-			->where(array('Utoken' => $form['Utoken']))
-			->get('user')
-			->result_array()[0]['Uusername'];
-
-		if ($username != $form['Uusername'])
+		if (isset($form['Utoken']))
 		{
-			throw new Exception('请重新登录');
+			$this->user->check_token($form['Utoken']);
 		}
-
+		
 		$OJuserinfo = $this->db->select(array('OJname', 'OJusername'))
 					->where(array('Uusername' => $form['Uusername']))
 					->get('oj_account')->result_array();
-
 
 		//get oj_account
 		$form['Uusername'] = $form['Uusername'];
@@ -652,30 +645,162 @@ class Oj_model extends CI_Model {
 
 		$this->db->delete('oj_account', $where);
 	}
-
-
 	/**
-	 * 获取题量排行
+	 * 查看cf近期两周的提交ac记录
 	 */
-	public function get_list($form)
+	public function get_cf_acinfo($form)
 	{
+		//config
+		$members = array('Uusername', 'OJname');
 
 		//check token
 		$this->load->model('User_model', 'user');
 		if (isset($form['Utoken']))
 		{
-			$this->user->check_token($form['Utoken']);			
+			$this->user->check_token($form['Utoken']);
 		}
 
-		//get
-		$where = array('OJname' => $form['OJname']);
-		$data = $this->db->select('Uusername, ACproblem')
-				->order_by('ACproblem', $form['Sort'])
-				->get_where('oj_last_visit', array('OJname' => $form['OJname']))
-				->result_array();
+		//check OJname
+		if (isset($form['OJname']))
+		{
+			if ($form['OJname'] != 'cf')
+			{
+				throw new Exception('oj名称错误');
+			}
+		}
+		else
+		{
+			throw new Exception('oj名称错误');
+		}
+
+		//get OJusername & OJpassword
+		$OJuser = $this->db->select(array('OJusername', 'OJpassword'))
+						->where(array('OJname' => $form['OJname'],
+								'Uusername' => $form['Uusername']))
+						->get('oj_account')->result_array();
+		if (! $OJuser)
+		{
+			throw new Exception('用户名错误');
+		}
+
+		$from = 1;
+		$count = 1000;
+		$num = 0;
+		date_default_timezone_set("Asia/Shanghai");
+		$tow_week_ago = strtotime("-2 week");
+		$data = array();
+		$map = array();
+		while (True)
+		{
+			$url = "http://codeforces.com/api/user.status?handle=".$OJuser[0]['OJusername'].
+					"&from=".$from."&count=".$count;
+
+			$ch = curl_init();
+			curl_setopt($ch, CURLOPT_URL, $url);
+			curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+			$content = curl_exec($ch);
+			curl_close($ch);
+			$content = json_decode($content, true);
+			
+			if (! $content)
+			{
+				throw new Exception('用户名错误');
+			}
+			
+			if ($content['status'] != 'OK')
+			{
+				break;
+			}
+			$flag = false;
+			$text = $content['result'];
+			foreach($text as $value)
+			{
+				if ($value['creationTimeSeconds'] < $tow_week_ago)
+				{
+					$flag = true;
+					break;
+				}
+				if ($value['verdict'] != 'OK')
+				{
+					continue;
+				}
+				$problem = $value['problem'];
+				if (isset($map[$problem['contestId'].$problem['index']." - ".$problem['name']]))
+				{
+					continue;
+				}
+				$data[$num]['OJname'] = 'cf';
+				$data[$num]['time'] = date("Y-m-d H:i:s", $value['creationTimeSeconds']);
+				$data[$num]['name'] = $problem['contestId'].$problem['index']." - ".$problem['name'];
+				$map[$problem['contestId'].$problem['index']." - ".$problem['name']] = 1;
+				if (sizeof($value['author']['members']) > 1)
+				{
+					$data[$num]['url'] = 'http://codeforces.com/problemset/'.'gymProblem/'
+											.$problem['contestId'].'/'.$problem['index'];
+				}
+				else
+				{
+					$data[$num]['url'] = 'http://codeforces.com/problemset/'.'problem/'
+											.$problem['contestId'].'/'.$problem['index'];	
+				}
+				$num = $num + 1;
+			}
+			if ($flag) 
+			{
+				break;
+			}
+			$form = $form + $count;
+		}
+		$res['ac_count'] = $num;
+		$res['ac_info'] = $data;
+		return $res;
+	}
 
 
-		return $data;
+	/**
+	 * 获取题量排行
+	 */
+	public function get_list()
+	{
+		//config
+		$members = array('Utoken', 'OJname', 'Sort');
+		//post
+		try
+		{
+			//get post
+			$post = get_post();
+			$post['Utoken'] = get_token();
+			//check form
+			$this->load->library('form_validation');
+			$this->form_validation->set_data($post);
+			if (! $this->form_validation->run('get_list'))
+			{
+				$this->load->helper('form');
+				foreach ($members as $member)
+				{
+					if (form_error($member))
+					{
+						throw new Exception(strip_tags(form_error($member)));
+					}
+				}
+			}
+			//get &&filter
+			$this->load->model('Oj_model', 'oj');
+			if ($post['OJname'] == 'hdu' || $post['OJname'] == 'foj' || $post['OJname'] == 'cf')
+			{
+				$data = $this->oj->get_list(filter($post, $members));
+			}
+			else
+			{
+				throw new Exception('OJ名称错误');
+			}
+		}
+		catch (Exception $e)
+		{
+			output_data($e->getCode(), $e->getMessage(), array());
+			return;
+		}
+		output_data(1, "获取成功", $data);
 	}
 
 }
