@@ -587,15 +587,9 @@ class Oj_model extends CI_Model {
 
 		//check token
 		$this->load->model('User_model', 'user');
-		$this->user->check_token($form['Utoken']);
-		$username = $this->db->select('Uusername')
-			->where(array('Utoken' => $form['Utoken']))
-			->get('user')
-			->result_array()[0]['Uusername'];
-
-		if ($username != $form['Uusername'])
+		if (isset($form['Utoken']))
 		{
-			throw new Exception('请重新登录');
+			$this->user->check_token($form['Utoken']);
 		}
 		
 		$OJuserinfo = $this->db->select(array('OJname', 'OJusername'))
