@@ -231,7 +231,7 @@ class User extends CI_Controller {
 		{
 			$this->load->library('upload', $config);
 
-			if ( ! $this->upload->do_upload('user_icon'))
+			if ( ! $this->upload->do_upload('userfile'))
         	{
             	$error = array('error' => $this->upload->display_errors());
             	output_data(0, '上传失败', $error);
@@ -241,7 +241,7 @@ class User extends CI_Controller {
         		$data = array('upload_data' => $this->upload->data());
 				$this->load->helper('url');
             	$data['icon_path'] = base_url() . 'uploads/user_icon/' . $data['upload_data']['file_name'];
-            	$post['icon_path'] = $data['icon_path'];
+            	$post['Uiconpath'] = $data['icon_path'];
 
             	$this->load->model('User_model', 'user');
             	$this->user->upload_icon(filter($post, $members));
