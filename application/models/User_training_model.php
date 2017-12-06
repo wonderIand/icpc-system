@@ -14,9 +14,9 @@ class User_training_model extends CI_Model {
 	/**
 	 * 增加访问量
 	 */
-	private function add_view($username, $utid) 
+	private function add_view($where) 
 	{
-		$where = array('Uusername' => $username, 'UTid' => $utid);
+		//where = $Uusername + $Utid
 		if ( ! $this->db->where($where)
 				->get('user_training_view')
 				->result_array())
@@ -245,9 +245,15 @@ class User_training_model extends CI_Model {
 			}
 		}
 
+
+
+		//add_view	
+		if (isset($form['Utoken']))
+		{
+			$data = array('Uusername' => $username, 'UTid' => $form['UTid']);
+			$this->add_view($data);	
+		}
 		//return article
-		$where = array('UTid' => $form['UTid']);
-		$this->add_view($where);
 		return $article;
 
 	}
