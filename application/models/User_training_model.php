@@ -248,9 +248,11 @@ class User_training_model extends CI_Model {
 
 
 		//add_view	
-		$data = array('Uusername' => $author, 'UTid' => $form['UTid']);
-		$this->add_view($data);	
-		
+		if (isset($form['Utoken']))
+		{
+			$data = array('Uusername' => $username, 'UTid' => $form['UTid']);
+			$this->add_view($data);	
+		}
 		//return article
 		return $article;
 
