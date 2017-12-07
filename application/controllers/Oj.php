@@ -256,13 +256,13 @@ class Oj extends CI_Controller {
 			{
 				$data = $this->oj->get_cf_acinfo(filter($post,$members));
 			}
-			else if ($form['OJname'] == 'foj')
+			else if ($post['OJname'] == 'foj')
 			{
 				throw new Exception("暂无此功能");
 			}
-			else if ($form['OJname'] == 'hdu')
+			else if ($post['OJname'] == 'hdu')
 			{
-				throw new Exception("暂无此功能");
+				$data = $this->oj->get_hdu_acinfo(filter($post,$members));
 			}
 			else
 			{
