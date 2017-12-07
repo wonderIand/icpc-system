@@ -756,7 +756,106 @@ class Oj_model extends CI_Model {
 		return $res;
 	}
 
+	/**
+	 * 查看hdu近期两周的提交ac记录
+	 */
+	public function get_hdu_acinfo($form)
+	{
+		//config
+		$members = array('Uusername', 'OJname');
 
+		//check token
+		$this->load->model('User_model', 'user');
+		if (isset($form['Utoken']))
+		{
+			$this->user->check_token($form['Utoken']);
+		}
+
+		//check OJname
+		if (isset($form['OJname']))
+		{
+			if ($form['OJname'] != 'hdu')
+			{
+				throw new Exception('oj名称错误');
+			}
+		}
+		else
+		{
+			throw new Exception('oj名称错误');
+		}
+
+		//get OJusername & OJpassword
+		$OJuser = $this->db->select(array('OJusername', 'OJpassword'))
+						->where(array('OJname' => $form['OJname'],
+								'Uusername' => $form['Uusername']))
+						->get('oj_account')->result_array();
+		if (! $OJuser)
+		{
+			throw new Exception('用户名错误');
+		}
+		//http://acm.hdu.edu.cn/status.php?first=0&user=starsets&pid=0&lang=0&status=5
+		$first = 0;
+		$num = 0;
+		date_default_timezone_set("Asia/Shanghai");
+		$tow_week_ago = strtotime("-2 week");
+		$data = array();
+		$map = array();
+		while (True)
+		{
+			$url = "http://acm.hdu.edu.cn/status.php?"."first=".$first."&user=".$OJuser[0]['OJusername'].
+					"&pid=0&lang=0&status=5";
+
+			$ch = curl_init();
+			curl_setopt($ch, CURLOPT_URL, $url);
+			curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+			$content = curl_exec($ch);
+			curl_close($ch);
+			
+			if (! $content)
+			{
+				throw new Exception('用户名错误');
+			}
+			
+			$re = "/(\d+)<\/td><td>(\d+-\d+-\d+ \d+:\d+:\d+)<\/td><td><font color=red>Accepted<\/font><\/td><td><a href=\"\/showproblem.php\?pid=(\d+)\"/";
+			$content= file_get_contents($url);
+			preg_match_all($re,$content,$match);
+			
+			if (! $match)
+			{
+				throw new Exception('用户名错误');
+			}
+
+			$flag = false;
+			$len = count($match[0]);
+			for ($i = 0; $i < $len; $i++)
+			{
+				if (strtotime($match[2][$i]) < $tow_week_ago)
+				{
+					$flag = true;
+					break;
+				}
+				if (isset($map['hdu'.$match[3][$i]]))
+				{
+					continue;
+				}
+				$data[$num]['OJname'] = 'hdu';
+				$data[$num]['time'] = $match[2][$i];
+				$data[$num]['name'] = 'hdu'.$match[3][$i];
+				$map[$data[$num]['name']] = 1;
+				$data[$num]['url'] = 'http://acm.hdu.edu.cn/showproblem.php?pid='.$match[3][$i];
+				
+				$first = $match[1][$i];
+				$num = $num + 1;
+			}
+			if ($flag) 
+			{
+				break;
+			}
+		}
+		$res['ac_count'] = $num;
+		$res['ac_info'] = $data;
+		return $res;
+	}
 	/**
 	 * 获取题量排行
 	 */
