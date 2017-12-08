@@ -14,7 +14,7 @@ class Oj_model extends CI_Model {
 		$this->load->helper('date');
 		$now = date("y-m-d h:i:s");
 		$dis = strtotime($now) - strtotime($pre);
-		return   $dis > 3600;
+		return   $dis > 7200;
 	}
 
 
@@ -693,76 +693,126 @@ class Oj_model extends CI_Model {
 			throw new Exception('用户名错误');
 		}
 
-		$from = 1;
-		$count = 1000;
-		$num = 0;
-		date_default_timezone_set("Asia/Shanghai");
-		$tow_week_ago = strtotime("-2 week");
-		$data = array();
-		$map = array();
-		while (True)
-		{
-			$url = "http://codeforces.com/api/user.status?handle=".$OJuser[0]['OJusername'].
-					"&from=".$from."&count=".$count;
+		//cache
+		$last_visit = $this->db->get_where('oj_recent_ac_last_visit',array('Uusername'=>$form['Uusername']))
+						->result_array();
 
-			$ch = curl_init();
-			curl_setopt($ch, CURLOPT_URL, $url);
-			curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-			$content = curl_exec($ch);
-			curl_close($ch);
-			$content = json_decode($content, true);
-			
-			if (! $content)
+		if(!$last_visit)
+		{
+			$last_visit = "2017-12-07 23:18:10";
+		}
+		else
+		{
+			$last_visit = $last_visit[0]['Last_visit'];
+		}
+		if($this->is_timeout($last_visit) == true)
+		{
+			$mem = array('OJname','time','name','url');
+			$acinfo = $this->db->select($mem)
+								->order_by('time', 'DESC')
+								->get_where('oj_recent_acinfo',array('Uusername'=>$form['Uusername']))
+								->result_array();
+			$res['ac_count'] = count($acinfo);
+			$res['ac_info'] = $acinfo;
+		}
+		else
+		{
+
+			//缓存前的代码
+			$from = 1;
+			$count = 1000;
+			$num = 0;
+			date_default_timezone_set("Asia/Shanghai");
+			$tow_week_ago = strtotime("-2 week");
+			$data = array();
+			$map = array();
+			while (True)
 			{
-				throw new Exception('用户名错误');
-			}
-			
-			if ($content['status'] != 'OK')
-			{
-				break;
-			}
-			$flag = false;
-			$text = $content['result'];
-			foreach($text as $value)
-			{
-				if ($value['creationTimeSeconds'] < $tow_week_ago)
+				$url = "http://codeforces.com/api/user.status?handle=".$OJuser[0]['OJusername'].
+						"&from=".$from."&count=".$count;
+
+				$ch = curl_init();
+				curl_setopt($ch, CURLOPT_URL, $url);
+				curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+				$content = curl_exec($ch);
+				curl_close($ch);
+				$content = json_decode($content, true);
+				
+				if (! $content)
 				{
-					$flag = true;
+					throw new Exception('用户名错误');
+				}
+				
+				if ($content['status'] != 'OK')
+				{
 					break;
 				}
-				if ($value['verdict'] != 'OK')
+				$flag = false;
+				$text = $content['result'];
+				foreach($text as $value)
 				{
-					continue;
+					if ($value['creationTimeSeconds'] < $tow_week_ago)
+					{
+						$flag = true;
+						break;
+					}
+					if ($value['verdict'] != 'OK')
+					{
+						continue;
+					}
+					$problem = $value['problem'];
+					if (isset($map[$problem['contestId'].$problem['index']." - ".$problem['name']]))
+					{
+						continue;
+					}
+					$data[$num]['OJname'] = 'cf';
+					$data[$num]['time'] = date("Y-m-d H:i:s", $value['creationTimeSeconds']);
+					$data[$num]['name'] = $problem['contestId'].$problem['index']." - ".$problem['name'];
+					$map[$problem['contestId'].$problem['index']." - ".$problem['name']] = 1;
+					if (sizeof($value['author']['members']) > 1)
+					{
+						$data[$num]['url'] = 'http://codeforces.com/problemset/'.'gymProblem/'
+												.$problem['contestId'].'/'.$problem['index'];
+					}
+					else
+					{
+						$data[$num]['url'] = 'http://codeforces.com/problemset/'.'problem/'
+												.$problem['contestId'].'/'.$problem['index'];	
+					}
+					$num = $num + 1;
 				}
-				$problem = $value['problem'];
-				if (isset($map[$problem['contestId'].$problem['index']." - ".$problem['name']]))
+				if ($flag) 
 				{
-					continue;
+					break;
 				}
-				$data[$num]['OJname'] = 'cf';
-				$data[$num]['time'] = date("Y-m-d H:i:s", $value['creationTimeSeconds']);
-				$data[$num]['name'] = $problem['contestId'].$problem['index']." - ".$problem['name'];
-				$map[$problem['contestId'].$problem['index']." - ".$problem['name']] = 1;
-				if (sizeof($value['author']['members']) > 1)
-				{
-					$data[$num]['url'] = 'http://codeforces.com/problemset/'.'gymProblem/'
-											.$problem['contestId'].'/'.$problem['index'];
-				}
-				else
-				{
-					$data[$num]['url'] = 'http://codeforces.com/problemset/'.'problem/'
-											.$problem['contestId'].'/'.$problem['index'];	
-				}
-				$num = $num + 1;
+				$form = $form + $count;
 			}
-			if ($flag) 
-			{
-				break;
+			$res['ac_count'] = $num;
+			$res['ac_info'] = $data;
+
+
+			//缓存添加的代码
+
+			//删除旧的数据
+			$this->db->delete('oj_recent_acinfo', array('Uusername' => $form['Uusername']));
+			$this->db->delete('oj_recent_ac_last_visit', array('Uusername' => $form['Uusername']));
+
+			//添加新的数据
+			$this->load->helper('date');
+			$data = array('Uusername' => $form['Uusername'], 'Last_visit' => date("y-m-d h:i:s"));
+			$this->db->insert('oj_recent_ac_last_visit',$data);
+
+			foreach ($res['ac_info'] as $value) {
+				$data = array('OJname' => $value['OJname'],
+							'time' => $value['time'],
+							'name' => $value['name'],
+							'url' => $value['url'],
+							'Uusername' => $form['Uusername'],
+						 );
+				$this->db->insert('oj_recent_acinfo',$data);
 			}
-			$form = $form + $count;
 		}
-		$res['ac_count'] = $num;
-		$res['ac_info'] = $data;
+		
 		return $res;
 	}
 

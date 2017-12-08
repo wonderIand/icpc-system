@@ -157,6 +157,21 @@ CREATE TABLE IF NOT EXISTS `oj_last_visit` (
 	PRIMARY KEY(`OJname`,`Uusername`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
+CREATE TABLE IF NOT EXISTS `oj_recent_ac_last_visit` (
+	`Last_visit` char(20) NOT NULL,
+	`Uusername` char(20),
+	PRIMARY KEY(`Uusername`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS `oj_recent_acinfo` (
+	`Uusername` char(20),
+	`OJname` char(20),
+	`name` char(30),
+	`url` char(150),
+	`time` char(20),
+
+	PRIMARY KEY(`Uusername`,`url`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- CREATE TABLE IF NOT EXISTS `user_training_tag` (
 -- 	`UTid` int,
