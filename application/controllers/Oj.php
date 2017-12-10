@@ -321,4 +321,31 @@ class Oj extends CI_Controller {
 		}
 		output_data(1, "获取成功", $data);
 	}
+
+
+	/**
+	 * 手动刷新题量
+	 */
+	public function refresh()
+	{
+		//config
+		$members = array('Uusername');
+		
+		//post
+		try
+		{
+			//get post
+			$post = get_post();
+			$post['Utoken'] = get_token();
+			//get &&filter
+			$this->load->model('Oj_model', 'oj');
+			$data = $this->oj->refresh(filter($post, $members));
+		}
+		catch (Exception $e)
+		{
+			output_data($e->getCode(), $e->getMessage(), array());
+			return;
+		}
+		output_data(1, "刷新成功", $data);
+	}
 }

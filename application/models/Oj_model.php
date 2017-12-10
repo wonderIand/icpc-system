@@ -962,4 +962,84 @@ class Oj_model extends CI_Model {
 		output_data(1, "获取成功", $data);
 	}
 
+
+	/**
+	 * 手动刷新题量
+	 */
+	public function refresh($form)
+	{
+		//congig
+		$member = array('Uusername', 'OJname', 'Last_visit', 'ACproblem');
+  		$members = array('Uusername', 'OJname');
+
+  		//check token
+  		$this->load->model('User_model', 'my_user');
+		if (isset($form['Utoken'])) 
+		{
+			$this->my_user->check_token($form['Utoken']);
+		}
+		
+  		//fresh
+  		$data['Last_visit'] = date("y-m-d h:i:s");
+		//更新CF缓存
+
+		$rel['Last_visit'] = $data['Last_visit'];
+		$rel['Uusername'] = $form['Uusername'];
+		$data['Uusername'] = $form['Uusername'];
+		if ( $this->db->select('Uusername')
+						->where(array('Uusername' => $form['Uusername']))
+						->get('oj_last_visit')
+						->result_array())
+		{
+			if ( $this->db->select('Uusername,OJname')
+						  ->where(array('Uusername' => $form['Uusername'], 'OJname' => 'cf'))
+						  ->get('oj_last_visit')
+				     	  ->result_array())
+			{
+				$form['OJname'] = 'cf';
+				$data['OJname'] = 'cf';
+				$data['ACproblem']= $this->get_cf_acproblems(filter($form, $members));
+				$this->db->update('oj_last_visit',filter($data, $member),
+										array('Uusername' => $form['Uusername'], 'OJname' => 'cf'));
+				$rel['cf']['OJname'] = $data['OJname'];
+				$rel['cf']['ACproblem'] = $data['ACproblem'];
+			}
+
+			//更新foj缓存
+			if ( $this->db->select('Uusername,OJname')
+						  ->where(array('Uusername' => $form['Uusername'], 'OJname' => 'foj'))
+						  ->get('oj_last_visit')
+				     	  ->result_array())
+			{
+				$data['OJname'] = 'foj';
+				$form['OJname'] = 'foj';
+				$data['ACproblem'] = $this->get_foj_acproblems(filter($form, $members));
+				$this->db->update('oj_last_visit',filter($data, $member),
+										array('Uusername' => $form['Uusername'], 'OJname' => 'foj'));
+				$rel['foj']['OJname'] = $data['OJname'];
+				$rel['foj']['ACproblem'] = $data['ACproblem'];
+			}
+
+			//更新hdu缓存
+			if ( $this->db->select('Uusername,OJname')
+						  ->where(array('Uusername' => $form['Uusername'], 'OJname' => 'hdu'))
+						  ->get('oj_last_visit')
+				     	  ->result_array())
+			{
+				$data['OJname'] = 'hdu';
+				$form['OJname'] = 'hdu';
+				$data['ACproblem'] = $this->get_hdu_acproblems(filter($form, $members));
+				$this->db->update('oj_last_visit',filter($data, $member),
+											array('Uusername' => $form['Uusername'], 'OJname' => 'hdu'));
+				$rel['hdu']['OJname'] = $data['OJname'];
+				$rel['hdu']['ACproblem'] = $data['ACproblem'];
+			}
+		}
+		else
+		{
+			throw new Exception("用户名错误");
+			
+		}
+		return $rel;
+	}
 }
