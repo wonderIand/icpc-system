@@ -730,3 +730,86 @@
 	"data": []
 }
 ```
+
+---
+
+## **接口 · 手动刷新题量**
+- **请求方法：POST**
+- **接口网址：http://icpc-system.and-who.cn/OJ/refresh**
+- **测试用例**
+
+### **Test 1** · 刷新当前用户题量
+```
+{
+	"Uusername":"Kirito"
+}
+```
+**返回信息**
+```
+{
+	"type": 1,
+	"message": "刷新成功",
+	"data": {
+		"Last_visit": "17-12-11 01:01:24",
+		"Uusername": "Kirito",
+		"cf": {
+			"OJname": "cf",
+			"ACproblem": "268"
+		},
+		"foj": {
+			"OJname": "foj",
+			"ACproblem": "2"
+		}
+	}
+}
+```
+
+**Test 2** · 刷新其他用户个人题量
+```
+{
+	"Uusername":"Distance"
+}
+```
+
+**返回信息**
+```
+{
+	"type": 1,
+	"message": "刷新成功",
+	"data": {
+		"Last_visit": "17-12-11 01:07:49",
+		"Uusername": "Distance",
+		"cf": {
+			"OJname": "cf",
+			"ACproblem": "1"
+		},
+		"foj": {
+			"OJname": "foj",
+			"ACproblem": "14"
+		},
+		"hdu": {
+			"OJname": "hdu",
+			"ACproblem": "3"
+		}
+	}
+}
+```
+
+**Test 2** · 刷新其他用户个人题量
+```
+{
+	"Uusername":"gagaga"
+}
+```
+
+**返回信息**
+```
+{
+	"type": 0,
+	"message": "用户名错误",
+	"data": []
+}
+```
+
+---
+
