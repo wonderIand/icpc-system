@@ -274,8 +274,24 @@ class User extends CI_Controller {
 		try
 		{
 			//get username
-			$post = get_post();
+			$post['Uusername'] = $this->input->get('Uusername');
 			$username = $post['Uusername'];
+
+			//check form
+			$this->load->library('form_validation');
+			$this->form_validation->set_data($post);
+			if ( ! $this->form_validation->run('get_icon')) 
+			{
+				$this->load->helper('form');
+				foreach ($members as $member) 
+				{
+					if (form_error($member))
+					{
+						throw new Exception(strip_tags(form_error($member)));
+					}
+				}
+				return;
+			}
 
 			//get url
 			$this->load->model('User_model', 'user');
