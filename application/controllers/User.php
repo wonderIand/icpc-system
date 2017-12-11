@@ -207,6 +207,12 @@ class User extends CI_Controller {
  	 */
 	public function upload_icon()
 	{
+
+		if ($_SERVER['REQUEST_METHOD'] == "OPTIONS") 
+		{
+			return;
+		}
+		
 		//config
 		$members = array('Utoken', 'Uusername', 'Uiconpath');
 
