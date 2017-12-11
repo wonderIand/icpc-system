@@ -323,6 +323,16 @@ $config = array(
 			'label' => '排序方式',
 			'rules' => 'required'
 			)
+		),
+
+
+	//获取用户头像表单
+	'get_icon' => array(
+		array(
+			'field' => 'Uusername',
+			'label' => '用户名',
+			'rules' => 'required'
+			)
 		)
 
 );

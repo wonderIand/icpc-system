@@ -266,8 +266,15 @@ class User_model extends CI_Model {
 	 **/
 	public function get_icon($form)
 	{
-		//get iconpath
+		//check user
 		$where = array('Uusername' => $form['Uusername']);
+		$isExist = $this->db->where($where)->get('user_info')->result_array();
+		if(!$isExist)
+		{
+			throw new Exception("该用户不存在", 0);
+		}
+
+		//get iconpath
 		$ret = $this->db->select('Uiconpath')->where($where)->get('user_info')->result_array()[0];
 		if($ret['Uiconpath'] == '-')
 		{
