@@ -357,6 +357,10 @@ class Blog_model extends CI_Model {
 			{
 				$bids[$key] = $t['Bid'];
 			}
+			if ( ! bids)
+			{
+				throw new Exception("无该标签的博客");
+			}
 			$bids = array_unique($bids);
 		}
 
