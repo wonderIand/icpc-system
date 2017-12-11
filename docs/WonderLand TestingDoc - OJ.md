@@ -5,7 +5,7 @@
 ---
 
 ## **接口 · 获取题量排行**
-- **请求方法：GET**
+- **请求方法：POST**
 - **接口网址：http://icpc-system.and-who.cn/OJ/get_list**
 - **测试用例**
 

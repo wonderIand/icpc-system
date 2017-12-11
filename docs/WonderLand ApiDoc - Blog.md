@@ -141,6 +141,7 @@
 | **Bid**         | O      | -        | -        | -
 | **Btitle**      | O      | 1        | 50       | -
 | **BAarticle**   | O      | 1        | 21500    | -
+| **Btype**       | O      | 1        | 15       | -
 | **Bproblemid**  | X      | -        | 5        | 仅包含字母或数字
 
 
@@ -149,7 +150,8 @@
 {
 	"Bid": 1,
 	"Btitle": "翻身之路",
-	"BAarticle": "一位乘客重新获得了梦想"
+	"BAarticle": "一位乘客重新获得了梦想",
+	"Btype": "Test"
 }
 ```
 
@@ -213,7 +215,7 @@
 - **【！备注！】：此接口返回的记录信息中不包含文章，获取文章使用上面的查询单条记录接口 · GET**
 - **请求方法：GET**
 - **按记录添加时间排序**
-- **接口网址：http://icpc-system.and-who.cn/Blog/get_list?Bauthor**
+- **接口网址：http://icpc-system.and-who.cn/Blog/get_list?:Bauthor**
 
 | **`GET` 字段可选项** | 备注
 | --------------- | --------
