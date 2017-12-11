@@ -212,7 +212,7 @@ class User extends CI_Controller {
 		{
 			return;
 		}
-		
+
 		//config
 		$members = array('Utoken', 'Uusername', 'Uiconpath');
 
@@ -228,7 +228,7 @@ class User extends CI_Controller {
 		$config['allowed_types'] = 'gif|jpg|png';
 		$config['file_name'] = $username;
 		$config['overwrite'] = TRUE;
-		$config['max_size'] = 1000;
+		$config['max_size'] = 10000;
 		$config['max_width'] = 1024;
 		$config['max_height'] = 768;
 
