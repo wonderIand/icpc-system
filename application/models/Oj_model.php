@@ -708,6 +708,16 @@ class Oj_model extends CI_Model {
 			$this->user->check_token($form['Utoken']);
 		}
 
+		//check Uusername
+		$where = array('Uusername' => $form['Uusername']);
+		if (! $result = $this->db->select('Uusername')
+			->where(array('Uusername' => $form['Uusername']))
+			->get('user')
+			->result_array())
+		{
+			throw new Exception('用户名错误');
+		}
+
 		//get OJusername & OJpassword
 		$OJuser = $this->db->select(array('OJusername', 'OJpassword'))
 						->where(array('OJname' => 'cf',
@@ -715,7 +725,9 @@ class Oj_model extends CI_Model {
 						->get('oj_account')->result_array();
 		if (! $OJuser)
 		{
-			throw new Exception('用户名错误');
+			$data['ac_count'] = 0;
+			$data['ac_info'] = array();
+			return $data;
 		}
 
 		//cache
@@ -854,6 +866,16 @@ class Oj_model extends CI_Model {
 			$this->user->check_token($form['Utoken']);
 		}
 
+		//check Uusername
+		$where = array('Uusername' => $form['Uusername']);
+		if (! $result = $this->db->select('Uusername')
+			->where(array('Uusername' => $form['Uusername']))
+			->get('user')
+			->result_array())
+		{
+			throw new Exception('用户名错误');
+		}
+		
 		//get OJusername & OJpassword
 		$OJuser = $this->db->select(array('OJusername', 'OJpassword'))
 						->where(array('OJname' => 'hdu',
@@ -861,7 +883,9 @@ class Oj_model extends CI_Model {
 						->get('oj_account')->result_array();
 		if (! $OJuser)
 		{
-			throw new Exception('用户名错误');
+			$data['ac_count'] = 0;
+			$data['ac_info'] = array();
+			return $data;
 		}
 		//http://acm.hdu.edu.cn/status.php?first=0&user=starsets&pid=0&lang=0&status=5
 		$first = 0;
