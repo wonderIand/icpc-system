@@ -283,38 +283,10 @@ class Oj extends CI_Controller {
 	 */
 	public function get_list()
 	{
-		//config
-		$members = array('Utoken', 'OJname', 'Sort');
-		//post
 		try
 		{
-			//get post
-			$post = get_post();
-			$post['Utoken'] = get_token();
-			//check form
-			$this->load->library('form_validation');
-			$this->form_validation->set_data($post);
-			if (! $this->form_validation->run('get_list'))
-			{
-				$this->load->helper('form');
-				foreach ($members as $member)
-				{
-					if (form_error($member))
-					{
-						throw new Exception(strip_tags(form_error($member)));
-					}
-				}
-			}
-			//get &&filter
 			$this->load->model('Oj_model', 'oj');
-			if ($post['OJname'] == 'hdu' || $post['OJname'] == 'foj' || $post['OJname'] == 'cf')
-			{
-				$data = $this->oj->get_list(filter($post, $members));
-			}
-			else
-			{
-				throw new Exception('OJ名称错误');
-			}
+			$data = $this->oj->get_list();
 		}
 		catch (Exception $e)
 		{
@@ -322,5 +294,32 @@ class Oj extends CI_Controller {
 			return;
 		}
 		output_data(1, "获取成功", $data);
+	}
+
+
+	/**
+	 * 手动刷新题量
+	 */
+	public function refresh()
+	{
+		//config
+		$members = array('Uusername');
+		
+		//post
+		try
+		{
+			//get post
+			$post = get_post();
+			$post['Utoken'] = get_token();
+			//get &&filter
+			$this->load->model('Oj_model', 'oj');
+			$data = $this->oj->refresh(filter($post, $members));
+		}
+		catch (Exception $e)
+		{
+			output_data($e->getCode(), $e->getMessage(), array());
+			return;
+		}
+		output_data(1, "刷新成功", $data);
 	}
 }
