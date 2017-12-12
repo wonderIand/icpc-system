@@ -1083,7 +1083,7 @@ class Oj_model extends CI_Model {
 		$this->db->replace('oj_recent_ac_last_visit',$data);
 		$this->load->model("Oj_model", 'oj');
 
-		return $this->oj->get_cf_acinfo($form);
+		//return $this->oj->get_cf_acinfo($form);
 	}
 
 }

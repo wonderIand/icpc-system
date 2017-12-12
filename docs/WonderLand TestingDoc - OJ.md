@@ -722,28 +722,7 @@
 {
 	"type": 1,
 	"message": "刷新成功",
-	"data": {
-		"ac_count": 3,
-		"ac_info": [
-			{
-				"OJname": "cf",
-				"time": "2017-12-12 22:50:16",
-				"name": "900A - Find Extra One",
-				"url": "http:\/\/codeforces.com\/problemset\/problem\/900\/A"
-			},
-			{
-				"OJname": "cf",
-				"time": "2017-12-08 16:25:59",
-				"name": "893A - Chess For Three",
-				"url": "http:\/\/codeforces.com\/problemset\/problem\/893\/A"
-			},
-			{
-				"OJname": "cf",
-				"time": "2017-12-08 16:23:53",
-				"name": "884A - Book Reading",
-				"url": "http:\/\/codeforces.com\/problemset\/problem\/884\/A"
-			}
-		]
+	"data": ""
 	}
 }
 

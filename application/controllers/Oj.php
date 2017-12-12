@@ -337,7 +337,8 @@ class Oj extends CI_Controller {
 			$post['Utoken'] = get_token(false);
 			//get &&filter
 			$this->load->model('Oj_model', 'oj');
-			$data = $this->oj->refresh_recent_ac(filter($post, $members));
+			$data = "";
+			$this->oj->refresh_recent_ac(filter($post, $members));
 		}
 		catch (Exception $e)
 		{
