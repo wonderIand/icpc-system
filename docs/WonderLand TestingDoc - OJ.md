@@ -32,7 +32,10 @@
 					"OJname": "cf",
 					"ACproblem": "268"
 				}
-			]
+			],
+			"recent": {
+				"cf": 0
+			}
 		},
 		"Distance": {
 			"TotalAC": "18",
@@ -49,7 +52,11 @@
 					"OJname": "cf",
 					"ACproblem": "1"
 				}
-			]
+			],
+			"recent": {
+				"cf": 0,
+				"hdu": 0
+			}
 		}
 	}
 }
