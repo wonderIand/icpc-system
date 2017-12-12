@@ -614,11 +614,13 @@
 
 ### **Test 3** · Uusername错误
 **查询示例：**http://icpc-system.and-who.cn/oj/get_oj_acinfo?Uusername=abcdf
+```
 {
 
 }
 ```
 **返回信息**
+
 ```
 {
 	"type": 0,
@@ -709,3 +711,26 @@
 
 ---
 
+## **接口 · 手动刷新个人近期做题记录**
+- **请求方法：POST**
+- **接口网址：http://icpc-system.and-who.cn/OJ/refresh_recent_ac**
+- **测试用例**
+
+```
+{
+	"Uusername":"gagaga"
+}
+```
+
+**返回信息**
+
+```
+
+{
+	"type": 1,
+	"message": "刷新成功",
+	"data": ""
+	}
+}
+
+```

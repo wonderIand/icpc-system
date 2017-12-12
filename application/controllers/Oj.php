@@ -322,4 +322,31 @@ class Oj extends CI_Controller {
 		}
 		output_data(1, "刷新成功", $data);
 	}
+
+
+	public function refresh_recent_ac()
+	{
+		//config
+		$members = array('Uusername');
+
+		try
+		{
+			//get post
+			$post = get_post();
+			//var_dump($post);
+			$post['Utoken'] = get_token(false);
+			//get &&filter
+			$this->load->model('Oj_model', 'oj');
+			$data = "";
+			$this->oj->refresh_recent_ac(filter($post, $members));
+		}
+		catch (Exception $e)
+		{
+			output_data($e->getCode(), $e->getMessage(), array());
+			return;
+		}
+		output_data(1, "刷新成功", $data);
+
+	}
 }
+
