@@ -967,6 +967,27 @@ class Oj_model extends CI_Model {
 								->where(array('Uusername' => $value['Uusername']))
 								->get('oj_last_visit')
 								->result_array();
+
+				//get cf recent ac
+				if ( $this->db->select('OJname')
+							->where(array('Uusername' => $value['Uusername'],'OJname' => 'cf'))
+							->get('oj_account')
+							->result_array())
+				{
+					$query = array('Uusername' => $value['Uusername'], 'OJname' => 'cf');
+					$ans = $this->get_cf_acinfo($query);
+					$rel[$value['Uusername']]['recent']['cf'] = $ans['ac_count'];
+				}
+				//get hdu recent ac
+				if ( $this->db->select('OJname')
+							->where(array('Uusername' => $value['Uusername'],'OJname' => 'hdu'))
+							->get('oj_account')
+							->result_array())
+				{
+					$query = array('Uusername' => $value['Uusername'], 'OJname' => 'hdu');
+					$ans = $this->get_hdu_acinfo($query);
+					$rel[$value['Uusername']]['recent']['hdu'] = $ans['ac_count'];
+				}
 			}
 		}
 		else
