@@ -148,7 +148,7 @@
 ## **接口 · 查询用户oj近期(两周)过题详细信息**
 
 - **请求方法：GET**
-- **接口网址：http://icpc-system.and-who.cn/Oj/get_oj_acinfo?Uusername=&OJname=**
+- **接口网址：http://icpc-system.and-who.cn/Oj/get_oj_acinfo?Uusername=**
 
 | **返回的信息包含** | 备注
 | ---------------------- | ----
@@ -166,8 +166,14 @@
 	"type": 1,
 	"message": "查询成功",
 	"data": {
-		"ac_count": 1,
+		"ac_count": 2,
 		"ac_info": [
+			{
+				"OJname": "hdu",
+				"time": "2017-12-07 19:02:06",
+				"name": "hdu3966",
+				"url": "http:\/\/acm.hdu.edu.cn\/showproblem.php?pid=3966"
+			},
 			{
 				"OJname": "cf",
 				"time": "2017-12-02 19:34:14",

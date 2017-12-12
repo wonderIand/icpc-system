@@ -708,22 +708,9 @@ class Oj_model extends CI_Model {
 			$this->user->check_token($form['Utoken']);
 		}
 
-		//check OJname
-		if (isset($form['OJname']))
-		{
-			if ($form['OJname'] != 'cf')
-			{
-				throw new Exception('oj名称错误');
-			}
-		}
-		else
-		{
-			throw new Exception('oj名称错误');
-		}
-
 		//get OJusername & OJpassword
 		$OJuser = $this->db->select(array('OJusername', 'OJpassword'))
-						->where(array('OJname' => $form['OJname'],
+						->where(array('OJname' => 'cf',
 								'Uusername' => $form['Uusername']))
 						->get('oj_account')->result_array();
 		if (! $OJuser)
@@ -743,7 +730,7 @@ class Oj_model extends CI_Model {
 		{
 			$last_visit = $last_visit[0]['Last_visit'];
 		}
-		if($this->is_timeout($last_visit) == true)
+		if($this->is_timeout($last_visit) == false)
 		{
 			$mem = array('OJname','time','name','url');
 			$acinfo = $this->db->select($mem)
@@ -755,7 +742,6 @@ class Oj_model extends CI_Model {
 		}
 		else
 		{
-
 			//缓存前的代码
 			$from = 1;
 			$count = 1000;
@@ -850,7 +836,6 @@ class Oj_model extends CI_Model {
 				$this->db->insert('oj_recent_acinfo',$data);
 			}
 		}
-		
 		return $res;
 	}
 
@@ -869,22 +854,9 @@ class Oj_model extends CI_Model {
 			$this->user->check_token($form['Utoken']);
 		}
 
-		//check OJname
-		if (isset($form['OJname']))
-		{
-			if ($form['OJname'] != 'hdu')
-			{
-				throw new Exception('oj名称错误');
-			}
-		}
-		else
-		{
-			throw new Exception('oj名称错误');
-		}
-
 		//get OJusername & OJpassword
 		$OJuser = $this->db->select(array('OJusername', 'OJpassword'))
-						->where(array('OJname' => $form['OJname'],
+						->where(array('OJname' => 'hdu',
 								'Uusername' => $form['Uusername']))
 						->get('oj_account')->result_array();
 		if (! $OJuser)
