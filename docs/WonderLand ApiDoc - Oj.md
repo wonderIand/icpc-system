@@ -8,6 +8,7 @@
 
 | 日期         | 备注  
 | ------------ | ------
+| **17/12/12** | 添加接口 · **【手动刷新个人近期做题记录】**
 | **17/12/3**  | 添加接口 · **【获取题量排行】**
 | **17/11/29** | 修改接口 · **【修改get_oj_account 返回值:增加Account、删除OJpassword】**
 | **17/11/07** | 添加接口 · **【添加oj关联账号 add_oj_account】**
@@ -284,6 +285,51 @@
 			"OJname": "foj",
 			"ACproblem": "2"
 		}
+	}
+}
+```
+
+---
+## **接口 · 手动刷新个人近期做题记录**
+
+- **请求方法：POST**
+- **接口网址：http://icpc-system.and-who.cn/Oj/refresh_recent_ac**
+
+
+- **表单要求**
+
+| 属性名         | 必要性 | 最小长度 | 最大长度 | 特殊要求
+| -------------  | ------ | -------- | -------- | --------
+| **Uusername**  | O      | 6        | 16       | 字母/数字/下划线/破折号
+
+
+- **成功返回例子**
+```
+{
+	"type": 1,
+	"message": "刷新成功",
+	"data": {
+		"ac_count": 3,
+		"ac_info": [
+			{
+				"OJname": "cf",
+				"time": "2017-12-12 22:50:16",
+				"name": "900A - Find Extra One",
+				"url": "http:\/\/codeforces.com\/problemset\/problem\/900\/A"
+			},
+			{
+				"OJname": "cf",
+				"time": "2017-12-08 16:25:59",
+				"name": "893A - Chess For Three",
+				"url": "http:\/\/codeforces.com\/problemset\/problem\/893\/A"
+			},
+			{
+				"OJname": "cf",
+				"time": "2017-12-08 16:23:53",
+				"name": "884A - Book Reading",
+				"url": "http:\/\/codeforces.com\/problemset\/problem\/884\/A"
+			}
+		]
 	}
 }
 ```

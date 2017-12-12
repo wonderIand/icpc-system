@@ -1071,4 +1071,19 @@ class Oj_model extends CI_Model {
 		}
 		return $rel;
 	}
+
+	/**
+	 * 手动刷新近期做题数
+	 */
+	public function refresh_recent_ac($form)
+	{
+		//congig
+		$member = array('Uusername');
+		$data = array('Uusername' => $form['Uusername'], 'Last_visit' => "2017-12-07 23:18:10");
+		$this->db->replace('oj_recent_ac_last_visit',$data);
+		$this->load->model("Oj_model", 'oj');
+
+		return $this->oj->get_cf_acinfo($form);
+	}
+
 }

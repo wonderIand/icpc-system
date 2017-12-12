@@ -607,11 +607,13 @@
 
 ### **Test 3** · Uusername错误
 **查询示例：**http://icpc-system.and-who.cn/oj/get_oj_acinfo?Uusername=abcdf
+```
 {
 
 }
 ```
 **返回信息**
+
 ```
 {
 	"type": 0,
@@ -702,3 +704,47 @@
 
 ---
 
+## **接口 · 手动刷新个人近期做题记录**
+- **请求方法：POST**
+- **接口网址：http://icpc-system.and-who.cn/OJ/refresh_recent_ac**
+- **测试用例**
+
+```
+{
+	"Uusername":"gagaga"
+}
+```
+
+**返回信息**
+
+```
+
+{
+	"type": 1,
+	"message": "刷新成功",
+	"data": {
+		"ac_count": 3,
+		"ac_info": [
+			{
+				"OJname": "cf",
+				"time": "2017-12-12 22:50:16",
+				"name": "900A - Find Extra One",
+				"url": "http:\/\/codeforces.com\/problemset\/problem\/900\/A"
+			},
+			{
+				"OJname": "cf",
+				"time": "2017-12-08 16:25:59",
+				"name": "893A - Chess For Three",
+				"url": "http:\/\/codeforces.com\/problemset\/problem\/893\/A"
+			},
+			{
+				"OJname": "cf",
+				"time": "2017-12-08 16:23:53",
+				"name": "884A - Book Reading",
+				"url": "http:\/\/codeforces.com\/problemset\/problem\/884\/A"
+			}
+		]
+	}
+}
+
+```
