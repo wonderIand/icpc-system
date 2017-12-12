@@ -7,109 +7,51 @@
 ## **接口 · 获取题量排行**
 - **请求方法：GET**
 - **接口网址：http://icpc-system.and-who.cn/OJ/get_list**
+- **返回信息**
+| **返回的信息包含** 	 | 备注
+| ---------------------- | ----
+| **Uusername**          | 用户名
+| **ACproblem**          | 过题数量
+
 - **测试用例**
 
-### **Test 1** · 获取foj题量排行升序
-```
-{
-	"OJname":"foj",
-	"Sort":"insc"
-}
-```
-**返回信息**
+### **Test 1** · 获取题量排序
 ```
 {
 	"type": 1,
 	"message": "获取成功",
-	"data": [
-		{
-			"Uusername": "Kirito",
-			"ACproblem": "2"
+	"data": {
+		"Kirito": {
+			"TotalAC": "270",
+			"info": [
+				{
+					"OJname": "foj",
+					"ACproblem": "2"
+				},
+				{
+					"OJname": "cf",
+					"ACproblem": "268"
+				}
+			]
 		},
-		{
-			"Uusername": "Distance",
-			"ACproblem": "14"
+		"Distance": {
+			"TotalAC": "18",
+			"info": [
+				{
+					"OJname": "hdu",
+					"ACproblem": "3"
+				},
+				{
+					"OJname": "foj",
+					"ACproblem": "14"
+				},
+				{
+					"OJname": "cf",
+					"ACproblem": "1"
+				}
+			]
 		}
-	]
-}
-```
-
-**Test 2** · 获取foj题量排行降序
-```
-{
-	"OJname":"foj",
-	"Sort":"desc"
-}
-```
-
-**返回信息**
-```
-{
-	"type": 1,
-	"message": "获取成功",
-	"data": [
-		{
-			"Uusername": "Distance",
-			"ACproblem": "14"
-		},
-		{
-			"Uusername": "Kirito",
-			"ACproblem": "2"
-		}
-	]
-}
-```
-
-
-**Test 3** · 获取cf题量排行降序
-```
-{
-	"OJname":"cf",
-	"Sort":"desc"
-}
-```
-
-**返回信息**
-```
-{
-	"type": 1,
-	"message": "获取成功",
-	"data": [
-		{
-			"Uusername": "Kirito",
-			"ACproblem": "266"
-		},
-		{
-			"Uusername": "Distance",
-			"ACproblem": "1"
-		}
-	]
-}
-```
-
-**Test 4** · 获取cf题量排行升序
-```
-{
-	"OJname":"cf",
-	"Sort":"insc"
-}
-```
-
-**返回信息**
-```
-{
-	"type": 1,
-	"message": "获取成功",
-	"data": [
-		{
-			"Uusername": "Distance",
-			"ACproblem": "1"
-		},
-		{
-			"Uusername": "Kirito",
-			"ACproblem": "266"
-		}
-	]
+	}
 }
 ```
 
@@ -730,3 +672,86 @@
 	"data": []
 }
 ```
+
+---
+
+## **接口 · 手动刷新题量**
+- **请求方法：POST**
+- **接口网址：http://icpc-system.and-who.cn/OJ/refresh**
+- **测试用例**
+
+### **Test 1** · 刷新当前用户题量
+```
+{
+	"Uusername":"Kirito"
+}
+```
+**返回信息**
+```
+{
+	"type": 1,
+	"message": "刷新成功",
+	"data": {
+		"Last_visit": "17-12-11 01:01:24",
+		"Uusername": "Kirito",
+		"cf": {
+			"OJname": "cf",
+			"ACproblem": "268"
+		},
+		"foj": {
+			"OJname": "foj",
+			"ACproblem": "2"
+		}
+	}
+}
+```
+
+**Test 2** · 刷新其他用户个人题量
+```
+{
+	"Uusername":"Distance"
+}
+```
+
+**返回信息**
+```
+{
+	"type": 1,
+	"message": "刷新成功",
+	"data": {
+		"Last_visit": "17-12-11 01:07:49",
+		"Uusername": "Distance",
+		"cf": {
+			"OJname": "cf",
+			"ACproblem": "1"
+		},
+		"foj": {
+			"OJname": "foj",
+			"ACproblem": "14"
+		},
+		"hdu": {
+			"OJname": "hdu",
+			"ACproblem": "3"
+		}
+	}
+}
+```
+
+**Test 2** · 刷新其他用户个人题量
+```
+{
+	"Uusername":"gagaga"
+}
+```
+
+**返回信息**
+```
+{
+	"type": 0,
+	"message": "用户名错误",
+	"data": []
+}
+```
+
+---
+

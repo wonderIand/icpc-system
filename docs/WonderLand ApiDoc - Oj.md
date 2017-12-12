@@ -197,16 +197,74 @@
 {
 	"type": 1,
 	"message": "获取成功",
-	"data": [
-		{
-			"Uusername": "Kirito",
-			"ACproblem": "266"
+	"data": {
+		"Kirito": {
+			"TotalAC": "270",
+			"info": [
+				{
+					"OJname": "foj",
+					"ACproblem": "2"
+				},
+				{
+					"OJname": "cf",
+					"ACproblem": "268"
+				}
+			]
 		},
-		{
-			"Uusername": "Distance",
-			"ACproblem": "1"
+		"Distance": {
+			"TotalAC": "18",
+			"info": [
+				{
+					"OJname": "hdu",
+					"ACproblem": "3"
+				},
+				{
+					"OJname": "foj",
+					"ACproblem": "14"
+				},
+				{
+					"OJname": "cf",
+					"ACproblem": "1"
+				}
+			]
 		}
-	]
+	}
+}
+```
+
+---
+
+
+## **接口 · 刷新个人题量缓存**
+
+- **请求方法：POST**
+- **接口网址：http://icpc-system.and-who.cn/Oj/refresh**
+
+
+- **表单要求**
+
+| 属性名         | 必要性 | 最小长度 | 最大长度 | 特殊要求
+| -------------  | ------ | -------- | -------- | --------
+| **Uusername**  | O      | 6        | 16       | 字母/数字/下划线/破折号
+
+
+- **成功返回例子**
+```
+{
+	"type": 1,
+	"message": "刷新成功",
+	"data": {
+		"Last_visit": "17-12-11 01:01:24",
+		"Uusername": "Kirito",
+		"cf": {
+			"OJname": "cf",
+			"ACproblem": "268"
+		},
+		"foj": {
+			"OJname": "foj",
+			"ACproblem": "2"
+		}
+	}
 }
 ```
 
