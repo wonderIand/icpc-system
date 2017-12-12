@@ -612,11 +612,11 @@
 
 ## **接口 · 查询用户oj近期(两周)过题详细信息**
 - **请求方法：GET**
-- **接口网址：http://icpc-system.and-who.cn/Oj/get_oj_acinfo?Uusername=&OJname=**
+- **接口网址：http://icpc-system.and-who.cn/Oj/get_oj_acinfo?Uusername=**
 - **测试用例**
 
-### **Test 1** · 获取hdu近期过题详细信息
-**查询示例：**http://icpc-system.and-who.cn/oj/get_oj_acinfo?Uusername=abcdef&OJname=hdu
+### **Test 1** · 获取近期过题详细信息
+**查询示例：**http://icpc-system.and-who.cn/oj/get_oj_acinfo?Uusername=abcdef
 ```
 {
 
@@ -628,34 +628,14 @@
 	"type": 1,
 	"message": "查询成功",
 	"data": {
-		"ac_count": 1,
+		"ac_count": 2,
 		"ac_info": [
 			{
 				"OJname": "hdu",
 				"time": "2017-12-07 19:02:06",
 				"name": "hdu3966",
 				"url": "http:\/\/acm.hdu.edu.cn\/showproblem.php?pid=3966"
-			}
-		]
-	}
-}
-```
-
-### **Test 2** · 获取cf近期过题详细信息
-**查询示例：**http://icpc-system.and-who.cn/oj/get_oj_acinfo?Uusername=abcdef&OJname=cf
-```
-{
-
-}
-```
-**返回信息**
-```
-{
-	"type": 1,
-	"message": "查询成功",
-	"data": {
-		"ac_count": 1,
-		"ac_info": [
+			},
 			{
 				"OJname": "cf",
 				"time": "2017-12-02 19:34:14",
@@ -667,8 +647,8 @@
 }
 ```
 
-### **Test 3** · 不带Uusername参数
-**查询示例：**http://icpc-system.and-who.cn/oj/get_oj_acinfo?Uusername&OJname=cf
+### **Test 2** · 不带Uusername参数
+**查询示例：**http://icpc-system.and-who.cn/oj/get_oj_acinfo?Uusername
 ```
 {
 
@@ -683,25 +663,8 @@
 }
 ```
 
-### **Test 4** · 不带OJname参数
-**查询示例：**http://icpc-system.and-who.cn/oj/get_oj_acinfo?Uusername&OJname	
-```
-{
-
-}
-```
-**返回信息**
-```
-{
-	"type": 0,
-	"message": "必须指定OJname",
-	"data": []
-}
-```
-
-### **Test 5** · Uusername错误
-**查询示例：**http://icpc-system.and-who.cn/oj/get_oj_acinfo?Uusername=abcdf&OJname=hdu
-```
+### **Test 3** · Uusername错误
+**查询示例：**http://icpc-system.and-who.cn/oj/get_oj_acinfo?Uusername=abcdf
 {
 
 }
@@ -711,22 +674,6 @@
 {
 	"type": 0,
 	"message": "用户名错误",
-	"data": []
-}
-```
-
-### **Test 6** · OJname错误
-**查询示例：**http://icpc-system.and-who.cn/oj/get_oj_acinfo?Uusername=abcdef&OJname=hu
-```
-{
-
-}
-```
-**返回信息**
-```
-{
-	"type": 0,
-	"message": "OJ名称出错",
 	"data": []
 }
 ```
