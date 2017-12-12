@@ -197,16 +197,38 @@
 {
 	"type": 1,
 	"message": "获取成功",
-	"data": [
-		{
-			"Uusername": "Kirito",
-			"ACproblem": "266"
+	"data": {
+		"Kirito": {
+			"TotalAC": "270",
+			"info": [
+				{
+					"OJname": "foj",
+					"ACproblem": "2"
+				},
+				{
+					"OJname": "cf",
+					"ACproblem": "268"
+				}
+			]
 		},
-		{
-			"Uusername": "Distance",
-			"ACproblem": "1"
+		"Distance": {
+			"TotalAC": "18",
+			"info": [
+				{
+					"OJname": "hdu",
+					"ACproblem": "3"
+				},
+				{
+					"OJname": "foj",
+					"ACproblem": "14"
+				},
+				{
+					"OJname": "cf",
+					"ACproblem": "1"
+				}
+			]
 		}
-	]
+	}
 }
 ```
 
