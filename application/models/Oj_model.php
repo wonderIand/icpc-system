@@ -12,7 +12,7 @@ class Oj_model extends CI_Model {
 	private function is_timeout($pre)
 	{
 		$this->load->helper('date');
-		$now = date("y-m-d h:i:s");
+		$now = date("y-m-d H:i:s");
 		$dis = strtotime($now) - strtotime($pre);
 		return   $dis > 7200;
 	}
@@ -92,7 +92,7 @@ class Oj_model extends CI_Model {
 		{
 			$data['Uusername'] = $form['Uusername'];
 			$data['OJname'] = $form['OJname'];
-			$data['Last_visit'] = date("y-m-d h:i:s");
+			$data['Last_visit'] = date("y-m-d H:i:s");
 			if ($form['OJname'] == 'cf')
 			{
 				$data['ACproblem']= $this->get_cf_acproblems(filter($form, $members));
@@ -854,7 +854,7 @@ class Oj_model extends CI_Model {
 
 			//添加新的数据
 			$this->load->helper('date');
-			$data = array('Uusername' => $form['Uusername'], 'Last_visit' => date("y-m-d h:i:s"));
+			$data = array('Uusername' => $form['Uusername'], 'Last_visit' => date("y-m-d H:i:s"));
 			$this->db->insert('oj_recent_ac_last_visit',$data);
 
 			foreach ($res['ac_info'] as $value) {
@@ -1038,7 +1038,7 @@ class Oj_model extends CI_Model {
 		}
 		
   		//fresh
-  		$data['Last_visit'] = date("y-m-d h:i:s");
+  		$data['Last_visit'] = date("y-m-d H:i:s");
 		//更新CF缓存
 
 		$rel['Last_visit'] = $data['Last_visit'];

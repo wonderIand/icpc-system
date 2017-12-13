@@ -64,4 +64,26 @@ class Station extends CI_Controller {
 
 	}
 
+
+	/**
+	 * 刷新近期比赛列表
+	 */
+	public function refresh_contests()
+	{
+		//refresh recent_contests
+		try
+		{
+			$this->load->model('Station_model','my_station');
+			$data['contests'] = $this->my_station->refresh_contests();
+		}
+
+		catch(Exception $e)
+		{
+			output_data($e->getCode(), $e->getMessage(), array());
+			return;
+		}
+
+		output_data(1, '刷新成功', $data);
+	}
+
 }
