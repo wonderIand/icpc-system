@@ -18,6 +18,48 @@ class Oj_model extends CI_Model {
 	}
 
 
+	/**
+	 * 更新总体量
+	 */
+	private function update_total_ac($array)
+	{
+		$member_s = array('Uusername', 'TotalAC');
+		$where1 = array('Uusername' => $array['Uusername']);
+		$new['TotalAC'] = 0;
+		if ( $cf = $this->db->select('ACproblem')
+						->where(array('Uusername' => $array['Uusername'], 'OJname' => 'cf'))
+						->get('oj_last_visit')
+						->result_array())
+		{
+			$new['TotalAC'] += $cf[0]['ACproblem'];
+		}
+		if ( $foj = $this->db->select('ACproblem')
+						->where(array('Uusername' => $array['Uusername'], 'OJname' => 'foj'))
+						->get('oj_last_visit')
+						->result_array())
+		{
+			$new['TotalAC'] += $foj[0]['ACproblem'];	
+		}
+		if ( $hdu = $this->db->select('ACproblem')
+						->where(array('Uusername' => $array['Uusername'], 'OJname' => 'hdu'))
+						->get('oj_last_visit')
+						->result_array())
+		{
+				$new['TotalAC'] += $hdu[0]['ACproblem'];
+		}				
+		$new['Uusername'] = $array['Uusername'];
+		if ( ! $this->db->select('Uusername')
+						->where($where1)
+						->get('oj_total_ac')
+						->result_array())
+		{
+			$this->db->insert('oj_total_ac', filter($new,$member_s), $where1);
+		}
+		else
+		{
+			$this->db->update('oj_total_ac', filter($new,$member_s), $where1);
+		}
+	}
 	/**********************************************************************************************
 	 * 主接口
 	 **********************************************************************************************/
@@ -31,7 +73,6 @@ class Oj_model extends CI_Model {
 		//config
 		$member = array('Uusername', 'OJname', 'Last_visit', 'ACproblem');
 		$members = array('Uusername', 'OJname');
-		$member_s = array('Uusername', 'TotalAC');
 
 		$where = array('Uusername' => $form['Uusername'], 'OJname' => $form['OJname']);
 		if ( !$visit = $this->db->select('Last_visit')
@@ -81,41 +122,7 @@ class Oj_model extends CI_Model {
 			}
 
 			//update totalac
-			$where1 = array('Uusername' => $data['Uusername']);
-			$new['TotalAC'] = 0;
-			if ( $cf = $this->db->select('ACproblem')
-							->where(array('Uusername' => $data['Uusername'], 'OJname' => 'cf'))
-							->get('oj_last_visit')
-							->result_array())
-			{
-				$new['TotalAC'] += $cf[0]['ACproblem'];
-			}
-			if ( $foj = $this->db->select('ACproblem')
-							->where(array('Uusername' => $data['Uusername'], 'OJname' => 'foj'))
-							->get('oj_last_visit')
-							->result_array())
-			{
-				$new['TotalAC'] += $foj[0]['ACproblem'];	
-			}
-			if ( $hdu = $this->db->select('ACproblem')
-							->where(array('Uusername' => $data['Uusername'], 'OJname' => 'hdu'))
-							->get('oj_last_visit')
-							->result_array())
-			{
-				$new['TotalAC'] += $hdu[0]['ACproblem'];
-			}				
-			$new['Uusername'] = $data['Uusername'];
-			if ( ! $this->db->select('Uusername')
-							->where($where1)
-							->get('oj_total_ac')
-							->result_array())
-			{
-				$this->db->insert('oj_total_ac', filter($new,$member_s), $where1);
-			}
-			else
-			{
-				$this->db->update('oj_total_ac', filter($new,$member_s), $where1);
-			}
+			$this->update_total_ac($data);
 		}
 		else
 		{
@@ -1011,7 +1018,6 @@ class Oj_model extends CI_Model {
 		//congig
 		$member = array('Uusername', 'OJname', 'Last_visit', 'ACproblem');
   		$members = array('Uusername', 'OJname');
-  		$member_s = array('Uusername', 'TotalAC');
 
   		//check token
   		$this->load->model('User_model', 'my_user');
@@ -1077,41 +1083,7 @@ class Oj_model extends CI_Model {
 			}
 
 			//update totalac
-			$where1 = array('Uusername' => $data['Uusername']);
-			$new['TotalAC'] = 0;
-			if ( $cf = $this->db->select('ACproblem')
-							->where(array('Uusername' => $data['Uusername'], 'OJname' => 'cf'))
-							->get('oj_last_visit')
-							->result_array())
-			{
-				$new['TotalAC'] += $cf[0]['ACproblem'];
-			}
-			if ( $foj = $this->db->select('ACproblem')
-							->where(array('Uusername' => $data['Uusername'], 'OJname' => 'foj'))
-							->get('oj_last_visit')
-							->result_array())
-			{
-				$new['TotalAC'] += $foj[0]['ACproblem'];	
-			}
-			if ( $hdu = $this->db->select('ACproblem')
-							->where(array('Uusername' => $data['Uusername'], 'OJname' => 'hdu'))
-							->get('oj_last_visit')
-							->result_array())
-			{
-				$new['TotalAC'] += $hdu[0]['ACproblem'];
-			}				
-			$new['Uusername'] = $data['Uusername'];
-			if ( ! $this->db->select('Uusername')
-							->where($where1)
-							->get('oj_total_ac')
-							->result_array())
-			{
-				$this->db->insert('oj_total_ac', filter($new,$member_s), $where1);
-			}
-			else
-			{
-				$this->db->update('oj_total_ac', filter($new,$member_s), $where1);
-			}
+			$this->update_total_ac($data);
 		}
 		else
 		{
