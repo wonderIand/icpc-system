@@ -699,6 +699,18 @@ class Oj_model extends CI_Model {
 		}
 
 		$this->db->delete('oj_account', $where);
+		$this->db->delete('oj_last_visit',$where);
+		if ($this->db->select('Uusername')
+					->where(array('Uusername' => $form['Uusername']))
+					->get('oj_last_visit')
+					->result_array())
+		{
+			$this->update_total_ac($form);
+		}
+		else
+		{
+			$this->db->delete('oj_total_ac',array('Uusername' => $form['Uusername']));
+		}
 	}
 	/**
 	 * 查看cf近期两周的提交ac记录
