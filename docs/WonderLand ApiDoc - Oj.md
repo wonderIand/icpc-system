@@ -153,6 +153,7 @@
 
 | **返回的信息包含**    | 备注   |
 | -------------- | ---- |
+| **username**    | 用户名 |
 | **ac_account** | 题数   |
 | **OJname**     | OJ名称 |
 | **time**       | 过题时间 |
@@ -160,6 +161,7 @@
 | **url**        | 过题链接 |
 
 
+- **查询示例：http://icpc-system.and-who.cn/Oj/get_oj_acinfo?Uusername=aaaau1**
 - **成功返回例子**
 
 ```
@@ -167,19 +169,44 @@
 	"type": 1,
 	"message": "查询成功",
 	"data": {
-		"ac_count": 2,
+		"username": "aaaau1",
+		"ac_count": 6,
 		"ac_info": [
 			{
-				"OJname": "hdu",
-				"time": "2017-12-07 19:02:06",
-				"name": "hdu3966",
-				"url": "http:\/\/acm.hdu.edu.cn\/showproblem.php?pid=3966"
+				"OJname": "cf",
+				"time": "2017-12-12 01:40:55",
+				"name": "900E - Maximum Questions",
+				"url": "http:\/\/codeforces.com\/problemset\/problem\/900\/E"
 			},
 			{
 				"OJname": "cf",
-				"time": "2017-12-02 19:34:14",
-				"name": "895B - XK Segments",
-				"url": "http:\/\/codeforces.com\/problemset\/problem\/895\/B"
+				"time": "2017-12-12 01:04:59",
+				"name": "900D - Unusual Sequences",
+				"url": "http:\/\/codeforces.com\/problemset\/problem\/900\/D"
+			},
+			{
+				"OJname": "cf",
+				"time": "2017-12-12 00:38:37",
+				"name": "900C - Remove Extra One",
+				"url": "http:\/\/codeforces.com\/problemset\/problem\/900\/C"
+			},
+			{
+				"OJname": "cf",
+				"time": "2017-12-12 00:20:26",
+				"name": "900B - Position in Fraction",
+				"url": "http:\/\/codeforces.com\/problemset\/problem\/900\/B"
+			},
+			{
+				"OJname": "cf",
+				"time": "2017-12-12 00:07:48",
+				"name": "900A - Find Extra One",
+				"url": "http:\/\/codeforces.com\/problemset\/problem\/900\/A"
+			},
+			{
+				"OJname": "cf",
+				"time": "2017-12-07 00:22:34",
+				"name": "121E - Lucky Array",
+				"url": "http:\/\/codeforces.com\/problemset\/problem\/121\/E"
 			}
 		]
 	}
@@ -193,14 +220,15 @@
 - **请求方法：GET**
 - **接口网址：http://icpc-system.and-who.cn/Oj/get_list**
 
-  | **返回的信息包含** | 备注 |
-  | -----------	| -------- |
-  | **username**| 用户名|
-  | **realname**| 真实姓名 |
-  | **total**   | 总过题数 |
-  | **cf**      | cf过题数量 |
-  | **hdu**     | cf过题数量 |
-  | **foj**     | cf过题数量 |
+  | **返回的信息包含**  | 备注     |
+  | ------------ | ------ |
+  | **username** | 用户名    |
+  | **realname** | 真实姓名   |
+  | **total**    | 总过题数   |
+  | **cf**       | cf过题数量 |
+  | **hdu**      | cf过题数量 |
+  | **foj**      | cf过题数量 |
+  | **last2week** | 最近两周过题数 |
 
 
 - **成功返回例子**
@@ -210,20 +238,58 @@
 	"message": "获取成功",
 	"data": [
 		{
-			"username": "aaaau1",
-			"realname": "a 真实姓名真实姓名",
-			"total": "372",
-			"cf": "372",
-			"hdu": "0",
-			"foj": "0"
+			"username": "iaojnh",
+			"realname": "尹泽锋",
+			"total": "804",
+			"cf": "161",
+			"hdu": "643",
+			"foj": "0",
+			"last2week": 19
 		},
 		{
-			"username": "aaaau2",
-			"realname": "a 真实姓名真实姓名",
-			"total": "146",
-			"cf": "0",
+			"username": "359084415",
+			"realname": "郑浩晖",
+			"total": "585",
+			"cf": "372",
 			"hdu": "146",
-			"foj": "0"
+			"foj": "67",
+			"last2week": 12
+		},
+		{
+			"username": "omoshiroi",
+			"realname": "omoshiroi",
+			"total": "269",
+			"cf": "269",
+			"hdu": "0",
+			"foj": "0",
+			"last2week": 3
+		},
+		{
+			"username": "994495jj",
+			"realname": "吴媛媛",
+			"total": "227",
+			"cf": "135",
+			"hdu": "78",
+			"foj": "14",
+			"last2week": 8
+		},
+		{
+			"username": "hbbhbb",
+			"realname": "陈汉森",
+			"total": "124",
+			"cf": "93",
+			"hdu": "31",
+			"foj": "0",
+			"last2week": 0
+		},
+		{
+			"username": "hongzhiyin",
+			"realname": "蔡鸿毅",
+			"total": "59",
+			"cf": "53",
+			"hdu": "6",
+			"foj": "0",
+			"last2week": 0
 		}
 	]
 }
@@ -240,7 +306,7 @@
 
 - **表单要求**
 
-| 属性名 | 必要性 | 最小长度 | 最大长度 | 特殊要求 |
+| 属性名           | 必要性  | 最小长度 | 最大长度 | 特殊要求          |
 | ------------- | ---- | ---- | ---- | ------------- |
 | **Uusername** | O    | 6    | 16   | 字母/数字/下划线/破折号 |
 
@@ -251,16 +317,11 @@
 	"type": 1,
 	"message": "刷新成功",
 	"data": {
-		"Last_visit": "17-12-11 01:01:24",
-		"Uusername": "Kirito",
-		"cf": {
-			"OJname": "cf",
-			"ACproblem": "268"
-		},
-		"foj": {
-			"OJname": "foj",
-			"ACproblem": "2"
-		}
+		"username": "aaaau2",
+		"total": 146,
+		"cf": "0",
+		"hdu": "146",
+		"foj": "0"
 	}
 }
 ```
@@ -284,7 +345,24 @@
 {
 	"type": 1,
 	"message": "刷新成功",
-	"data": ""
+	"data": {
+		"username": "aaaau2",
+		"ac_count": 2,
+		"ac_info": [
+			{
+				"OJname": "hdu",
+				"time": "2017-12-12 19:55:40",
+				"name": "hdu6252",
+				"url": "http:\/\/acm.hdu.edu.cn\/showproblem.php?pid=6252"
+			},
+			{
+				"OJname": "hdu",
+				"time": "2017-12-12 19:08:03",
+				"name": "hdu2544",
+				"url": "http:\/\/acm.hdu.edu.cn\/showproblem.php?pid=2544"
+			}
+		]
+	}
 }
 ```
 
