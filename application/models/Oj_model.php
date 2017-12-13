@@ -1127,11 +1127,12 @@ class Oj_model extends CI_Model {
 							->get('oj_account')
 							->result_array();
 			
-			output_data(1, "请求已成功,正在刷新", array());
+			
 			foreach ($user as $key => $val) {
 				$this->refresh($val);
 				$this->refresh_recent_ac($val);
 			}
+			output_data(1, "刷新成功", array());
 		}
 		else
 		{
