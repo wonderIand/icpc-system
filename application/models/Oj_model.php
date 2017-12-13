@@ -21,43 +21,42 @@ class Oj_model extends CI_Model {
 	/**
 	 * 更新总体量
 	 */
-	private function update_total_ac($array)
+	private function update_total_ac($form)
 	{
-		$member_s = array('Uusername', 'TotalAC');
-		$where1 = array('Uusername' => $array['Uusername']);
-		$new['TotalAC'] = 0;
-		if ( $cf = $this->db->select('ACproblem')
-						->where(array('Uusername' => $array['Uusername'], 'OJname' => 'cf'))
-						->get('oj_last_visit')
-						->result_array())
-		{
-			$new['TotalAC'] += $cf[0]['ACproblem'];
+		$member = array('Uusername', 'TotalAC');
+		$where = array('Uusername' => $form['Uusername']);
+		$data = array('Uusername' => $form['Uusername'], 'Total' => 0);
+		$data['TotalAC'] = 0;
+		$ojs = array('cf', 'foj', 'hdu');
+		foreach ($ojs as $oj) {
+			$where['OJname'] = $oj;
+			if ( $temp = $this->db->select('ACproblem')
+							->where($where)
+							->get('oj_last_visit')
+							->result_array())
+			{
+				$data['TotalAC'] += $temp[0]['ACproblem'];
+			}
+
 		}
-		if ( $foj = $this->db->select('ACproblem')
-						->where(array('Uusername' => $array['Uusername'], 'OJname' => 'foj'))
-						->get('oj_last_visit')
-						->result_array())
-		{
-			$new['TotalAC'] += $foj[0]['ACproblem'];	
-		}
-		if ( $hdu = $this->db->select('ACproblem')
-						->where(array('Uusername' => $array['Uusername'], 'OJname' => 'hdu'))
-						->get('oj_last_visit')
-						->result_array())
-		{
-				$new['TotalAC'] += $hdu[0]['ACproblem'];
-		}				
-		$new['Uusername'] = $array['Uusername'];
+		$where = array('Uusername' => $form['Uusername']);
 		if ( ! $this->db->select('Uusername')
-						->where($where1)
+			->where($where)
+			->get('user')
+			->result_array())
+		{
+			return;
+		}
+		if ( ! $this->db->select('Uusername')
+						->where($where)
 						->get('oj_total_ac')
 						->result_array())
 		{
-			$this->db->insert('oj_total_ac', filter($new,$member_s), $where1);
+			$this->db->insert('oj_total_ac', filter($data, $member), $where);
 		}
 		else
 		{
-			$this->db->update('oj_total_ac', filter($new,$member_s), $where1);
+			$this->db->update('oj_total_ac', filter($data, $member), $where);
 		}
 	}
 	/**********************************************************************************************
