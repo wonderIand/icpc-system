@@ -11,7 +11,7 @@
 | **17/12/13   | 添加接口 · **【刷新近期比赛列表 · refresh_contests】**
 | **17/11/04** | **新增station_recent_contests 表、station_last_vist 表**
 | **17/11/02** | **【recent_contest】 新增元素返回字段 page 、page_size、page_max**
-| **17/07/12** | 添加接口 · **【获取近期比赛 · recent_contest】**
+| **17/07/12** | 添加接口 · **【获取近期比赛 · recent_contests】**
  
 ---
 

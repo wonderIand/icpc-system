@@ -16,7 +16,7 @@ class Station_model extends CI_Model {
 	private function is_timeout($pre)
 	{
 		$this->load->helper('date');
-		$now = date("y-m-d h:i:s");
+		$now = date("y-m-d H:i:s");
 		$dis = strtotime($now) - strtotime($pre);
 		return   $dis > 3600;
 	}
@@ -33,7 +33,7 @@ class Station_model extends CI_Model {
 	public function recent_contests()
 	{
 		//config
-		$members_contests = array('id','oj','link','name','start_Time','week','access');
+		$members_contests = array('id','oj','link','name','start_time','week','access');
 
 		$last_visit = $this->db->select()->from('station_last_visit')->get()->result_array()[0]['Last_visit'];
 
@@ -46,7 +46,7 @@ class Station_model extends CI_Model {
 		if($this->is_timeout($last_visit) == TRUE)
 		{
 			$this->db->empty_table('station_last_visit');			
-			$this->db->insert('station_last_visit',array('Last_visit' => date("y-m-d h:i:s")));
+			$this->db->insert('station_last_visit',array('Last_visit' => date("y-m-d H:i:s")));
 
 			$url = "http://contests.acmicpc.info/contests.json";
 			$content = file_get_contents($url); 
