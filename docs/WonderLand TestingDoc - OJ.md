@@ -5,13 +5,16 @@
 ---
 
 ## **接口 · 获取题量排行**
-- **请求方法：POST**
+- **请求方法：GET**
 - **接口网址：http://icpc-system.and-who.cn/OJ/get_list**
 - **返回信息**
+
 | **返回的信息包含** 	 | 备注
 | ---------------------- | ----
 | **Uusername**          | 用户名
-| **ACproblem**          | 过题数量
+| **TotalAC**            | 总过题数
+| **ACproblem**          | 各OJ过题数量
+| **recent**             | 近期各oj过题数
 
 - **测试用例**
 
@@ -614,11 +617,13 @@
 
 ### **Test 3** · Uusername错误
 **查询示例：**http://icpc-system.and-who.cn/oj/get_oj_acinfo?Uusername=abcdf
+```
 {
 
 }
 ```
 **返回信息**
+
 ```
 {
 	"type": 0,
@@ -709,3 +714,26 @@
 
 ---
 
+## **接口 · 手动刷新个人近期做题记录**
+- **请求方法：POST**
+- **接口网址：http://icpc-system.and-who.cn/OJ/refresh_recent_ac**
+- **测试用例**
+
+```
+{
+	"Uusername":"gagaga"
+}
+```
+
+**返回信息**
+
+```
+
+{
+	"type": 1,
+	"message": "刷新成功",
+	"data": ""
+	}
+}
+
+```
