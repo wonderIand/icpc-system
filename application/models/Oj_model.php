@@ -1099,15 +1099,16 @@ class Oj_model extends CI_Model {
 	{
 		//congig
 		$member = array('Uusername');
-		$data = array('Uusername' => $form['Uusername'], 'Last_visit' => "2017-12-07 23:18:10");
-		$this->db->replace('oj_recent_ac_last_visit',$data);
+		$where = array('Uusername' => $form['Uusername'], 'Last_visit' => "2017-12-07 23:18:10");
+		$this->db->replace('oj_recent_ac_last_visit', $where);
 		$datacf = $this->get_cf_acinfo(filter($form, $member));
 		$datahdu = $this->get_hdu_acinfo(filter($form, $member));
+		$data['username'] = $form['Uusername'];
 		$data['ac_count'] = $datacf['ac_count'] + $datahdu['ac_count'];
 		$data['ac_info'] = null;
 		$now = 0;
 		$i = 0;
-		while ($i < $count)
+		while ($i < $data['ac_count'])
 		{
 			if ($now < $datacf['ac_count'])
 			{
@@ -1121,10 +1122,13 @@ class Oj_model extends CI_Model {
 			}
 			$now = $now + 1;
 		}
-		if ($count != 0)
+		if ($data['ac_count'] != 0)
 		{
 			array_multisort(array_column($data['ac_info'], 'time'), SORT_DESC, $data['ac_info']);
 		}
+
+		return $data;
+
 	}
 
 }

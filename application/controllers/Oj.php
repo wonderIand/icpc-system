@@ -251,6 +251,7 @@ class Oj extends CI_Controller {
 			$datacf = $this->oj->get_cf_acinfo(filter($post,$members));
 			$datahdu = $this->oj->get_hdu_acinfo(filter($post,$members));
 			$count = $datacf['ac_count'] + $datahdu['ac_count'];
+			$data['username'] = $post['Uusername'];
 			$data['ac_count'] = $count;
 			$data['ac_info'] = null;
 			$now = 0;
@@ -347,8 +348,7 @@ class Oj extends CI_Controller {
 			$post['Utoken'] = get_token(false);
 			//get &&filter
 			$this->load->model('Oj_model', 'oj');
-			$data = "";
-			$this->oj->refresh_recent_ac(filter($post, $members));
+			$data = $this->oj->refresh_recent_ac(filter($post, $members));
 		}
 		catch (Exception $e)
 		{
