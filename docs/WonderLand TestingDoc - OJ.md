@@ -5,111 +5,63 @@
 ---
 
 ## **接口 · 获取题量排行**
-- **请求方法：POST**
+- **请求方法：GET**
 - **接口网址：http://icpc-system.and-who.cn/OJ/get_list**
+- **返回信息**
+
+| **返回的信息包含** 	 | 备注
+| ---------------------- | ----
+| **Uusername**          | 用户名
+| **TotalAC**            | 总过题数
+| **ACproblem**          | 各OJ过题数量
+| **recent**             | 近期各oj过题数
+
 - **测试用例**
 
-### **Test 1** · 获取foj题量排行升序
-```
-{
-	"OJname":"foj",
-	"Sort":"insc"
-}
-```
-**返回信息**
+### **Test 1** · 获取题量排序
 ```
 {
 	"type": 1,
 	"message": "获取成功",
-	"data": [
-		{
-			"Uusername": "Kirito",
-			"ACproblem": "2"
+	"data": {
+		"Kirito": {
+			"TotalAC": "270",
+			"info": [
+				{
+					"OJname": "foj",
+					"ACproblem": "2"
+				},
+				{
+					"OJname": "cf",
+					"ACproblem": "268"
+				}
+			],
+			"recent": {
+				"cf": 0
+			}
 		},
-		{
-			"Uusername": "Distance",
-			"ACproblem": "14"
+		"Distance": {
+			"TotalAC": "18",
+			"info": [
+				{
+					"OJname": "hdu",
+					"ACproblem": "3"
+				},
+				{
+					"OJname": "foj",
+					"ACproblem": "14"
+				},
+				{
+					"OJname": "cf",
+					"ACproblem": "1"
+				}
+			],
+			"recent": {
+				"cf": 0,
+				"hdu": 0
+			}
 		}
-	]
-}
-```
-
-**Test 2** · 获取foj题量排行降序
-```
-{
-	"OJname":"foj",
-	"Sort":"desc"
-}
-```
-
-**返回信息**
-```
-{
-	"type": 1,
-	"message": "获取成功",
-	"data": [
-		{
-			"Uusername": "Distance",
-			"ACproblem": "14"
-		},
-		{
-			"Uusername": "Kirito",
-			"ACproblem": "2"
-		}
-	]
-}
-```
-
-
-**Test 3** · 获取cf题量排行降序
-```
-{
-	"OJname":"cf",
-	"Sort":"desc"
-}
-```
-
-**返回信息**
-```
-{
-	"type": 1,
-	"message": "获取成功",
-	"data": [
-		{
-			"Uusername": "Kirito",
-			"ACproblem": "266"
-		},
-		{
-			"Uusername": "Distance",
-			"ACproblem": "1"
-		}
-	]
-}
-```
-
-**Test 4** · 获取cf题量排行升序
-```
-{
-	"OJname":"cf",
-	"Sort":"insc"
-}
-```
-
-**返回信息**
-```
-{
-	"type": 1,
-	"message": "获取成功",
-	"data": [
-		{
-			"Uusername": "Distance",
-			"ACproblem": "1"
-		},
-		{
-			"Uusername": "Kirito",
-			"ACproblem": "266"
-		}
-	]
+	}
 }
 ```
 
@@ -612,11 +564,11 @@
 
 ## **接口 · 查询用户oj近期(两周)过题详细信息**
 - **请求方法：GET**
-- **接口网址：http://icpc-system.and-who.cn/Oj/get_oj_acinfo?Uusername=&OJname=**
+- **接口网址：http://icpc-system.and-who.cn/Oj/get_oj_acinfo?Uusername=**
 - **测试用例**
 
-### **Test 1** · 获取hdu近期过题详细信息
-**查询示例：**http://icpc-system.and-who.cn/oj/get_oj_acinfo?Uusername=abcdef&OJname=hdu
+### **Test 1** · 获取近期过题详细信息
+**查询示例：**http://icpc-system.and-who.cn/oj/get_oj_acinfo?Uusername=abcdef
 ```
 {
 
@@ -628,34 +580,14 @@
 	"type": 1,
 	"message": "查询成功",
 	"data": {
-		"ac_count": 1,
+		"ac_count": 2,
 		"ac_info": [
 			{
 				"OJname": "hdu",
 				"time": "2017-12-07 19:02:06",
 				"name": "hdu3966",
 				"url": "http:\/\/acm.hdu.edu.cn\/showproblem.php?pid=3966"
-			}
-		]
-	}
-}
-```
-
-### **Test 2** · 获取cf近期过题详细信息
-**查询示例：**http://icpc-system.and-who.cn/oj/get_oj_acinfo?Uusername=abcdef&OJname=cf
-```
-{
-
-}
-```
-**返回信息**
-```
-{
-	"type": 1,
-	"message": "查询成功",
-	"data": {
-		"ac_count": 1,
-		"ac_info": [
+			},
 			{
 				"OJname": "cf",
 				"time": "2017-12-02 19:34:14",
@@ -667,8 +599,8 @@
 }
 ```
 
-### **Test 3** · 不带Uusername参数
-**查询示例：**http://icpc-system.and-who.cn/oj/get_oj_acinfo?Uusername&OJname=cf
+### **Test 2** · 不带Uusername参数
+**查询示例：**http://icpc-system.and-who.cn/oj/get_oj_acinfo?Uusername
 ```
 {
 
@@ -683,29 +615,94 @@
 }
 ```
 
-### **Test 4** · 不带OJname参数
-**查询示例：**http://icpc-system.and-who.cn/oj/get_oj_acinfo?Uusername&OJname	
+### **Test 3** · Uusername错误
+**查询示例：**http://icpc-system.and-who.cn/oj/get_oj_acinfo?Uusername=abcdf
 ```
 {
 
 }
 ```
 **返回信息**
+
 ```
 {
 	"type": 0,
-	"message": "必须指定OJname",
+	"message": "用户名错误",
 	"data": []
 }
 ```
 
-### **Test 5** · Uusername错误
-**查询示例：**http://icpc-system.and-who.cn/oj/get_oj_acinfo?Uusername=abcdf&OJname=hdu
+---
+
+## **接口 · 手动刷新题量**
+- **请求方法：POST**
+- **接口网址：http://icpc-system.and-who.cn/OJ/refresh**
+- **测试用例**
+
+### **Test 1** · 刷新当前用户题量
 ```
 {
-
+	"Uusername":"Kirito"
 }
 ```
+**返回信息**
+```
+{
+	"type": 1,
+	"message": "刷新成功",
+	"data": {
+		"Last_visit": "17-12-11 01:01:24",
+		"Uusername": "Kirito",
+		"cf": {
+			"OJname": "cf",
+			"ACproblem": "268"
+		},
+		"foj": {
+			"OJname": "foj",
+			"ACproblem": "2"
+		}
+	}
+}
+```
+
+**Test 2** · 刷新其他用户个人题量
+```
+{
+	"Uusername":"Distance"
+}
+```
+
+**返回信息**
+```
+{
+	"type": 1,
+	"message": "刷新成功",
+	"data": {
+		"Last_visit": "17-12-11 01:07:49",
+		"Uusername": "Distance",
+		"cf": {
+			"OJname": "cf",
+			"ACproblem": "1"
+		},
+		"foj": {
+			"OJname": "foj",
+			"ACproblem": "14"
+		},
+		"hdu": {
+			"OJname": "hdu",
+			"ACproblem": "3"
+		}
+	}
+}
+```
+
+**Test 2** · 刷新其他用户个人题量
+```
+{
+	"Uusername":"gagaga"
+}
+```
+
 **返回信息**
 ```
 {
@@ -715,18 +712,28 @@
 }
 ```
 
-### **Test 6** · OJname错误
-**查询示例：**http://icpc-system.and-who.cn/oj/get_oj_acinfo?Uusername=abcdef&OJname=hu
-```
-{
+---
 
-}
-```
-**返回信息**
+## **接口 · 手动刷新个人近期做题记录**
+- **请求方法：POST**
+- **接口网址：http://icpc-system.and-who.cn/OJ/refresh_recent_ac**
+- **测试用例**
+
 ```
 {
-	"type": 0,
-	"message": "OJ名称出错",
-	"data": []
+	"Uusername":"gagaga"
 }
+```
+
+**返回信息**
+
+```
+
+{
+	"type": 1,
+	"message": "刷新成功",
+	"data": ""
+	}
+}
+
 ```

@@ -234,7 +234,7 @@ class Oj extends CI_Controller {
 	public function get_oj_acinfo()
 	{
 		//config
-		$members = array('Utoken', 'Uusername', 'OJname');
+		$members = array('Utoken', 'Uusername');
 		//get
 		try
 		{
@@ -245,29 +245,31 @@ class Oj extends CI_Controller {
 				throw new Exception("必须指定Uusername");
 			}
 			$post['Uusername'] = $this->input->get('Uusername');
-			if (! $this->input->get('OJname'))
-			{
-				throw new Exception("必须指定OJname");
-			}
-			$post['OJname'] = $this->input->get('OJname');
+
 			// filter && get info
 			$this->load->model("Oj_model", 'oj');
-			if ($post['OJname'] == 'cf')
+			$datacf = $this->oj->get_cf_acinfo(filter($post,$members));
+			$datahdu = $this->oj->get_hdu_acinfo(filter($post,$members));
+			$count = $datacf['ac_count'] + $datahdu['ac_count'];
+			$data['ac_count'] = $count;
+			$now = 0;
+			$i = 0;
+			while ($i < $count)
 			{
-				$data = $this->oj->get_cf_acinfo(filter($post,$members));
+				if ($now < $datacf['ac_count'])
+				{
+					$data['ac_info'][$i] = $datacf['ac_info'][$now];
+				}
+				$i = $i + 1;
+				if ($now < $datahdu['ac_count'])
+				{
+					$data['ac_info'][$i] = $datahdu['ac_info'][$now];
+				}
+				$i = $i + 1;
+				$now = $now + 1;
 			}
-			else if ($post['OJname'] == 'foj')
-			{
-				throw new Exception("暂无此功能");
-			}
-			else if ($post['OJname'] == 'hdu')
-			{
-				$data = $this->oj->get_hdu_acinfo(filter($post,$members));
-			}
-			else
-			{
-				throw new Exception("OJ名称出错");	
-			}
+			array_multisort(array_column($data['ac_info'], 'time'), SORT_DESC, $data['ac_info']);
+			
 		}
 		catch(Exception $e)
 		{
@@ -281,38 +283,10 @@ class Oj extends CI_Controller {
 	 */
 	public function get_list()
 	{
-		//config
-		$members = array('Utoken', 'OJname', 'Sort');
-		//post
 		try
 		{
-			//get post
-			$post = get_post();
-			$post['Utoken'] = get_token();
-			//check form
-			$this->load->library('form_validation');
-			$this->form_validation->set_data($post);
-			if (! $this->form_validation->run('get_list'))
-			{
-				$this->load->helper('form');
-				foreach ($members as $member)
-				{
-					if (form_error($member))
-					{
-						throw new Exception(strip_tags(form_error($member)));
-					}
-				}
-			}
-			//get &&filter
 			$this->load->model('Oj_model', 'oj');
-			if ($post['OJname'] == 'hdu' || $post['OJname'] == 'foj' || $post['OJname'] == 'cf')
-			{
-				$data = $this->oj->get_list(filter($post, $members));
-			}
-			else
-			{
-				throw new Exception('OJ名称错误');
-			}
+			$data = $this->oj->get_list();
 		}
 		catch (Exception $e)
 		{
@@ -321,4 +295,58 @@ class Oj extends CI_Controller {
 		}
 		output_data(1, "获取成功", $data);
 	}
+
+
+	/**
+	 * 手动刷新题量
+	 */
+	public function refresh()
+	{
+		//config
+		$members = array('Uusername');
+		
+		//post
+		try
+		{
+			//get post
+			$post = get_post();
+			$post['Utoken'] = get_token(FALSE);
+			//get &&filter
+			$this->load->model('Oj_model', 'oj');
+			$data = $this->oj->refresh(filter($post, $members));
+		}
+		catch (Exception $e)
+		{
+			output_data($e->getCode(), $e->getMessage(), array());
+			return;
+		}
+		output_data(1, "刷新成功", $data);
+	}
+
+
+	public function refresh_recent_ac()
+	{
+		//config
+		$members = array('Uusername');
+
+		try
+		{
+			//get post
+			$post = get_post();
+			//var_dump($post);
+			$post['Utoken'] = get_token(false);
+			//get &&filter
+			$this->load->model('Oj_model', 'oj');
+			$data = "";
+			$this->oj->refresh_recent_ac(filter($post, $members));
+		}
+		catch (Exception $e)
+		{
+			output_data($e->getCode(), $e->getMessage(), array());
+			return;
+		}
+		output_data(1, "刷新成功", $data);
+
+	}
 }
+

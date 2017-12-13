@@ -8,6 +8,7 @@
 
 | 日期         | 备注  
 | ------------ | ------
+| **17/12/12** | 添加接口 · **【手动刷新个人近期做题记录】**
 | **17/12/3**  | 添加接口 · **【获取题量排行】**
 | **17/11/29** | 修改接口 · **【修改get_oj_account 返回值:增加Account、删除OJpassword】**
 | **17/11/07** | 添加接口 · **【添加oj关联账号 add_oj_account】**
@@ -148,7 +149,7 @@
 ## **接口 · 查询用户oj近期(两周)过题详细信息**
 
 - **请求方法：GET**
-- **接口网址：http://icpc-system.and-who.cn/Oj/get_oj_acinfo?Uusername=&OJname=**
+- **接口网址：http://icpc-system.and-who.cn/Oj/get_oj_acinfo?Uusername=**
 
 | **返回的信息包含** | 备注
 | ---------------------- | ----
@@ -166,8 +167,14 @@
 	"type": 1,
 	"message": "查询成功",
 	"data": {
-		"ac_count": 1,
+		"ac_count": 2,
 		"ac_info": [
+			{
+				"OJname": "hdu",
+				"time": "2017-12-07 19:02:06",
+				"name": "hdu3966",
+				"url": "http:\/\/acm.hdu.edu.cn\/showproblem.php?pid=3966"
+			},
 			{
 				"OJname": "cf",
 				"time": "2017-12-02 19:34:14",
@@ -183,44 +190,120 @@
 
 ## **接口 · 获取题量排行**
 
-- **请求方法：POST**
+- **请求方法：GET**
 - **接口网址：http://icpc-system.and-who.cn/Oj/get_list**
-
-- **表单要求**
-| 属性名         | 必要性 | 最小长度 | 最大长度 | 特殊要求
-| -------------  | ------ | -------- | -------- | --------
-| **OJname**     | O      | -        | -        | 为"hdu"或"foj"或"cf" 分别表示删除对应oj的关联账号
-| **Sort**       | O      | 4        | 4        | 为"insc"（升序）或"desc"（降序）
-
 
 | **返回的信息包含** 	 | 备注
 | ---------------------- | ----
 | **Uusername**          | 用户名
-| **ACproblem**          | 过题数量
+| **TotalAC**            | 总过题数
+| **ACproblem**          | 各OJ过题数量
+| **recent**             | 近期各oj过题数
 
-- **示例**
-```
-{
-	"OJname":"foj",
-	"Sort":"insc"
-}
-```
 
 - **成功返回例子**
 ```
 {
 	"type": 1,
 	"message": "获取成功",
-	"data": [
-		{
-			"Uusername": "Kirito",
-			"ACproblem": "266"
+	"data": {
+		"Kirito": {
+			"TotalAC": "270",
+			"info": [
+				{
+					"OJname": "foj",
+					"ACproblem": "2"
+				},
+				{
+					"OJname": "cf",
+					"ACproblem": "268"
+				}
+			],
+			"recent": {
+				"cf": 0
+			}
 		},
-		{
-			"Uusername": "Distance",
-			"ACproblem": "1"
+		"Distance": {
+			"TotalAC": "18",
+			"info": [
+				{
+					"OJname": "hdu",
+					"ACproblem": "3"
+				},
+				{
+					"OJname": "foj",
+					"ACproblem": "14"
+				},
+				{
+					"OJname": "cf",
+					"ACproblem": "1"
+				}
+			],
+			"recent": {
+				"cf": 0,
+				"hdu": 0
+			}
 		}
-	]
+	}
+}
+```
+
+---
+
+
+## **接口 · 刷新个人题量缓存**
+
+- **请求方法：POST**
+- **接口网址：http://icpc-system.and-who.cn/Oj/refresh**
+
+
+- **表单要求**
+
+| 属性名         | 必要性 | 最小长度 | 最大长度 | 特殊要求
+| -------------  | ------ | -------- | -------- | --------
+| **Uusername**  | O      | 6        | 16       | 字母/数字/下划线/破折号
+
+
+- **成功返回例子**
+```
+{
+	"type": 1,
+	"message": "刷新成功",
+	"data": {
+		"Last_visit": "17-12-11 01:01:24",
+		"Uusername": "Kirito",
+		"cf": {
+			"OJname": "cf",
+			"ACproblem": "268"
+		},
+		"foj": {
+			"OJname": "foj",
+			"ACproblem": "2"
+		}
+	}
+}
+```
+
+---
+## **接口 · 手动刷新个人近期做题记录**
+
+- **请求方法：POST**
+- **接口网址：http://icpc-system.and-who.cn/Oj/refresh_recent_ac**
+
+
+- **表单要求**
+
+| 属性名         | 必要性 | 最小长度 | 最大长度 | 特殊要求
+| -------------  | ------ | -------- | -------- | --------
+| **Uusername**  | O      | 6        | 16       | 字母/数字/下划线/破折号
+
+
+- **成功返回例子**
+```
+{
+	"type": 1,
+	"message": "刷新成功",
+	"data": ""
 }
 ```
 

@@ -18,6 +18,48 @@ class Oj_model extends CI_Model {
 	}
 
 
+	/**
+	 * 更新总体量
+	 */
+	private function update_total_ac($array)
+	{
+		$member_s = array('Uusername', 'TotalAC');
+		$where1 = array('Uusername' => $array['Uusername']);
+		$new['TotalAC'] = 0;
+		if ( $cf = $this->db->select('ACproblem')
+						->where(array('Uusername' => $array['Uusername'], 'OJname' => 'cf'))
+						->get('oj_last_visit')
+						->result_array())
+		{
+			$new['TotalAC'] += $cf[0]['ACproblem'];
+		}
+		if ( $foj = $this->db->select('ACproblem')
+						->where(array('Uusername' => $array['Uusername'], 'OJname' => 'foj'))
+						->get('oj_last_visit')
+						->result_array())
+		{
+			$new['TotalAC'] += $foj[0]['ACproblem'];	
+		}
+		if ( $hdu = $this->db->select('ACproblem')
+						->where(array('Uusername' => $array['Uusername'], 'OJname' => 'hdu'))
+						->get('oj_last_visit')
+						->result_array())
+		{
+				$new['TotalAC'] += $hdu[0]['ACproblem'];
+		}				
+		$new['Uusername'] = $array['Uusername'];
+		if ( ! $this->db->select('Uusername')
+						->where($where1)
+						->get('oj_total_ac')
+						->result_array())
+		{
+			$this->db->insert('oj_total_ac', filter($new,$member_s), $where1);
+		}
+		else
+		{
+			$this->db->update('oj_total_ac', filter($new,$member_s), $where1);
+		}
+	}
 	/**********************************************************************************************
 	 * 主接口
 	 **********************************************************************************************/
@@ -78,6 +120,9 @@ class Oj_model extends CI_Model {
 			{
 				$this->db->update('oj_last_visit',filter($data, $member), $where);
 			}
+
+			//update totalac
+			$this->update_total_ac($data);
 		}
 		else
 		{
@@ -654,6 +699,18 @@ class Oj_model extends CI_Model {
 		}
 
 		$this->db->delete('oj_account', $where);
+		$this->db->delete('oj_last_visit',$where);
+		if ($this->db->select('Uusername')
+					->where(array('Uusername' => $form['Uusername']))
+					->get('oj_last_visit')
+					->result_array())
+		{
+			$this->update_total_ac($form);
+		}
+		else
+		{
+			$this->db->delete('oj_total_ac',array('Uusername' => $form['Uusername']));
+		}
 	}
 	/**
 	 * 查看cf近期两周的提交ac记录
@@ -670,27 +727,26 @@ class Oj_model extends CI_Model {
 			$this->user->check_token($form['Utoken']);
 		}
 
-		//check OJname
-		if (isset($form['OJname']))
+		//check Uusername
+		$where = array('Uusername' => $form['Uusername']);
+		if (! $result = $this->db->select('Uusername')
+			->where(array('Uusername' => $form['Uusername']))
+			->get('user')
+			->result_array())
 		{
-			if ($form['OJname'] != 'cf')
-			{
-				throw new Exception('oj名称错误');
-			}
-		}
-		else
-		{
-			throw new Exception('oj名称错误');
+			throw new Exception('用户名错误');
 		}
 
 		//get OJusername & OJpassword
 		$OJuser = $this->db->select(array('OJusername', 'OJpassword'))
-						->where(array('OJname' => $form['OJname'],
+						->where(array('OJname' => 'cf',
 								'Uusername' => $form['Uusername']))
 						->get('oj_account')->result_array();
 		if (! $OJuser)
 		{
-			throw new Exception('用户名错误');
+			$data['ac_count'] = 0;
+			$data['ac_info'] = array();
+			return $data;
 		}
 
 		//cache
@@ -705,7 +761,7 @@ class Oj_model extends CI_Model {
 		{
 			$last_visit = $last_visit[0]['Last_visit'];
 		}
-		if($this->is_timeout($last_visit) == true)
+		if($this->is_timeout($last_visit) == false)
 		{
 			$mem = array('OJname','time','name','url');
 			$acinfo = $this->db->select($mem)
@@ -717,7 +773,6 @@ class Oj_model extends CI_Model {
 		}
 		else
 		{
-
 			//缓存前的代码
 			$from = 1;
 			$count = 1000;
@@ -812,7 +867,6 @@ class Oj_model extends CI_Model {
 				$this->db->insert('oj_recent_acinfo',$data);
 			}
 		}
-		
 		return $res;
 	}
 
@@ -831,27 +885,26 @@ class Oj_model extends CI_Model {
 			$this->user->check_token($form['Utoken']);
 		}
 
-		//check OJname
-		if (isset($form['OJname']))
+		//check Uusername
+		$where = array('Uusername' => $form['Uusername']);
+		if (! $result = $this->db->select('Uusername')
+			->where(array('Uusername' => $form['Uusername']))
+			->get('user')
+			->result_array())
 		{
-			if ($form['OJname'] != 'hdu')
-			{
-				throw new Exception('oj名称错误');
-			}
+			throw new Exception('用户名错误');
 		}
-		else
-		{
-			throw new Exception('oj名称错误');
-		}
-
+		
 		//get OJusername & OJpassword
 		$OJuser = $this->db->select(array('OJusername', 'OJpassword'))
-						->where(array('OJname' => $form['OJname'],
+						->where(array('OJname' => 'hdu',
 								'Uusername' => $form['Uusername']))
 						->get('oj_account')->result_array();
 		if (! $OJuser)
 		{
-			throw new Exception('用户名错误');
+			$data['ac_count'] = 0;
+			$data['ac_info'] = array();
+			return $data;
 		}
 		//http://acm.hdu.edu.cn/status.php?first=0&user=starsets&pid=0&lang=0&status=5
 		$first = 0;
@@ -921,45 +974,145 @@ class Oj_model extends CI_Model {
 	 */
 	public function get_list()
 	{
-		//config
-		$members = array('Utoken', 'OJname', 'Sort');
-		//post
-		try
+		if ( $data = $this->db->select()
+						->order_by('TotalAC','DESC')
+						->get('oj_total_ac')
+						->result_array() )
 		{
-			//get post
-			$post = get_post();
-			$post['Utoken'] = get_token();
-			//check form
-			$this->load->library('form_validation');
-			$this->form_validation->set_data($post);
-			if (! $this->form_validation->run('get_list'))
+			foreach ($data as $key => $value) 
 			{
-				$this->load->helper('form');
-				foreach ($members as $member)
+				$rel[$value['Uusername']]['TotalAC'] = $value['TotalAC'];
+				$rel[$value['Uusername']]['info'] = $this->db->select('OJname, ACproblem')
+								->where(array('Uusername' => $value['Uusername']))
+								->get('oj_last_visit')
+								->result_array();
+
+				//get cf recent ac
+				if ( $this->db->select('OJname')
+							->where(array('Uusername' => $value['Uusername'],'OJname' => 'cf'))
+							->get('oj_account')
+							->result_array())
 				{
-					if (form_error($member))
-					{
-						throw new Exception(strip_tags(form_error($member)));
-					}
+					$query = array('Uusername' => $value['Uusername'], 'OJname' => 'cf');
+					$ans = $this->get_cf_acinfo($query);
+					$rel[$value['Uusername']]['recent']['cf'] = $ans['ac_count'];
+				}
+				//get hdu recent ac
+				if ( $this->db->select('OJname')
+							->where(array('Uusername' => $value['Uusername'],'OJname' => 'hdu'))
+							->get('oj_account')
+							->result_array())
+				{
+					$query = array('Uusername' => $value['Uusername'], 'OJname' => 'hdu');
+					$ans = $this->get_hdu_acinfo($query);
+					$rel[$value['Uusername']]['recent']['hdu'] = $ans['ac_count'];
 				}
 			}
-			//get &&filter
-			$this->load->model('Oj_model', 'oj');
-			if ($post['OJname'] == 'hdu' || $post['OJname'] == 'foj' || $post['OJname'] == 'cf')
-			{
-				$data = $this->oj->get_list(filter($post, $members));
-			}
-			else
-			{
-				throw new Exception('OJ名称错误');
-			}
 		}
-		catch (Exception $e)
+		else
 		{
-			output_data($e->getCode(), $e->getMessage(), array());
-			return;
+			throw new Exception("请关联相关账户");
+			
 		}
-		output_data(1, "获取成功", $data);
+		return $rel;
+	}
+
+
+	/**
+	 * 手动刷新题量
+	 */
+	public function refresh($form)
+	{
+		//congig
+		$member = array('Uusername', 'OJname', 'Last_visit', 'ACproblem');
+  		$members = array('Uusername', 'OJname');
+
+  		//check token
+  		$this->load->model('User_model', 'my_user');
+		if (isset($form['Utoken'])) 
+		{
+			$this->my_user->check_token($form['Utoken']);
+		}
+		
+  		//fresh
+  		$data['Last_visit'] = date("y-m-d h:i:s");
+		//更新CF缓存
+
+		$rel['Last_visit'] = $data['Last_visit'];
+		$rel['Uusername'] = $form['Uusername'];
+		$data['Uusername'] = $form['Uusername'];
+		if ( $this->db->select('Uusername')
+						->where(array('Uusername' => $form['Uusername']))
+						->get('oj_last_visit')
+						->result_array())
+		{
+			if ( $this->db->select('Uusername,OJname')
+						  ->where(array('Uusername' => $form['Uusername'], 'OJname' => 'cf'))
+						  ->get('oj_last_visit')
+				     	  ->result_array())
+			{
+				$form['OJname'] = 'cf';
+				$data['OJname'] = 'cf';
+				$data['ACproblem']= $this->get_cf_acproblems(filter($form, $members));
+				$this->db->update('oj_last_visit',filter($data, $member),
+										array('Uusername' => $form['Uusername'], 'OJname' => 'cf'));
+				$rel['cf']['OJname'] = $data['OJname'];
+				$rel['cf']['ACproblem'] = $data['ACproblem'];
+			}
+
+			//更新foj缓存
+			if ( $this->db->select('Uusername,OJname')
+						  ->where(array('Uusername' => $form['Uusername'], 'OJname' => 'foj'))
+						  ->get('oj_last_visit')
+				     	  ->result_array())
+			{
+				$data['OJname'] = 'foj';
+				$form['OJname'] = 'foj';
+				$data['ACproblem'] = $this->get_foj_acproblems(filter($form, $members));
+				$this->db->update('oj_last_visit',filter($data, $member),
+										array('Uusername' => $form['Uusername'], 'OJname' => 'foj'));
+				$rel['foj']['OJname'] = $data['OJname'];
+				$rel['foj']['ACproblem'] = $data['ACproblem'];
+			}
+
+			//更新hdu缓存
+			if ( $this->db->select('Uusername,OJname')
+						  ->where(array('Uusername' => $form['Uusername'], 'OJname' => 'hdu'))
+						  ->get('oj_last_visit')
+				     	  ->result_array())
+			{
+				$data['OJname'] = 'hdu';
+				$form['OJname'] = 'hdu';
+				$data['ACproblem'] = $this->get_hdu_acproblems(filter($form, $members));
+				$this->db->update('oj_last_visit',filter($data, $member),
+											array('Uusername' => $form['Uusername'], 'OJname' => 'hdu'));
+				$rel['hdu']['OJname'] = $data['OJname'];
+				$rel['hdu']['ACproblem'] = $data['ACproblem'];
+			}
+
+			//update totalac
+			$this->update_total_ac($data);
+		}
+		else
+		{
+			throw new Exception("用户名错误");
+			
+		}
+		return $rel;
+	}
+
+	/**
+	 * 手动刷新近期做题数
+	 */
+	public function refresh_recent_ac($form)
+	{
+		//congig
+		$member = array('Uusername');
+		$data = array('Uusername' => $form['Uusername'], 'Last_visit' => "2017-12-07 23:18:10");
+		$this->db->replace('oj_recent_ac_last_visit',$data);
+		$this->load->model("Oj_model", 'oj');
+
+		//return $this->oj->get_cf_acinfo($form);
 	}
 
 }
