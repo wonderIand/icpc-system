@@ -260,13 +260,13 @@ class Oj extends CI_Controller {
 				if ($now < $datacf['ac_count'])
 				{
 					$data['ac_info'][$i] = $datacf['ac_info'][$now];
+					$i = $i + 1;
 				}
-				$i = $i + 1;
 				if ($now < $datahdu['ac_count'])
 				{
 					$data['ac_info'][$i] = $datahdu['ac_info'][$now];
+					$i = $i + 1;
 				}
-				$i = $i + 1;
 				$now = $now + 1;
 			}
 			if ($count != 0)
