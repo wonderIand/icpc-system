@@ -878,24 +878,24 @@ class Oj_model extends CI_Model {
 		//check Uusername
 		$where = array('Uusername' => $form['Uusername']);
 		if (! $result = $this->db->select('Uusername')
-			->where(array('Uusername' => $form['Uusername']))
+			->where($where)
 			->get('user')
 			->result_array())
 		{
-			throw new Exception('Hdu用户名错误');
+			throw new Exception('该用户不存在');
 		}
 		 
 		//get OJusername & OJpassword
+		$where['OJname'] = 'hdu';
 		$OJuser = $this->db->select(array('OJusername', 'OJpassword'))
-						->where(array('OJname' => 'hdu',
-								'Uusername' => $form['Uusername']))
-						->get('oj_account')->result_array();
-		if (! $OJuser)
+						->where($where)
+						->get('oj_account')
+						->result_array();
+		if ( ! $OJuser)
 		{
-			$data['ac_count'] = 0;
-			$data['ac_info'] = array();
-			return $data;
+			return array('ac_count' => 0, 'ac_info' => array());
 		}
+
 		//http://acm.hdu.edu.cn/status.php?first=0&user=starsets&pid=0&lang=0&status=5
 		$first = 0;
 		$num = 0;
@@ -955,9 +955,7 @@ class Oj_model extends CI_Model {
 				break;
 			}
 		}
-		$res['ac_count'] = $num;
-		$res['ac_info'] = $data;
-		return $res;
+		return array('ac_count' => $num, 'ac_info' => $data);
 	}
 	/**
 	 * 获取题量排行
