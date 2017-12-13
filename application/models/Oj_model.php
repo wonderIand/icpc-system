@@ -974,6 +974,7 @@ class Oj_model extends CI_Model {
 	 */
 	public function get_list()
 	{
+		$result_list = array();
 		if ( $data = $this->db->select()
 						->order_by('TotalAC','DESC')
 						->get('oj_total_ac')
@@ -981,32 +982,27 @@ class Oj_model extends CI_Model {
 		{
 			foreach ($data as $key => $value) 
 			{
-				$rel[$value['Uusername']]['TotalAC'] = $value['TotalAC'];
-				$rel[$value['Uusername']]['info'] = $this->db->select('OJname, ACproblem')
-								->where(array('Uusername' => $value['Uusername']))
+				$where = array('Uusername' => $value['Uusername']);
+				$temp = array('username' => $value['Uusername']);
+				$temp['realname'] = $this->db->select('Urealname')
+					->where($where)
+					->get('user_info')
+					->result_array()[0]['Urealname'];
+				$temp['total'] = $value['TotalAC'];
+				$oj_list = array('cf', 'hdu', 'foj');
+				foreach ($oj_list as $oj) {
+					$where['OJname'] = $oj;
+					$temp[$oj] = "0";
+					$result = $this->db->select('ACproblem')
+								->where($where)
 								->get('oj_last_visit')
 								->result_array();
-
-				//get cf recent ac
-				if ( $this->db->select('OJname')
-							->where(array('Uusername' => $value['Uusername'],'OJname' => 'cf'))
-							->get('oj_account')
-							->result_array())
-				{
-					$query = array('Uusername' => $value['Uusername'], 'OJname' => 'cf');
-					$ans = $this->get_cf_acinfo($query);
-					$rel[$value['Uusername']]['recent']['cf'] = $ans['ac_count'];
+					if ($result)
+					{
+						$temp[$oj] = $result[0]['ACproblem'];
+					}
 				}
-				//get hdu recent ac
-				if ( $this->db->select('OJname')
-							->where(array('Uusername' => $value['Uusername'],'OJname' => 'hdu'))
-							->get('oj_account')
-							->result_array())
-				{
-					$query = array('Uusername' => $value['Uusername'], 'OJname' => 'hdu');
-					$ans = $this->get_hdu_acinfo($query);
-					$rel[$value['Uusername']]['recent']['hdu'] = $ans['ac_count'];
-				}
+				array_push($result_list, $temp);
 			}
 		}
 		else
@@ -1014,7 +1010,7 @@ class Oj_model extends CI_Model {
 			throw new Exception("请关联相关账户");
 			
 		}
-		return $rel;
+		return $result_list;
 	}
 
 
