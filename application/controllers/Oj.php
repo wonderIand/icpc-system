@@ -330,6 +330,12 @@ class Oj extends CI_Controller {
 
 	public function refresh_recent_ac()
 	{
+
+		if ($_SERVER['REQUEST_METHOD'] == "OPTIONS") 
+		{
+			return;
+		}
+		
 		//config
 		$members = array('Uusername');
 
