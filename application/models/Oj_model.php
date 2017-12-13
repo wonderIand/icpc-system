@@ -729,143 +729,133 @@ class Oj_model extends CI_Model {
 
 		//check Uusername
 		$where = array('Uusername' => $form['Uusername']);
-		if (! $result = $this->db->select('Uusername')
-			->where(array('Uusername' => $form['Uusername']))
+		if ( ! $result = $this->db->select('Uusername')
+			->where($where)
 			->get('user')
 			->result_array())
 		{
-			throw new Exception('用户名错误');
+			throw new Exception('该用户不存在');
 		}
 
 		//get OJusername & OJpassword
+		$where['OJname'] = 'cf';
 		$OJuser = $this->db->select(array('OJusername', 'OJpassword'))
-						->where(array('OJname' => 'cf',
-								'Uusername' => $form['Uusername']))
-						->get('oj_account')->result_array();
-		if (! $OJuser)
-		{
-			$data['ac_count'] = 0;
-			$data['ac_info'] = array();
-			return $data;
-		}
-
-		//cache
-		$last_visit = $this->db->get_where('oj_recent_ac_last_visit',array('Uusername'=>$form['Uusername']))
+						->where($where)
+						->get('oj_account')
 						->result_array();
+		if ( ! $OJuser)
+		{
+			return array('ac_count' => 0, 'ac_info' => array());
+		}
 
-		if(!$last_visit)
+		//last_visit is not timeout
+		$where = array('Uusername'=>$form['Uusername']);
+		$last_visit = $this->db->get_where('oj_recent_ac_last_visit', $where)
+						->result_array();
+		$last_visit = ! $last_visit 
+			?  "2017-12-07 23:18:10" 
+			: $last_visit[0]['Last_visit'];
+		if ( ! $this->is_timeout($last_visit))
 		{
-			$last_visit = "2017-12-07 23:18:10";
-		}
-		else
-		{
-			$last_visit = $last_visit[0]['Last_visit'];
-		}
-		if($this->is_timeout($last_visit) == false)
-		{
-			$mem = array('OJname','time','name','url');
+			$mem = array('OJname', 'time', 'name', 'url');
 			$acinfo = $this->db->select($mem)
 								->order_by('time', 'DESC')
-								->get_where('oj_recent_acinfo',array('Uusername'=>$form['Uusername']))
+								->get_where('oj_recent_acinfo', $where)
 								->result_array();
-			$res['ac_count'] = count($acinfo);
-			$res['ac_info'] = $acinfo;
+			return array('ac_count' => count($acinfo), 'ac_info' => $acinfo);
 		}
-		else
+
+		//重新抓取
+		$from = 1;
+		$count = 1000;
+		$num = 0;
+		date_default_timezone_set("Asia/Shanghai");
+		$tow_week_ago = strtotime("-2 week");
+		$data = array();
+		$map = array();
+		while (True)
 		{
-			//缓存前的代码
-			$from = 1;
-			$count = 1000;
-			$num = 0;
-			date_default_timezone_set("Asia/Shanghai");
-			$tow_week_ago = strtotime("-2 week");
-			$data = array();
-			$map = array();
-			while (True)
+			$url = "http://codeforces.com/api/user.status?handle=".$OJuser[0]['OJusername'].
+					"&from=".$from."&count=".$count;
+
+			$ch = curl_init();
+			curl_setopt($ch, CURLOPT_URL, $url);
+			curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+			$content = curl_exec($ch);
+			curl_close($ch);
+			$content = json_decode($content, true);
+			
+			if (! $content)
 			{
-				$url = "http://codeforces.com/api/user.status?handle=".$OJuser[0]['OJusername'].
-						"&from=".$from."&count=".$count;
-
-				$ch = curl_init();
-				curl_setopt($ch, CURLOPT_URL, $url);
-				curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-				$content = curl_exec($ch);
-				curl_close($ch);
-				$content = json_decode($content, true);
+				throw new Exception('用户名错误');
+			}
 				
-				if (! $content)
+			if ($content['status'] != 'OK')
+			{
+				break;
+			}
+			$flag = false;
+			$text = $content['result'];
+			foreach($text as $value)
+			{
+				if ($value['creationTimeSeconds'] < $tow_week_ago)
 				{
-					throw new Exception('用户名错误');
-				}
-				
-				if ($content['status'] != 'OK')
-				{
+					$flag = true;
 					break;
 				}
-				$flag = false;
-				$text = $content['result'];
-				foreach($text as $value)
+				if ($value['verdict'] != 'OK')
 				{
-					if ($value['creationTimeSeconds'] < $tow_week_ago)
-					{
-						$flag = true;
-						break;
-					}
-					if ($value['verdict'] != 'OK')
-					{
-						continue;
-					}
-					$problem = $value['problem'];
-					if (isset($map[$problem['contestId'].$problem['index']." - ".$problem['name']]))
-					{
-						continue;
-					}
-					$data[$num]['OJname'] = 'cf';
-					$data[$num]['time'] = date("Y-m-d H:i:s", $value['creationTimeSeconds']);
-					$data[$num]['name'] = $problem['contestId'].$problem['index']." - ".$problem['name'];
-					$map[$problem['contestId'].$problem['index']." - ".$problem['name']] = 1;
-					if (sizeof($value['author']['members']) > 1)
-					{
-						$data[$num]['url'] = 'http://codeforces.com/problemset/'.'gymProblem/'
-												.$problem['contestId'].'/'.$problem['index'];
-					}
-					else
-					{
-						$data[$num]['url'] = 'http://codeforces.com/problemset/'.'problem/'
-												.$problem['contestId'].'/'.$problem['index'];	
-					}
-					$num = $num + 1;
+					continue;
 				}
-				if ($flag) 
+				$problem = $value['problem'];
+				if (isset($map[$problem['contestId'].$problem['index']." - ".$problem['name']]))
 				{
-					break;
+					continue;
 				}
-				$form = $form + $count;
+				$data[$num]['OJname'] = 'cf';
+				$data[$num]['time'] = date("Y-m-d H:i:s", $value['creationTimeSeconds']);
+				$data[$num]['name'] = $problem['contestId'].$problem['index']." - ".$problem['name'];
+				$map[$problem['contestId'].$problem['index']." - ".$problem['name']] = 1;
+				if (sizeof($value['author']['members']) > 1)
+				{
+					$data[$num]['url'] = 'http://codeforces.com/problemset/'.'gymProblem/'
+											.$problem['contestId'].'/'.$problem['index'];
+				}
+				else
+				{
+					$data[$num]['url'] = 'http://codeforces.com/problemset/'.'problem/'
+											.$problem['contestId'].'/'.$problem['index'];	
+				}
+				$num = $num + 1;
 			}
-			$res['ac_count'] = $num;
-			$res['ac_info'] = $data;
-
-
-			//缓存添加的代码
-
-			//删除旧的数据
-			$this->db->delete('oj_recent_acinfo', array('Uusername' => $form['Uusername']));
-			$this->db->delete('oj_recent_ac_last_visit', array('Uusername' => $form['Uusername']));
-
-			//添加新的数据
-			$this->load->helper('date');
-			$data = array('Uusername' => $form['Uusername'], 'Last_visit' => date("y-m-d H:i:s"));
-			$this->db->insert('oj_recent_ac_last_visit',$data);
-
-			foreach ($res['ac_info'] as $value) {
-				$data = array('OJname' => $value['OJname'],
-							'time' => $value['time'],
-							'name' => $value['name'],
-							'url' => $value['url'],
-							'Uusername' => $form['Uusername'],
-						 );
-				$this->db->insert('oj_recent_acinfo',$data);
+			if ($flag) 
+			{
+				break;
 			}
+			$form = $form + $count;
+		}
+		$res['ac_count'] = $num;
+		$res['ac_info'] = $data;
+
+		//缓存添加的代码
+
+		//删除旧的数据
+		$where = array('Uusername' => $form['Uusername']);
+		$this->db->delete('oj_recent_acinfo', $where);
+		$this->db->delete('oj_recent_ac_last_visit', $where);
+
+		//添加新的数据
+		$this->load->helper('date');
+		$where['Last_visit'] = date("y-m-d H:i:s");
+		$this->db->insert('oj_recent_ac_last_visit', $where);
+		foreach ($res['ac_info'] as $value) {
+			$data = array('OJname' => $value['OJname'],
+						'time' => $value['time'],
+						'name' => $value['name'],
+						'url' => $value['url'],
+						'Uusername' => $form['Uusername'],
+					 );
+			$this->db->insert('oj_recent_acinfo',$data);
 		}
 		return $res;
 	}
@@ -892,9 +882,9 @@ class Oj_model extends CI_Model {
 			->get('user')
 			->result_array())
 		{
-			throw new Exception('用户名错误');
+			throw new Exception('Hdu用户名错误');
 		}
-		
+		 
 		//get OJusername & OJpassword
 		$OJuser = $this->db->select(array('OJusername', 'OJpassword'))
 						->where(array('OJname' => 'hdu',
@@ -1113,9 +1103,30 @@ class Oj_model extends CI_Model {
 		$member = array('Uusername');
 		$data = array('Uusername' => $form['Uusername'], 'Last_visit' => "2017-12-07 23:18:10");
 		$this->db->replace('oj_recent_ac_last_visit',$data);
-		$this->load->model("Oj_model", 'oj');
-
-		//return $this->oj->get_cf_acinfo($form);
+		$datacf = $this->get_cf_acinfo(filter($form, $member));
+		$datahdu = $this->get_hdu_acinfo(filter($form, $member));
+		$data['ac_count'] = $datacf['ac_count'] + $datahdu['ac_count'];
+		$data['ac_info'] = null;
+		$now = 0;
+		$i = 0;
+		while ($i < $count)
+		{
+			if ($now < $datacf['ac_count'])
+			{
+				$data['ac_info'][$i] = $datacf['ac_info'][$now];
+				$i = $i + 1;
+			}
+			if ($now < $datahdu['ac_count'])
+			{
+				$data['ac_info'][$i] = $datahdu['ac_info'][$now];
+				$i = $i + 1;
+			}
+			$now = $now + 1;
+		}
+		if ($count != 0)
+		{
+			array_multisort(array_column($data['ac_info'], 'time'), SORT_DESC, $data['ac_info']);
+		}
 	}
 
 }
