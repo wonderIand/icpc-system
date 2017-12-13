@@ -8,6 +8,7 @@
 
 | 日期         | 备注  
 | ------------ | ------
+| **17/12/13   | 添加接口 · **【刷新近期比赛列表 · refresh_contests】**
 | **17/11/04** | **新增station_recent_contests 表、station_last_vist 表**
 | **17/11/02** | **【recent_contest】 新增元素返回字段 page 、page_size、page_max**
 | **17/07/12** | 添加接口 · **【获取近期比赛 · recent_contest】**
@@ -83,6 +84,65 @@
 		"page_size": "2",
 		"page": "2",
 		"page_max": 1
+	}
+}
+```
+
+
+---
+
+
+## **接口 · 刷新近期比赛列表**
+
+> 来源：http://contests.acmicpc.info/contests.json
+
+- **接口网址：http://icpc-system.and-who.cn/Station/refresh_contests**
+
+- **成功返回**
+
+```
+{
+	"type": 1,
+	"message": "刷新成功",
+	"data": {
+		"contests": [
+			{
+				"id": "183524",
+				"oj": "HackerRank",
+				"link": "http:\/\/www.hackerrank.com\/contests",
+				"name": "World CodeSprint 12",
+				"start_time": "2017-12-15 00:00:00",
+				"week": "FRI",
+				"access": ""
+			},
+			{
+				"id": "198328",
+				"oj": "Codeforces",
+				"link": "http:\/\/codeforces.com\/contests",
+				"name": "Codeforces Round #451 (Div. 2)",
+				"start_time": "2017-12-16 19:35:00",
+				"week": "SAT",
+				"access": ""
+			},
+			{
+				"id": "192944",
+				"oj": "AtCoder",
+				"link": "https:\/\/abc082.contest.atcoder.jp",
+				"name": "AtCoder Beginner Contest 082",
+				"start_time": "2017-12-16 20:00:00",
+				"week": "SAT",
+				"access": ""
+			},
+			{
+				"id": "192945",
+				"oj": "AtCoder",
+				"link": "https:\/\/arc087.contest.atcoder.jp",
+				"name": "AtCoder Regular Contest 087",
+				"start_time": "2017-12-16 20:00:00",
+				"week": "SAT",
+				"access": ""
+			}
+		]
 	}
 }
 ```

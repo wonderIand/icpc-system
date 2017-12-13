@@ -64,4 +64,32 @@ class Station_model extends CI_Model {
 
 		return $data;
 	}
+
+
+	/**
+	 * 刷新近期比赛列表
+	 */
+	public function refresh_contests()
+	{
+		//config
+		$members_contests = array('id', 'oj', 'link', 'name', 'start_time', 'week', 'access');
+
+		//刷新缓存
+		$this->db->empty_table('station_last_visit');
+		date_default_timezone_set('PRC');		
+		$this->db->insert('station_last_visit',array('Last_visit' => date("y-m-d H:i:s")));
+
+		$url = "http://contests.acmicpc.info/contests.json";
+		$content = file_get_contents($url); 
+		$data = (array)json_decode($content);
+			
+		$this->db->empty_table('station_recent_contests');	
+		foreach ($data as $contest)
+		{
+			$this->db->insert('station_recent_contests',filter((array)$contest, $members_contests));
+		}
+
+		return $data;
+	}
+
 }
