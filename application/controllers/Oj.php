@@ -252,6 +252,7 @@ class Oj extends CI_Controller {
 			$datahdu = $this->oj->get_hdu_acinfo(filter($post,$members));
 			$count = $datacf['ac_count'] + $datahdu['ac_count'];
 			$data['ac_count'] = $count;
+			$data['ac_info'] = null;
 			$now = 0;
 			$i = 0;
 			while ($i < $count)
@@ -268,7 +269,10 @@ class Oj extends CI_Controller {
 				$i = $i + 1;
 				$now = $now + 1;
 			}
-			array_multisort(array_column($data['ac_info'], 'time'), SORT_DESC, $data['ac_info']);
+			if ($count != 0)
+			{
+				array_multisort(array_column($data['ac_info'], 'time'), SORT_DESC, $data['ac_info']);
+			}
 			
 		}
 		catch(Exception $e)
