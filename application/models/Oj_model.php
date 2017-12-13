@@ -19,7 +19,7 @@ class Oj_model extends CI_Model {
 
 
 	/**
-	 * 更新总体量
+	 * 更新总题量
 	 */
 	private function update_total_ac($form)
 	{
@@ -1102,4 +1102,41 @@ class Oj_model extends CI_Model {
 
 	}
 
+
+	/**
+	 * 刷新全部用户题量和近期做题
+	 */
+	public function refresh_all($form)
+	{
+		$where = array('Utoken' => $form['Utoken']);
+
+		//check token
+  		$this->load->model('User_model', 'my_user');
+		if (isset($form['Utoken'])) 
+		{
+			$this->my_user->check_token($form['Utoken']);
+		}
+
+		$username = $this->db->select('Uusername')
+						->where($where)
+						->get('user')
+						->result_array()[0];
+		if ($username['Uusername'] == "359084415")
+		{
+			$user = $this->db->select('Uusername')
+							->get('oj_account')
+							->result_array();
+			
+			output_data(1, "请求已成功,正在刷新", array());
+			foreach ($user as $key => $val) {
+				$this->refresh($val);
+				$this->refresh_recent_ac($val);
+			}
+		}
+		else
+		{
+			throw new Exception("非管理员,无权限刷新全部题量信息");
+			
+		}
+	}
 }

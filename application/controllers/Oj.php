@@ -358,5 +358,28 @@ class Oj extends CI_Controller {
 		output_data(1, "刷新成功", $data);
 
 	}
+
+
+	/**
+	 * 刷新全部用户的题量和近期做题
+	 */
+	public function refresh_all()
+	{
+		$member = array('Utoken');
+		try 
+		{
+			//get post
+			$post = get_post();
+			$post['Utoken'] = get_token();
+			//refresh && filter
+			$this->load->model('Oj_model', 'oj');
+			$this->oj->refresh_all(filter($post,$member));
+		} 
+		catch (Exception $e) 
+		{
+			output_data($e->getCode(), $e->getMessage(), array());
+			return;
+		}
+	}
 }
 
