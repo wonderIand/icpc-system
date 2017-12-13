@@ -1002,6 +1002,13 @@ class Oj_model extends CI_Model {
 						$temp[$oj] = $result[0]['ACproblem'];
 					}
 				}
+
+				//get cf recent ac
+				$where = array('Uusername' => $value['Uusername']);
+				$temp['last2week'] = $this->db->select('Uusername')
+				  			->where($where)
+							->count_all_results('oj_recent_acinfo');
+
 				array_push($result_list, $temp);
 			}
 		}
