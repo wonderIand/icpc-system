@@ -52,7 +52,7 @@ class User extends CI_Controller {
 			if ( ! $this->form_validation->run('user_register')) 
 			{
 				$this->load->helper('form');
-				foreach ($members as $member) 
+				foreach ($members as $member)
 				{
 					if (form_error($member))
 					{

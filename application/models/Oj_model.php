@@ -14,7 +14,7 @@ class Oj_model extends CI_Model {
 		$this->load->helper('date');
 		$now = date("y-m-d H:i:s");
 		$dis = strtotime($now) - strtotime($pre);
-		return   $dis > 7200;
+		return   $dis > 43200;
 	}
 
 
