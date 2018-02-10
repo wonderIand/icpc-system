@@ -437,7 +437,7 @@ class Oj_model extends CI_Model {
 						->get('oj_account')->result_array();
 		if (! $OJusername)
 		{
-			throw new Exception('用户名错误');
+			throw new Exception('hdu用户名错误');
 		}
 		//get url
 		$url = 'http://acm.hdu.edu.cn/userstatus.php?user='.$OJusername[0]['OJusername'];
@@ -452,7 +452,7 @@ class Oj_model extends CI_Model {
 		}
 		else
 		{
-			throw new Exception('用户名错误');
+			throw new Exception('hdu用户名错误');
 		}
 
 		//正则匹配获取过题数信息
@@ -463,7 +463,7 @@ class Oj_model extends CI_Model {
 		}
 		else
 		{
-			throw new Exception("用户名错误");
+			throw new Exception("hdu用户名错误");
 		}
 		curl_close($ch);
 
@@ -505,7 +505,7 @@ class Oj_model extends CI_Model {
 						->get('oj_account')->result_array();
 		if (! $OJusername)
 		{
-			throw new Exception('用户名错误');
+			throw new Exception('foj用户名错误');
 		}
 
 		//get url
@@ -521,7 +521,7 @@ class Oj_model extends CI_Model {
 		}
 		else
 		{
-			throw new Exception('用户名错误');
+			throw new Exception('foj用户名错误');
 		}
 
 		//正则匹配获取过题数信息
@@ -532,7 +532,7 @@ class Oj_model extends CI_Model {
 		}
 		else
 		{
-			throw new Exception("用户名错误");
+			throw new Exception("foj用户名错误");
 		}
 		curl_close($ch);
 
@@ -574,7 +574,7 @@ class Oj_model extends CI_Model {
 						->get('oj_account')->result_array();
 		if (! $OJuser)
 		{
-			throw new Exception('用户名错误');
+			throw new Exception('cf用户名错误');
 		}
 		//get url
 		$url ='http://codeforces.com/enter?back=%2Fproblemset%2Fstandings';
@@ -591,7 +591,7 @@ class Oj_model extends CI_Model {
 		}
 		else
 		{
-			throw new Exception('用户名错误');
+			throw new Exception('cf用户名错误');
 		}
 		curl_close($ch1);
 
@@ -602,7 +602,7 @@ class Oj_model extends CI_Model {
 		}
 		else
 		{
-			throw new Exception("用户名错误");
+			throw new Exception("cf用户名错误");
 		}	
 
 		//模拟登录
@@ -641,7 +641,7 @@ class Oj_model extends CI_Model {
 		}
 		else
 		{
-			throw new Exception('用户名错误');
+			throw new Exception('cf用户名错误');
 		}
 
 		return $res;
