@@ -1053,14 +1053,33 @@ class Oj_model extends CI_Model {
 			{
 				switch ($oj) {
 					case 'cf':
-
-						$result[$oj] = $this->get_cf_acproblems($where);
+						try 
+						{
+							$result[$oj] = $this->get_cf_acproblems($where);
+						}
+						catch(Exception $e) 
+						{
+						}
 						break;
 					case 'foj':
-						$result[$oj] = $this->get_foj_acproblems($where);
+						try
+						{
+							$result[$oj] = $this->get_foj_acproblems($where);
+						}
+						catch(Exception $e)
+						{
+
+						}
 						break;
 					case 'hdu':
-						$result[$oj] = $this->get_hdu_acproblems($where);
+						try 
+						{
+							$result[$oj] = $this->get_hdu_acproblems($where);
+						}
+						catch(Exception $e)
+						{
+
+						}
 					default:
 						break;
 				}
