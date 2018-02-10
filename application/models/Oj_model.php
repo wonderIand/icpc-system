@@ -94,23 +94,40 @@ class Oj_model extends CI_Model {
 			$data['Last_visit'] = date("y-m-d H:i:s");
 			if ($form['OJname'] == 'cf')
 			{
-				$data['ACproblem']= $this->get_cf_acproblems(filter($form, $members));
+				try
+				{
+					$data['ACproblem']= $this->get_cf_acproblems(filter($form, $members));
+				}
+				catch(Exception $e)
+				{
+				}
 			}
 			else if ($form['OJname'] == 'foj')
 			{
-				$data['ACproblem'] = $this->get_foj_acproblems(filter($form, $members));
+				try
+				{
+					$data['ACproblem'] = $this->get_foj_acproblems(filter($form, $members));					
+				}
+				catch(Exception $e) 
+				{
+				}
 			}
 			else if ($form['OJname'] == 'hdu')
 			{
-				$data['ACproblem'] = $this->get_hdu_acproblems(filter($form, $members));
+				try
+				{
+					$data['ACproblem'] = $this->get_hdu_acproblems(filter($form, $members));
+				}
+				catch(Exception $e)
+				{
+				}
 			}
 			else
 			{
 				throw new Exception("OJ名称出错");	
 			}
 			
-			//update&&insert
-			$rel = $data['ACproblem'];
+			//update && insert
 			if ( !$visit )
 			{
 				$this->db->insert('oj_last_visit', filter($data, $member), $where);
@@ -123,13 +140,11 @@ class Oj_model extends CI_Model {
 			//update totalac
 			$this->update_total_ac($data);
 		}
-		else
-		{
-			$rel = $this->db->select('ACproblem')
-							->where($where)
-							->get('oj_last_visit')
-							->result_array()[0]['ACproblem'];
-		}
+		$rel = $this->db->select('ACproblem')
+			->where($where)
+            ->get('oj_last_visit')
+			->result_array()[0]['ACproblem'];
+
 		return $rel;
 	}
 
@@ -1038,6 +1053,7 @@ class Oj_model extends CI_Model {
 			{
 				switch ($oj) {
 					case 'cf':
+
 						$result[$oj] = $this->get_cf_acproblems($where);
 						break;
 					case 'foj':
